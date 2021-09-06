@@ -1,0 +1,32 @@
+package com.vm.eea.domain.project
+
+import com.vm.eea.domain.*
+
+data class Project(val id: ProjectId,
+                   val code:String,
+                   val description: String,
+                   val unitOfOfVoltage: UnitOfVoltage,
+                   val unitOfPower: UnitOfPower,
+                   val unitOfLength: UnitOfLength,
+                   val unitOfTemperature: UnitOfTemperature,
+                   val unitOfWireSize: UnitOfWireSize,
+                   val singlePhaseVoltage: Voltage,
+                   val twoPhaseVoltage: Voltage,
+                   val threePhaseVoltage: Voltage,
+                   val altitude: Length,
+                   val methodOfInstallation: MethodOfInstallation,
+                   val ambientTemperature: Temperature,
+                   val groundTemperature: Temperature,
+                   val soilResistivity: ThermalResistivity,
+                   val conductor: Conductor,
+                   val insulation: Insulation,
+                   val singlePhasePowerFactor: PowerFactor,
+                   val twoPhasePowerFactor: PowerFactor,
+                   val threePhasePowerFactor: PowerFactor,
+                   val panelToPanelMaxVoltDrop: VoltDrop,
+                   val panelToMotorMaxVoltDrop: VoltDrop,
+                   val circuitInTheSameConduit: CircuitCount,
+                   val maxWireSize: WireSize,
+                   val minWireSize: WireSize,
+                   val standard: Standard,
+                   val isDeleted:Boolean=false)
