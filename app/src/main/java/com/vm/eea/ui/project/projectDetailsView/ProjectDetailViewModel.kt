@@ -45,25 +45,25 @@ class ProjectDetailViewModel(
                 Destinations.ProjectAltitudeUpdate(projectId)
             },
             PropertyItem("Ambient Temperature",item.ambientTemperature()) {
-                Destinations.ProjectTemperatureUpdate(projectId,Environment.Ambient)
+                Destinations.ProjectTemperatureUpdate(projectId, Environment.Ambient)
             },
             PropertyItem("Ground Temperature",item.groundTemperature()) {
-                Destinations.ProjectTemperatureUpdate(projectId,Environment.Ground)
+                Destinations.ProjectTemperatureUpdate(projectId, Environment.Ground)
             },
             PropertyItem("Soil Thermal Resistivity",item.soilResistivity()) {
                 Destinations.ProjectSoilResistivityUpdate(projectId)
             },
             PropertyItem("1-Phase Power factor",item.singlePhasePowerFactor()) {
-                Destinations.UpdateProjectPowerFactor(projectId,PowerSystem.SinglePhase)
+                Destinations.UpdateProjectPowerFactor(projectId, PowerSystem.SinglePhase)
             },
             PropertyItem("3-Phase Power factor",item.threePhasePowerFactor()) {
-                Destinations.UpdateProjectPowerFactor(projectId,PowerSystem.ThreePhase)
+                Destinations.UpdateProjectPowerFactor(projectId, PowerSystem.ThreePhase)
             },
             PropertyItem("Panel To Panel Max Volt Drop",item.panelToPanelMaxVoltDrop()) {
-                Destinations.UpdateProjectMaxVoltDrop(projectId,RelationType.PanelToPanel)
+                Destinations.UpdateProjectMaxVoltDrop(projectId, RelationType.PanelToPanel)
             },
             PropertyItem("Panel To Motor Max Volt Drop",item.panelToMotorMaxVoltDrop()) {
-                Destinations.UpdateProjectMaxVoltDrop(projectId,RelationType.PanelToMotor)
+                Destinations.UpdateProjectMaxVoltDrop(projectId, RelationType.PanelToMotor)
             },
             PropertyItem("Circuit In The Same Conduit",item.circuitInTheSameConduit()) {
                 Destinations.ProjectCircuitCountUpdate(projectId)

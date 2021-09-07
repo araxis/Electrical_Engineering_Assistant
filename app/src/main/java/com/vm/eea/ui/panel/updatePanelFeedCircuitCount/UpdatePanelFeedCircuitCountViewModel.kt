@@ -23,6 +23,7 @@ class UpdatePanelFeedCircuitCountViewModel(
     private val updatePanelFeed: UpdatePanelFeed,
     private val navigationManager: NavigationManager,
 ):ContainerHost<UiState,Nothing> ,ViewModel() {
+
     override val container: Container<UiState, Nothing>
         = container(UiState.init()){
             intent {
@@ -35,7 +36,7 @@ class UpdatePanelFeedCircuitCountViewModel(
             }
     }
 
-    fun onItemSelect(item:CircuitCount)=onIO{
+    fun onItemSelect(item: CircuitCount)=onIO{
         updatePanelFeed(relationId,item)
         navigationManager.back()
     }

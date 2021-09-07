@@ -54,7 +54,7 @@ class UpdateProjectWireSizeViewModel(
         }
 
         }
-    fun onDefaultItemSelect(item:WireSize)=intent{
+    fun onDefaultItemSelect(item: WireSize)=intent{
         updateProjectWireSize(projectId,item,sizingType)
         navigationManager.back()
     }

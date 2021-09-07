@@ -3,8 +3,8 @@ package com.vm.eea.ui.motor.addMotor
 import androidx.lifecycle.ViewModel
 import com.vm.eea.domain.*
 import com.vm.eea.domain.load.AddNewMotor
-import com.vm.eea.domain.load.FeedingMode
-import com.vm.eea.domain.panel.PanelId
+import com.vm.eea.domain.FeedingMode
+import com.vm.eea.domain.PanelId
 import com.vm.eea.domain.project.GetProject
 import com.vm.eea.ui.Field
 import com.vm.eea.ui.NavigationManager
@@ -49,7 +49,7 @@ class AddMotorViewModel(
         val newState=state.copy(code = tempState)
         reduce { newState.copy(canSubmit = canSubmit(newState)) }
     }
-    fun onPowerChange(value:String,unit:UnitOfPower)=intent{
+    fun onPowerChange(value:String,unit: UnitOfPower)=intent{
         val validationResult=Validator.validate.positiveNumber(value,"")
         val tempState=state.power.copy(value=value,error = validationResult)
         val newState=state.copy(power = tempState)
@@ -78,7 +78,7 @@ class AddMotorViewModel(
         reduce { newState.copy(canSubmit = canSubmit(newState)) }
     }
 
-    fun onSystemSelect(system:PowerSystem)=intent{
+    fun onSystemSelect(system: PowerSystem)=intent{
         val newState=state.copy(system = system)
         reduce { newState.copy(canSubmit = canSubmit(newState)) }
     }
@@ -115,10 +115,10 @@ class AddMotorViewModel(
         val power=state.power.value be  state.power.second
         val length=state.feedLength.value be state.feedLength.second
         val powerfactor= PowerFactor(state.powerfactor.value.toDouble())
-        val demandFactor=PowerFactor(state.demandFactor.value.toDouble())
-        val efficiency=Efficiency(state.efficiency.value.toDouble())
+        val demandFactor= PowerFactor(state.demandFactor.value.toDouble())
+        val efficiency= Efficiency(state.efficiency.value.toDouble())
         val feederId= PanelId(state.feeder!!.id)
-        val feedingMode=FeedingMode(normal = true, emergency = false)
+        val feedingMode= FeedingMode(normal = true, emergency = false)
          addNewMotor(code,"",power,powerfactor,
              demandFactor,efficiency,system,feedingMode,length,feederId)
         navigationManager.back()

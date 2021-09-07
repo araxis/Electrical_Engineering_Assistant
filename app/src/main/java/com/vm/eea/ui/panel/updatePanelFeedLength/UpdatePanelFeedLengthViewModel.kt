@@ -2,6 +2,8 @@ package com.vm.eea.ui.panel.updatePanelFeedLength
 
 import androidx.lifecycle.ViewModel
 import com.vm.eea.domain.UnitOfLength
+import com.vm.eea.domain.be
+import com.vm.eea.domain.format
 import com.vm.eea.domain.panelToPanelRelation.GetFeedingRelationByRelation
 import com.vm.eea.domain.panelToPanelRelation.UpdatePanelFeed
 import com.vm.eea.ui.NavigationManager
@@ -28,7 +30,7 @@ class UpdatePanelFeedLengthViewModel(
              }
     }
 
-    fun onLengthChange(value:String,unit:UnitOfLength)=intent{
+    fun onLengthChange(value:String,unit: UnitOfLength)=intent{
        val validationResult=Validator.validate.positiveNumber(value,"")
         reduce {
             state.copy(value=value,

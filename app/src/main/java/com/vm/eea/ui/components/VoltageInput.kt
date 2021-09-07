@@ -67,7 +67,8 @@ fun VoltageInput(value: VoltageFiledValue,
 @Preview(showBackground = true,name = "input")
 @Composable
 fun Default(){
-    var input by remember{ mutableStateOf(VoltageFiledValue("1-Phase Voltage","220",UnitOfVoltage.KV,null,null))}
+    var input by remember{ mutableStateOf(VoltageFiledValue("1-Phase Voltage","220",
+        UnitOfVoltage.KV,null,null))}
      VoltageInput(value = input){
         input=it
      }

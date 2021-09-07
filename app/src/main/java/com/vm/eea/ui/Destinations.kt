@@ -50,7 +50,7 @@ object Destinations{
                 navArgument("system") { type = NavType.EnumType(PowerSystem::class.java) })
         override val route="project/update/voltage/{projectId}/{system}"
 
-        operator fun invoke(projectId:Long,system:PowerSystem)=object :INavigationCommand{
+        operator fun invoke(projectId:Long,system: PowerSystem)=object :INavigationCommand{
             override val route="project/update/voltage/$projectId/$system"
 
         }
@@ -97,7 +97,7 @@ object Destinations{
             navArgument("system") { type = NavType.EnumType(PowerSystem::class.java) })
         override val route="project/update/powerFactor/{system}/{projectId}"
 
-        operator fun invoke(projectId:Long,system:PowerSystem)=NavigationCommand("project/update/powerFactor/$system/$projectId")
+        operator fun invoke(projectId:Long,system: PowerSystem)=NavigationCommand("project/update/powerFactor/$system/$projectId")
     }
     object UpdateProjectMaxVoltDrop:IDestination{
         override val arguments: List<NamedNavArgument> =listOf(

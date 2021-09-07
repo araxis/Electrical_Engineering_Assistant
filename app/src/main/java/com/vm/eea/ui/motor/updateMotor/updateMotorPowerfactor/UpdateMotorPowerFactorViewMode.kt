@@ -5,9 +5,9 @@ import com.vm.eea.domain.PowerFactor
 import com.vm.eea.domain.load.UpdateMotorPowerfactor
 import com.vm.eea.ui.NavigationManager
 import com.vm.eea.utilities.Validator
-import com.vm.eea.utilities.format
+import com.vm.eea.domain.format
 import com.vm.eea.utilities.inRange
-import com.vm.eea.utilities.toMotorId
+import com.vm.eea.domain.toMotorId
 import kotlinx.coroutines.flow.collect
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost

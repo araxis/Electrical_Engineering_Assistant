@@ -3,7 +3,9 @@ package com.vm.eea.ui.panel.updatePanelFeedSoilResistivity
 import androidx.lifecycle.ViewModel
 import com.vm.eea.domain.ThermalResistivity
 import com.vm.eea.domain.UnitOfThermalResistivity
+import com.vm.eea.domain.be
 import com.vm.eea.domain.defaultSiolResistivity.GetDefaultSoilResistivity
+import com.vm.eea.domain.format
 import com.vm.eea.domain.panelToPanelRelation.GetFeedingRelationByRelation
 import com.vm.eea.domain.panelToPanelRelation.UpdatePanelFeed
 import com.vm.eea.ui.NavigationManager
@@ -40,7 +42,7 @@ class UpdatePanelFeedSoilResistivityViewModel(
              }
     }
 
-    fun onValueChange(value:String, unit:UnitOfThermalResistivity)=intent{
+    fun onValueChange(value:String, unit: UnitOfThermalResistivity)=intent{
        val validationResult=Validator.validate.positiveNumber(value,"")
         reduce {
             state.copy(value=value,unit=unit,
@@ -49,7 +51,7 @@ class UpdatePanelFeedSoilResistivityViewModel(
         }
     }
 
-    fun onItemSelect(item:ThermalResistivity)=intent{
+    fun onItemSelect(item: ThermalResistivity)=intent{
         updatePanelFeed(relationId,item)
         navigationManager.back()
     }

@@ -2,7 +2,10 @@ package com.vm.eea.ui.motor.updateMotor.updateMotorPower
 
 import androidx.lifecycle.ViewModel
 import com.vm.eea.domain.UnitOfPower
+import com.vm.eea.domain.be
+import com.vm.eea.domain.format
 import com.vm.eea.domain.load.UpdateMotorPower
+import com.vm.eea.domain.toMotorId
 import com.vm.eea.ui.NavigationManager
 import com.vm.eea.utilities.*
 import kotlinx.coroutines.flow.collect
@@ -28,7 +31,7 @@ class UpdateMotorPowerViewModel(
              }
     }
 
-    fun onPowerChange(value:String,unit:UnitOfPower)=intent{
+    fun onPowerChange(value:String,unit: UnitOfPower)=intent{
         val validationResult=Validator.validate.positiveNumber(value,"")
         val newPower=state.power.copy(value = value,second = unit,error = validationResult)
         reduce { state.copy(power = newPower,canSubmit = validationResult==null) }

@@ -1,9 +1,7 @@
 package com.vm.eea.ui.panel.updatePanelFeedTemperature
 
 import androidx.lifecycle.ViewModel
-import com.vm.eea.domain.Environment
-import com.vm.eea.domain.Temperature
-import com.vm.eea.domain.UnitOfTemperature
+import com.vm.eea.domain.*
 import com.vm.eea.domain.defaultGroundTemperature.GetDefaultTemperatures
 import com.vm.eea.domain.panelToPanelRelation.GetFeedingRelationByRelation
 import com.vm.eea.domain.panelToPanelRelation.UpdatePanelFeed
@@ -45,7 +43,7 @@ class UpdatePanelFeedTemperatureViewModel(
              }
     }
 
-    fun onValueChange(value:String, unit:UnitOfTemperature)=intent{
+    fun onValueChange(value:String, unit: UnitOfTemperature)=intent{
        val validationResult=Validator.validate.positiveNumber(value,"")
         reduce {
             state.copy(value=value,unit=unit,
@@ -54,7 +52,7 @@ class UpdatePanelFeedTemperatureViewModel(
         }
     }
 
-    fun onItemSelect(item:Temperature)=intent{
+    fun onItemSelect(item: Temperature)=intent{
         updatePanelFeed(relationId,item,environment)
         navigationManager.back()
     }

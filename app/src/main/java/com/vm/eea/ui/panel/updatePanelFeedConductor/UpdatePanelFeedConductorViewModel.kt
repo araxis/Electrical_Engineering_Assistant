@@ -33,7 +33,7 @@ class UpdatePanelFeedConductorViewModel(
             }
     }
 
-    fun onItemSelect(item:Conductor)=onIO {
+    fun onItemSelect(item: Conductor)=onIO {
         updatePanelFeed(relationId,item)
         navigationManager.back()
     }

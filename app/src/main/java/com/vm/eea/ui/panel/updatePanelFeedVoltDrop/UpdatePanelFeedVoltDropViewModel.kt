@@ -7,7 +7,7 @@ import com.vm.eea.domain.panelToPanelRelation.UpdatePanelFeed
 import com.vm.eea.ui.NavigationManager
 import com.vm.eea.utilities.SimpleText
 import com.vm.eea.utilities.Validator
-import com.vm.eea.utilities.format
+import com.vm.eea.domain.format
 import com.vm.eea.utilities.positiveNumber
 import kotlinx.coroutines.flow.collect
 import org.orbitmvi.orbit.Container

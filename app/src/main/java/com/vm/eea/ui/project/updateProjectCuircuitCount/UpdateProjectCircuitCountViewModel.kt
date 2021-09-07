@@ -36,7 +36,7 @@ class UpdateProjectCircuitCountViewModel(private val projectId:Long,
 
 
 
-    fun onDefaultItemSelect(item:CircuitCount)=onIO{
+    fun onDefaultItemSelect(item: CircuitCount)=onIO{
         updateProjectCircuitCount(projectId,item)
         navigationManager.back()
     }

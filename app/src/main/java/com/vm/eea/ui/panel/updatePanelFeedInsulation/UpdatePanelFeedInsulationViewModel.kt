@@ -33,7 +33,7 @@ class UpdatePanelFeedInsulationViewModel(
             }
     }
 
-    fun onItemSelect(item:Insulation)=onIO {
+    fun onItemSelect(item: Insulation)=onIO {
         updatePanelFeed(relationId,item)
         navigationManager.back()
     }

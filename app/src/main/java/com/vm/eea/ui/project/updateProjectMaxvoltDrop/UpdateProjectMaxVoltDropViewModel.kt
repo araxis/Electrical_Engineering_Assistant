@@ -3,6 +3,7 @@ package com.vm.eea.ui.project.updateProjectMaxvoltDrop
 import androidx.lifecycle.ViewModel
 import com.vm.eea.domain.RelationType
 import com.vm.eea.domain.VoltDrop
+import com.vm.eea.domain.format
 import com.vm.eea.domain.project.GetProject
 import com.vm.eea.domain.project.UpdateProjectMaxVoltDrop
 import com.vm.eea.utilities.*

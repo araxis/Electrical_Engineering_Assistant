@@ -24,14 +24,6 @@ fun  NavGraphBuilder.composable(destination:IDestination,
 }
 
 
- val IO_EXECUTOR = Executors.newSingleThreadExecutor()
-
-/**
- * Utility method to run blocks on a dedicated background thread, used for io/database work.
- */
-fun ioThread(f : () -> Unit) {
-    IO_EXECUTOR.execute(f)
-}
 
 fun ViewModel.onMain(body: suspend () -> Unit): Job {
     return viewModelScope.launch(Dispatchers.Main) {

@@ -33,7 +33,7 @@ class UpdateProjectUnitOfWireSizeViewModel(
             }
         }
 
-     fun onItemSelect(item:UnitOfWireSize)=onIO {
+     fun onItemSelect(item: UnitOfWireSize)=onIO {
          updateProjectUnitOfWireSize(projectId,item)
          navigationManager.back()
      }

@@ -6,7 +6,7 @@ import com.vm.eea.ui.MotorDestinations
 import com.vm.eea.ui.NavigationCommand
 import com.vm.eea.ui.NavigationManager
 import com.vm.eea.ui.PropertyItem
-import com.vm.eea.utilities.toMotorId
+import com.vm.eea.domain.toMotorId
 import kotlinx.coroutines.flow.collect
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost

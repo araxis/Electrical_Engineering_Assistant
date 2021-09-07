@@ -6,8 +6,8 @@ import com.vm.eea.ui.NavigationManager
 import com.vm.eea.ui.SelectableItem
 import com.vm.eea.ui.models.SimplePanel
 import com.vm.eea.utilities.onIO
-import com.vm.eea.utilities.toMotorId
-import com.vm.eea.utilities.toPanelId
+import com.vm.eea.domain.toMotorId
+import com.vm.eea.domain.toPanelId
 import kotlinx.coroutines.flow.collect
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost

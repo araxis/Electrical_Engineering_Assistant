@@ -2,6 +2,7 @@ package com.vm.eea.ui.panel.addPanle
 
 import androidx.lifecycle.ViewModel
 import com.vm.eea.domain.UnitOfLength
+import com.vm.eea.domain.be
 import com.vm.eea.domain.panel.AddPanel
 import com.vm.eea.domain.panel.GetMdp
 import com.vm.eea.domain.panel.GetPanels
@@ -47,7 +48,7 @@ class AddPanelViewModel(
         reduce { state.copy(description = value) }
     }
 
-    fun onLengthChange(value:String,unit:UnitOfLength)=intent{
+    fun onLengthChange(value:String,unit: UnitOfLength)=intent{
       val lengthValidation=Validator.validate.positiveNumber(value,"")
       val codeValidation=Validator.validate.notNullOrBlank(state.code,"")
       val canSubmit =lengthValidation==null && codeValidation==null

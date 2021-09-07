@@ -8,7 +8,7 @@ import com.vm.eea.utilities.IText
 
 data class UiState(val pageTitle:String,
                    val value:String,
-                   val unit:UnitOfTemperature,
+                   val unit: UnitOfTemperature,
                    val defaults:List<SelectableItem<Temperature>>,
                    val canExecute:Boolean, val error: IText? ) {
 

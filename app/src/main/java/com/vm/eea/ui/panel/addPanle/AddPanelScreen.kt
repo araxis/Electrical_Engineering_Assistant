@@ -54,13 +54,13 @@ fun AddPanelScreen(viewModel: AddPanelViewModel ) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AddPanelForm(currentPanel:Panel?, feeders: List<Panel>, code: String,
-                 description: String,length:String,
+                 description: String, length:String,
                  modifier: Modifier = Modifier,
                  codeError: IText? = null,
                  lengthError:IText?=null,
                  onFeederSelect:(Panel)->Unit,
                  onCodeChange: (String) -> Unit,
-                 onLengthChange:(String,UnitOfLength)->Unit,
+                 onLengthChange:(String, UnitOfLength)->Unit,
                  onDescriptionChange:(String)->Unit,
 ){
     Card(modifier = modifier) {
@@ -101,7 +101,7 @@ fun AddPanelForm(currentPanel:Panel?, feeders: List<Panel>, code: String,
                 isError = codeError!=null,
                 placeholder={ Text(text = "enter length") },
                 onValueChange = {
-                    onLengthChange(it,UnitOfLength.M)
+                    onLengthChange(it, UnitOfLength.M)
                 },modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp, start = 16.dp, end = 16.dp))

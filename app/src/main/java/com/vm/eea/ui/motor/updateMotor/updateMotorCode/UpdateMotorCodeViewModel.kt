@@ -6,7 +6,7 @@ import com.vm.eea.ui.NavigationManager
 import com.vm.eea.ui.motor.updateMotor.GetMotor
 import com.vm.eea.utilities.Validator
 import com.vm.eea.utilities.notNullOrBlank
-import com.vm.eea.utilities.toMotorId
+import com.vm.eea.domain.toMotorId
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent

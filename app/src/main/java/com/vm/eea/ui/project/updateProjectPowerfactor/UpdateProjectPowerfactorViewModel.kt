@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.vm.eea.domain.PowerFactor
 import com.vm.eea.domain.PowerSystem
 import com.vm.eea.domain.defaultPowerfactor.GetDefaultPowerFactors
+import com.vm.eea.domain.format
 import com.vm.eea.domain.project.GetProject
 import com.vm.eea.domain.project.UpdateProjectPowerfactor
 import com.vm.eea.ui.NavigationManager
@@ -52,11 +53,11 @@ class UpdateProjectPowerfactorViewModel(
             canSubmit = validationResult==null) }
     }
     fun onSubmit(addToDefaults:Boolean)=intent{
-        val pf=PowerFactor(state.value.toDouble())
+        val pf= PowerFactor(state.value.toDouble())
         updateProjectPowerfactor(projectId,pf,system,addToDefaults)
         navigationManager.back()
     }
-    fun onDefaultItemSelect(item:PowerFactor)= onIO {
+    fun onDefaultItemSelect(item: PowerFactor)= onIO {
         updateProjectPowerfactor(projectId,item,system,false)
         navigationManager.back()
         }

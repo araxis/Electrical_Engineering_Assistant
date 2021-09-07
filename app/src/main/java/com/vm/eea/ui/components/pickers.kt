@@ -21,7 +21,7 @@ import com.vm.eea.ui.StringListener
 import com.vm.eea.utilities.IText
 
 @Composable
-fun LengthInput(label: String,value:String, unit: UnitOfLength, error: IText?,
+fun LengthInput(label: String, value:String, unit: UnitOfLength, error: IText?,
                 modifier: Modifier = Modifier,
                 keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
                 keyboardActions : KeyboardActions = KeyboardActions.Default,
@@ -56,12 +56,12 @@ fun LengthInput(label: String,value:String, unit: UnitOfLength, error: IText?,
 }
 
 @Composable
-fun PowerInput(label: String,value:String, unit: UnitOfPower, error: IText?,
-                modifier: Modifier = Modifier,
-                keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-                keyboardActions : KeyboardActions = KeyboardActions.Default,
-                focusRequester: FocusRequester = FocusRequester.Default,
-                onChange:PowerListener){
+fun PowerInput(label: String, value:String, unit: UnitOfPower, error: IText?,
+               modifier: Modifier = Modifier,
+               keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+               keyboardActions : KeyboardActions = KeyboardActions.Default,
+               focusRequester: FocusRequester = FocusRequester.Default,
+               onChange:PowerListener){
 
     Column(modifier = modifier) {
 
@@ -91,47 +91,12 @@ fun PowerInput(label: String,value:String, unit: UnitOfPower, error: IText?,
 }
 
 @Composable
-fun TemperatureInput(label: String,value:String, unit: UnitOfTemperature, error: IText?,
-                modifier: Modifier = Modifier,
-                keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-                keyboardActions : KeyboardActions = KeyboardActions.Default,
-                focusRequester: FocusRequester = FocusRequester.Default,
-                onChange:(String, UnitOfTemperature)->Unit){
-
-    Column(modifier = modifier) {
-
-        OutlinedTextField(value = value,
-            label = { Text(text = label) },
-            maxLines = 1,
-            singleLine = true,
-            trailingIcon = { Text(text = unit()) },
-            isError = error != null,
-            keyboardOptions = keyboardOptions.copy(keyboardType = KeyboardType.Number),
-            keyboardActions = keyboardActions,
-            onValueChange = {
-                onChange(it,unit)
-
-            }, modifier = Modifier
-                .focusRequester(focusRequester)
-                .fillMaxWidth()
-        )
-        error?.let {
-            Text(text = it.text(LocalContext.current),
-                color = MaterialTheme.colors.error,
-                style = MaterialTheme.typography.caption,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp))
-        }
-    }
-
-}
-
-@Composable
-fun VoltageInput(label: String,value:String, unit: UnitOfVoltage, error: IText?,
+fun TemperatureInput(label: String, value:String, unit: UnitOfTemperature, error: IText?,
                      modifier: Modifier = Modifier,
                      keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
                      keyboardActions : KeyboardActions = KeyboardActions.Default,
                      focusRequester: FocusRequester = FocusRequester.Default,
-                     onChange:(String, UnitOfVoltage)->Unit){
+                     onChange:(String, UnitOfTemperature)->Unit){
 
     Column(modifier = modifier) {
 
@@ -161,12 +126,12 @@ fun VoltageInput(label: String,value:String, unit: UnitOfVoltage, error: IText?,
 }
 
 @Composable
-fun WireSizeInput(label: String,value:String, unit: UnitOfWireSize, error: IText?,
+fun VoltageInput(label: String, value:String, unit: UnitOfVoltage, error: IText?,
                  modifier: Modifier = Modifier,
                  keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
                  keyboardActions : KeyboardActions = KeyboardActions.Default,
                  focusRequester: FocusRequester = FocusRequester.Default,
-                 onChange:(String, UnitOfWireSize)->Unit){
+                 onChange:(String, UnitOfVoltage)->Unit){
 
     Column(modifier = modifier) {
 
@@ -196,12 +161,47 @@ fun WireSizeInput(label: String,value:String, unit: UnitOfWireSize, error: IText
 }
 
 @Composable
-fun ThermalResistivityInput(label: String,value:String, unit: UnitOfThermalResistivity, error: IText?,
-                     modifier: Modifier = Modifier,
-                     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-                     keyboardActions : KeyboardActions = KeyboardActions.Default,
-                     focusRequester: FocusRequester = FocusRequester.Default,
-                     onChange:(String, UnitOfThermalResistivity)->Unit){
+fun WireSizeInput(label: String, value:String, unit: UnitOfWireSize, error: IText?,
+                  modifier: Modifier = Modifier,
+                  keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+                  keyboardActions : KeyboardActions = KeyboardActions.Default,
+                  focusRequester: FocusRequester = FocusRequester.Default,
+                  onChange:(String, UnitOfWireSize)->Unit){
+
+    Column(modifier = modifier) {
+
+        OutlinedTextField(value = value,
+            label = { Text(text = label) },
+            maxLines = 1,
+            singleLine = true,
+            trailingIcon = { Text(text = unit()) },
+            isError = error != null,
+            keyboardOptions = keyboardOptions.copy(keyboardType = KeyboardType.Number),
+            keyboardActions = keyboardActions,
+            onValueChange = {
+                onChange(it,unit)
+
+            }, modifier = Modifier
+                .focusRequester(focusRequester)
+                .fillMaxWidth()
+        )
+        error?.let {
+            Text(text = it.text(LocalContext.current),
+                color = MaterialTheme.colors.error,
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp))
+        }
+    }
+
+}
+
+@Composable
+fun ThermalResistivityInput(label: String, value:String, unit: UnitOfThermalResistivity, error: IText?,
+                            modifier: Modifier = Modifier,
+                            keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+                            keyboardActions : KeyboardActions = KeyboardActions.Default,
+                            focusRequester: FocusRequester = FocusRequester.Default,
+                            onChange:(String, UnitOfThermalResistivity)->Unit){
 
     Column(modifier = modifier) {
 

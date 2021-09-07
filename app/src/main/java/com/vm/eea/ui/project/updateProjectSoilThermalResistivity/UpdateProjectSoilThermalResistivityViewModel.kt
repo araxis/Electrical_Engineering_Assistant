@@ -10,7 +10,7 @@ import com.vm.eea.ui.NavigationManager
 import com.vm.eea.ui.SelectableItem
 import com.vm.eea.utilities.IText
 import com.vm.eea.utilities.Validator.Companion.validate
-import com.vm.eea.utilities.format
+import com.vm.eea.domain.format
 import com.vm.eea.utilities.positiveNumber
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine

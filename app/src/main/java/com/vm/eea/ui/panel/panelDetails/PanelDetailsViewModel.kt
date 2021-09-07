@@ -52,11 +52,11 @@ class PanelDetailsViewModel(
            PropertyItem("Length",relation.length()) { PanelDestinations.UpdatePanelFeedLength(relation.id.id) },
            PropertyItem("Method od installation",relation.methodOfInstallation()) { PanelDestinations.UpdatePanelFeedMethodOfInstallation(relation.id.id)},
            PropertyItem("Max voltage drop",relation.maxVoltageDrop()) { PanelDestinations.UpdatePanelFeedVoltDrop(relation.id.id)},
-           PropertyItem("Ambient temperature",relation.ambientTemperature(),visible =relation.methodOfInstallation==MethodOfInstallation.A1) {
-               PanelDestinations.UpdatePanelFeedTemperature(relation.id.id,Environment.Ambient) },
-           PropertyItem("Ground temperature",relation.groundTemperature(),visible =relation.methodOfInstallation!=MethodOfInstallation.A1) {
-               PanelDestinations.UpdatePanelFeedTemperature(relation.id.id,Environment.Ground) },
-           PropertyItem("Soil thermal resistivity",relation.soilThermalResistivity(),visible =relation.methodOfInstallation!=MethodOfInstallation.A1) {
+           PropertyItem("Ambient temperature",relation.ambientTemperature(),visible =relation.methodOfInstallation== MethodOfInstallation.A1) {
+               PanelDestinations.UpdatePanelFeedTemperature(relation.id.id, Environment.Ambient) },
+           PropertyItem("Ground temperature",relation.groundTemperature(),visible =relation.methodOfInstallation!= MethodOfInstallation.A1) {
+               PanelDestinations.UpdatePanelFeedTemperature(relation.id.id, Environment.Ground) },
+           PropertyItem("Soil thermal resistivity",relation.soilThermalResistivity(),visible =relation.methodOfInstallation!= MethodOfInstallation.A1) {
                PanelDestinations.UpdatePanelFeedSoilResistivity(relation.id.id) },
            PropertyItem("Conductor",relation.conductor()) {
                PanelDestinations.UpdatePanelFeedConductor(relation.id.id)},

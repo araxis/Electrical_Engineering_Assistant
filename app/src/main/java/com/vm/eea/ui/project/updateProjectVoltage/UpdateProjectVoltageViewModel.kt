@@ -11,7 +11,7 @@ import com.vm.eea.ui.NavigationManager
 import com.vm.eea.ui.SelectableItem
 import com.vm.eea.utilities.IText
 import com.vm.eea.utilities.Validator.Companion.validate
-import com.vm.eea.utilities.format
+import com.vm.eea.domain.format
 import com.vm.eea.utilities.positiveNumber
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
@@ -55,7 +55,7 @@ class UpdateProjectVoltageViewModel(
 
          }
 
-    fun onChange(value:String,unit:UnitOfVoltage)=intent {
+    fun onChange(value:String,unit: UnitOfVoltage)=intent {
 
         val validationError= validate.positiveNumber(value,"")
         reduce { state.copy(value=value,unit=unit,
@@ -66,7 +66,7 @@ class UpdateProjectVoltageViewModel(
 
 
 
-    fun onDefaultSelect(value:Voltage)=intent{
+    fun onDefaultSelect(value: Voltage)=intent{
 
         updateProjectVoltage(projectId, value,system,false)
         navigationManager.back()

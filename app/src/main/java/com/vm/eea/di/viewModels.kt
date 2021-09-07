@@ -3,7 +3,7 @@ package com.vm.eea.di
 
 import com.vm.eea.domain.GetDefaultCircuitCounts
 import com.vm.eea.domain.defaultAltitude.AddNewDefaultAltitude
-import com.vm.eea.domain.defaultAltitude.GetDefaultAltitudes
+import com.vm.eea.ui.project.updateProjectAltitude.GetDefaultAltitudes
 import com.vm.eea.domain.defaultGroundTemperature.AddNewDefaultTemperature
 import com.vm.eea.domain.defaultGroundTemperature.GetDefaultTemperatures
 import com.vm.eea.domain.defaultPowerfactor.AddNewDefaultPowerfactor

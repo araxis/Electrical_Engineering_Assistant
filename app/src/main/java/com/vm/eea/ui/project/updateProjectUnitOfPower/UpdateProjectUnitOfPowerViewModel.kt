@@ -25,7 +25,7 @@ class UpdateProjectUnitOfPowerViewModel(
          = container(UpdateProjectUnitOfPowerState(emptyList())){
         onIO {
             getProject(projectId).map {
-                UnitOfPower.values().map {o-> SelectableItem(o,o==it.unitOfPower) }
+                UnitOfPower.values().map { o-> SelectableItem(o,o==it.unitOfPower) }
             }.collect {
                 intent {
                     reduce { state.copy(defaults = it) } }
@@ -33,7 +33,7 @@ class UpdateProjectUnitOfPowerViewModel(
             }
         }
 
-     fun onItemSelect(item:UnitOfPower)=onIO {
+     fun onItemSelect(item: UnitOfPower)=onIO {
          updateProjectUnitOfPower(projectId,item)
          navigationManager.back()
      }
