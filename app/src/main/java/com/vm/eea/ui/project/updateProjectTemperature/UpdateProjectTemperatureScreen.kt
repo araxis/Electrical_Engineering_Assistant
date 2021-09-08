@@ -1,6 +1,7 @@
 package com.vm.eea.ui.project.updateProjectTemperature
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -33,13 +34,13 @@ fun UpdateProjectTemperatureScreen(viewModel: UpdateProjectTemperatureViewModel)
     FullPageDialog(pageTitle = state.pageTitle,
         canSubmit = state.canExecute,
         onSubmit = { viewModel.submit(true)}) {
-        Column(modifier = Modifier
+        Column(modifier = Modifier.fillMaxSize()
             .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally) {
-            Surface {
+            ) {
+
 
                 TemperatureInput("Temperature",value = state.value,
-                    modifier = Modifier.padding(top=8.dp,start = 16.dp,bottom = 16.dp,end = 16.dp),
+
                     unit = state.unit,
                     error = state.error,
                     keyboardActions = keyboardActions,
@@ -47,7 +48,7 @@ fun UpdateProjectTemperatureScreen(viewModel: UpdateProjectTemperatureViewModel)
                     viewModel.onChange(value, unit)
                 }
 
-            }
+
 
             GridSelector(modifier = Modifier.padding(top = 16.dp),items = state.defaults, onSelect = { viewModel.onDefaultSelect(it) })
 

@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -16,97 +18,22 @@ import com.vm.eea.domain.project.SimpleProject
 import com.vm.eea.ui.components.EmptyContent
 import com.vm.eea.ui.components.LoadingContent
 import com.vm.eea.ui.components.Page1
+import com.vm.eea.ui.project.projectCenter.ProjectCenterTab
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun ProjectListScreen(viewModel: ProjectListViewModel= getViewModel()){
      val state by viewModel.container.stateFlow.collectAsState()
-//    Scaffold(Modifier.fillMaxSize(),
-//        isFloatingActionButtonDocked = true,
-//        floatingActionButtonPosition = FabPosition.Center,
-//        floatingActionButton = {
-//            FloatingActionButton(
-//                onClick = { viewModel.showAddView() },
-//                content = {
-//                    Icon( Icons.Filled.Add,contentDescription = "Localized description")
-//                }
-//            )
-//        },
-//        topBar = {    TopAppBar(
-//            elevation = 0.dp,
-//
-//            title = {
-//                Text("Projects")
-//            },
-//            //backgroundColor =  MaterialTheme.colors.primarySurface,
-//            backgroundColor = Color.Transparent,
-//            navigationIcon = {
-//                IconButton(onClick = {/* Do Something*/ }) {
-//                    Icon(Icons.Filled.ArrowBack, null)
-//                }
-//            }, actions = {
-//                IconButton(onClick = {/* Do Something*/ }) {
-//                    Icon(Icons.Filled.Share, null)
-//                }
-//                IconButton(onClick = {/* Do Something*/ }) {
-//                    Icon(Icons.Filled.Settings, null)
-//                }
-//            })
-//        },
-//        bottomBar = {
-//            BottomAppBar(
-//                content = {
-//                    BottomNavigation() {
-//                        BottomNavigationItem(
-//                            icon = {
-//                                Icon(Icons.Filled.Favorite , "")
-//                            },
-//                            label = { Text(text = "Favorite")},
-//
-//                            onClick = {
-//
-//                            },
-//                            alwaysShowLabel = false,
-//                            selected = true
-//                        )
-//
-//
-//
-//
-//                        BottomNavigationItem(
-//                            icon = {
-//                                Icon(Icons.Filled.Download , "")
-//                            },
-//                            label = { Text(text = "Download")},
-//
-//                            onClick = {
-//
-//                            },
-//                            alwaysShowLabel = false,
-//                            selected = false
-//                        )}})}
-//
-//    ) {
-//        Surface(modifier = Modifier.fillMaxSize(),
-//          //  color = MaterialTheme.colors.primarySurface
-//        ) {
-//            if(state.loading){
-//                LoadingContent()
-//            }else{
-//                if(state.projects.isEmpty()){
-//                    EmptyContent {
-//                        viewModel.showAddView()
-//                    }
-//                }else{
-//                    SimpleProjectList(projects =state.projects,
-//                        modifier = Modifier.fillMaxSize()){viewModel.onItemSelect(it)}
-//                }
-//            }
-//
-//        }
-//    }
 
-    Page1(pageTitle = "Projects") {
+    val fab=@Composable{
+        ExtendedFloatingActionButton(
+            onClick = { viewModel.showAddView() },
+            text = { Text(text = "Project")},
+            icon = {Icon( Icons.Filled.Add,contentDescription = "Localized description")},
+
+            )}
+
+    Page1(pageTitle = "Projects",floatingActionButton = fab,floatingActionButtonPosition = FabPosition.Center) {
         if(state.loading){
             LoadingContent()
         }else{

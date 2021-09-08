@@ -20,9 +20,9 @@ class UpdateProjectConductorViewModel(
     private val getProject: GetProject,
     private val updateProjectConductor: UpdateProjectConductor,
     private val navigationManager: NavigationManager
-):ContainerHost<UpdateProjectConductorState,Nothing>,ViewModel() {
-    override val container: Container<UpdateProjectConductorState, Nothing>
-         = container(UpdateProjectConductorState(emptyList())){
+):ContainerHost<UiState,Nothing>,ViewModel() {
+    override val container: Container<UiState, Nothing>
+         = container(UiState(emptyList())){
         onIO {
             getProject(projectId).map {
                 Conductor.values().map { o-> SelectableItem(o,o==it.conductor) }

@@ -1,6 +1,7 @@
 package com.vm.eea.ui.project.updateProjectMaxvoltDrop
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -28,23 +29,22 @@ fun UpdateProjectMaxVoltDropScreen(viewModel: UpdateProjectMaxVoltDropViewModel)
     }else{
         KeyboardActions.Default
     }
-    FullPageDialog(pageTitle = "Max voltage drop",
+    FullPageDialog(pageTitle = state.pageTitle,
         canSubmit = state.canExecute,
         onSubmit = { viewModel.onSubmit()}) {
-        Column(modifier = Modifier
+        Column(modifier = Modifier.fillMaxSize()
             .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally) {
-            Card {
+            ) {
 
-                VoltDropInput("Feed Length",value = state.value,
-                    modifier = Modifier.padding(top=8.dp,start = 16.dp,bottom = 8.dp,end = 16.dp),
+
+                VoltDropInput("Voltage drop",value = state.value,
                     error = state.error,
                     keyboardActions = keyboardActions,
                     keyboardOptions = keyboardOptions) { value ->
                     viewModel.onChange(value)
                 }
 
-            }
+
 
 
         }

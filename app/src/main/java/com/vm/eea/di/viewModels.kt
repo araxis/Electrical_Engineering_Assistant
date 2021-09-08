@@ -1,7 +1,7 @@
 package com.vm.eea.di
 
 
-import com.vm.eea.domain.GetDefaultCircuitCounts
+import com.vm.eea.ui.GetDefaultCircuitCounts
 import com.vm.eea.domain.defaultAltitude.AddNewDefaultAltitude
 import com.vm.eea.ui.project.updateProjectAltitude.GetDefaultAltitudes
 import com.vm.eea.domain.defaultGroundTemperature.AddNewDefaultTemperature
@@ -30,12 +30,35 @@ import com.vm.eea.ui.motor.updateMotor.GetMotor
 import com.vm.eea.ui.motor.updateMotor.GetMotors
 import com.vm.eea.ui.motor.updateMotor.updateDemanFactor.GetMotorDemandFactor
 import com.vm.eea.ui.motor.updateMotor.updateDemanFactor.UpdateMotorDemandFactorViewMode
+import com.vm.eea.domain.load.UpdateMotorEfficiency
+import com.vm.eea.domain.panelToMotorRelation.*
+import com.vm.eea.ui.motor.updateMotor.updateEfficiency.GetMotorEfficiency
+import com.vm.eea.ui.motor.updateMotor.updateEfficiency.UpdateEfficiencyViewModel
 import com.vm.eea.ui.motor.updateMotor.updateMotorCode.UpdateMotorCodeViewModel
+import com.vm.eea.ui.motor.updateMotor.updateMotorFeedLineLength.GetMotorFeedLineLength
+import com.vm.eea.ui.motor.updateMotor.updateMotorFeedLineLength.UpdateMotorFeedLineLengthViewModel
 import com.vm.eea.ui.motor.updateMotor.updateMotorFeeder.GetMotorFeederDetails
 import com.vm.eea.ui.motor.updateMotor.updateMotorFeeder.UpdateMotorFeederViewModel
 import com.vm.eea.ui.motor.updateMotor.updateMotorPower.GetMotorPowerDetails
 import com.vm.eea.ui.motor.updateMotor.updateMotorPower.UpdateMotorPowerViewModel
 import com.vm.eea.ui.motor.updateMotor.updateMotorPowerfactor.GetMotorPowerfactorDetail
+import com.vm.eea.ui.motor.updateMotor.updateMotorPowerfactor.UpdateMotorPowerFactorViewMode
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationAmbientTemperature.GetMotorRelationAmbientTemperature
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationAmbientTemperature.UpdateMotorRelationAmbientTemperatureViewModel
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationCircuitCount.GetMotorRelationCircuitCount
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationCircuitCount.UpdateMotorRelationCircuitCountViewModel
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationConductor.GetMotorRelationConductor
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationConductor.UpdateMotorRelationConductorViewModel
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationGroundTemperature.GetMotorRelationGroundTemperature
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationGroundTemperature.UpdateMotorRelationGroundTemperatureViewModel
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationInsulation.GetMotorRelationInsulation
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationInsulation.UpdateMotorRelationInsulationViewModel
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationMaxVoltDrop.GetMotorRelationMaxVoltDrop
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationMaxVoltDrop.UpdateMotorRelationMaxVoltDropViewModel
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationMethodOfInstallation.GetMotorRelationMethodOfInstallation
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationMethodOfInstallation.UpdateMotorFeedMethodOfInstallationViewModel
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationSoilResistivity.GetMotorRelationThermalResistivity
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationSoilResistivity.UpdateMotorRelationThermalResistivityViewModel
 import com.vm.eea.ui.panel.addPanle.AddPanelViewModel
 import com.vm.eea.ui.panel.panelDetails.PanelDetailsViewModel
 import com.vm.eea.ui.panel.updateFeeder.UpdateFeederViewModel
@@ -132,6 +155,27 @@ val viewModels= module {
   factory { UpdateMotorPowerfactor(get()) }
   factory { UpdateMotorDemandFactor(get()) }
   factory { GetMotorDemandFactor(get()) }
+  factory { UpdateMotorEfficiency(get()) }
+  factory { GetMotorEfficiency(get()) }
+  factory { UpdateMotorFeedLineLength(get()) }
+  factory { GetMotorFeedLineLength(get()) }
+  factory { GetMotorRelationMethodOfInstallation(get()) }
+  factory { UpdateMotorRelationMethodOfInstallation(get()) }
+  factory { GetMotorRelationMaxVoltDrop(get()) }
+  factory { UpdateMotorRelationMaxVoltDrop(get()) }
+  factory { GetMotorRelationAmbientTemperature(get()) }
+  factory { UpdateMotorRelationAmbientTemperature(get()) }
+  factory { GetMotorRelationGroundTemperature(get()) }
+  factory {UpdateMotorRelationGroundTemperature(get())}
+  factory { GetMotorRelationThermalResistivity(get()) }
+  factory {UpdateMotorRelationThermalResistivity(get())}
+  factory { UpdateMotorRelationInsulation(get()) }
+  factory { UpdateMotorRelationCircuitCount(get()) }
+  factory { GetMotorRelationInsulation(get()) }
+  factory { GetMotorRelationConductor(get()) }
+  factory { UpdateMotorRelationConductor(get()) }
+  factory { GetMotorRelationCircuitCount(get()) }
+
 
   viewModel { ProjectListViewModel(get(),get()) }
   viewModel { params-> UpdateProjectVoltageViewModel(projectId = params.get(),system = params.get(),get(),get(),get(),get()) }
@@ -146,11 +190,11 @@ val viewModels= module {
   viewModel { params->UpdateProjectUnitOfPowerViewModel(projectId = params.get(),get(),get(),get()) }
   viewModel { params->UpdateProjectUnitOfWireSizeViewModel(projectId = params.get(),get(),get(),get()) }
   viewModel { params-> UpdateProjectConductorViewModel(projectId = params.get(),get(),get(),get()) }
-  viewModel { params-> UpdateProjectMethodOfInstallationViewModel(projectId = params.get(),get(),get()) }
+  viewModel { params-> UpdateProjectMethodOfInstallationViewModel(projectId = params.get(),get(),get(),get()) }
   viewModel { params-> UpdateProjectUnitOfTemperatureViewModel(projectId = params.get(),get(),get(),get()) }
   viewModel { params-> UpdateProjectUnitOfLengthViewModel(projectId = params.get(),get(),get(),get()) }
   viewModel { params-> UpdateProjectInsulationViewModel(projectId = params.get(),get(),get(),get()) }
-  viewModel { params-> UpdateProjectCodeViewModel(projectId = params.get(),get(),get()) }
+  viewModel { params-> UpdateProjectCodeViewModel(projectId = params.get(),get(),get(),get()) }
   viewModel { AddProjectViewModel(get(),get()) }
   viewModel { params-> AddPanelViewModel(params.get(),get(),get(),get(),get()) }
   viewModel { params-> ProjectCenterViewModel(projectId = params.get(),get(),get(),get()) }
@@ -172,6 +216,16 @@ val viewModels= module {
   viewModel { params-> UpdateMotorFeederViewModel(motorId = params.get(),get(),get(),get()) }
   viewModel { params-> UpdateMotorPowerViewModel(motorId = params.get(),get(),get(),get()) }
   viewModel { params-> UpdateMotorDemandFactorViewMode(motorId = params.get(),get(),get(),get()) }
-
+  viewModel { params-> UpdateEfficiencyViewModel(motorId = params.get(),get(),get(),get()) }
+  viewModel { params-> UpdateMotorFeedLineLengthViewModel(relationId = params.get(),get(),get(),get()) }
+  viewModel { params-> UpdateMotorFeedMethodOfInstallationViewModel(relationId = params.get(),get(),get(),get()) }
+  viewModel { params-> UpdateMotorRelationMaxVoltDropViewModel(relationId = params.get(),get(),get(),get()) }
+  viewModel { params-> UpdateMotorRelationAmbientTemperatureViewModel(relationId = params.get(),get(),get(),get()) }
+  viewModel { params-> UpdateMotorRelationGroundTemperatureViewModel(relationId = params.get(),get(),get(),get()) }
+  viewModel { params-> UpdateMotorRelationThermalResistivityViewModel(relationId = params.get(),get(),get(),get()) }
+  viewModel { params-> UpdateMotorRelationInsulationViewModel(relationId = params.get(),get(),get(),get()) }
+  viewModel { params-> UpdateMotorRelationConductorViewModel(relationId = params.get(),get(),get(),get()) }
+  viewModel { params-> UpdateMotorRelationCircuitCountViewModel(relationId = params.get(),get(),get(),get(),get()) }
+  viewModel { params-> UpdateMotorPowerFactorViewMode(motorId = params.get(),get(),get(),get()) }
 
 }

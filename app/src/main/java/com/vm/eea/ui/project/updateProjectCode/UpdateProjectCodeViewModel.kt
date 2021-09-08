@@ -3,6 +3,7 @@ package com.vm.eea.ui.project.updateProjectCode
 import androidx.lifecycle.ViewModel
 import com.vm.eea.domain.project.GetProject
 import com.vm.eea.domain.project.UpdateProjectCode
+import com.vm.eea.ui.NavigationManager
 import com.vm.eea.utilities.SimpleText
 import com.vm.eea.utilities.Validator
 import com.vm.eea.utilities.notNullOrBlank
@@ -18,6 +19,7 @@ class UpdateProjectCodeViewModel(
     private val projectId: Long,
     private val getProject: GetProject,
     private val updateProjectCode: UpdateProjectCode,
+    private val navigationManager: NavigationManager
 ):ContainerHost<com.vm.eea.ui.panel.updatePanelCode.UiState,Nothing>,ViewModel() {
     override val container: Container<com.vm.eea.ui.panel.updatePanelCode.UiState, Nothing> = container(UiState.init()){
             onIO {
@@ -47,5 +49,6 @@ class UpdateProjectCodeViewModel(
 
     fun onSubmit()=intent{
         updateProjectCode(projectId,state.code,state.description)
+        navigationManager.back()
     }
 }

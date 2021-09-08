@@ -28,4 +28,4 @@ data class UpdateProjectTemperatureState(val pageTitle:String, val value:String,
 }
 }
 
-data class DefaultGroundTemperatureItem(val value: Temperature, val isCustom:Boolean, val isSelected:Boolean)
+

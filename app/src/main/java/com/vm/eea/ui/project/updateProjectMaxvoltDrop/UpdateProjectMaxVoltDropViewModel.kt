@@ -19,9 +19,9 @@ class UpdateProjectMaxVoltDropViewModel(
     private val relationType: RelationType,
     private val getProject: GetProject,
     private val updateProjectMaxVoltDrop: UpdateProjectMaxVoltDrop
-):ContainerHost<UpdateProjectMaxVoltDropState,Nothing>,ViewModel() {
-    override val container: Container<UpdateProjectMaxVoltDropState, Nothing>
-         = container(UpdateProjectMaxVoltDropState.init(relationType)){
+):ContainerHost<UiState,Nothing>,ViewModel() {
+    override val container: Container<UiState, Nothing>
+         = container(UiState.init(relationType)){
                      intent {
                          getProject(projectId).collect {
                              val currentValue=when(relationType){

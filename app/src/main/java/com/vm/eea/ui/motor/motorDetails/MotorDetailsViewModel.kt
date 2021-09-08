@@ -40,18 +40,28 @@ class MotorDetailsViewModel(
           PropertyItem("Power",motorDetails.motor.power(),true) { MotorDestinations.UpdateMotorPower(motorId) },
           PropertyItem("Powerfactor",motorDetails.motor.powerfactor(),true) { MotorDestinations.UpdateMotorPowerfactor(motorId)},
           PropertyItem("Demand Factor",motorDetails.motor.demandFactor(),true) { MotorDestinations.UpdateMotorDemandFactor(motorId) },
-          PropertyItem("Efficiency",motorDetails.motor.efficiency(),true) { NavigationCommand("") },
+          PropertyItem("Efficiency",motorDetails.motor.efficiency(),true) { MotorDestinations.UpdateMotorEfficiency(motorId)},
           PropertyItem("Feeder",motorDetails.feeder.code,true) { MotorDestinations.UpdateMotorFeeder(motorId) },
-          PropertyItem("Line length",motorDetails.relation.length(),true) { NavigationCommand("") },
-          PropertyItem("Method of installation",motorDetails.relation.methodOfInstallation(),true) {NavigationCommand("")},
-          PropertyItem("Max voltage drop",motorDetails.relation.maxVoltageDrop(),true) {NavigationCommand("")},
-          PropertyItem("Ambient temperature",motorDetails.relation.ambientTemperature(),true) {NavigationCommand("")},
-          PropertyItem("Ground temperature",motorDetails.relation.groundTemperature(),groundTemperatureVisibility) {NavigationCommand("")},
-          PropertyItem("Soil thermal resistivity",motorDetails.relation.soilThermalResistivity(),groundTemperatureVisibility) {NavigationCommand("")},
-          PropertyItem("Conductor",motorDetails.relation.conductor(),true) { NavigationCommand("") },
-          PropertyItem("Insulation",motorDetails.relation.insulation(),true) { NavigationCommand("") },
+          PropertyItem("Line length",motorDetails.relation.length(),true) { MotorDestinations.UpdateMotorFeedLineLength(motorDetails.relation.id)},
+          PropertyItem("Method of installation",motorDetails.relation.methodOfInstallation(),true) {
+              MotorDestinations.UpdateMotorRelationMethodOdInstallation(motorDetails.relation.id)
+                                                                                                   },
+          PropertyItem("Max voltage drop",motorDetails.relation.maxVoltageDrop(),true) {
+              MotorDestinations.UpdateMotorRelationMaxVoltDrop(motorDetails.relation.id)},
+          PropertyItem("Ambient temperature",motorDetails.relation.ambientTemperature(),true) {
+              MotorDestinations.UpdateMotorRelationAmbientTemperature(motorDetails.relation.id)},
+          PropertyItem("Ground temperature",motorDetails.relation.groundTemperature(),groundTemperatureVisibility) {
+              MotorDestinations.UpdateMotorRelationGroundTemperature(motorDetails.relation.id)},
+          PropertyItem("Soil thermal resistivity",motorDetails.relation.soilThermalResistivity(),groundTemperatureVisibility) {
+              MotorDestinations.UpdateMotorRelationSoilResistivity(motorDetails.relation.id)
+                                                                                                                              },
+          PropertyItem("Conductor",motorDetails.relation.conductor(),true) {
+              MotorDestinations.UpdateMotorRelationConductor(motorDetails.relation.id)
+                                                                           },
+          PropertyItem("Insulation",motorDetails.relation.insulation(),true) {
+              MotorDestinations.UpdateMotorRelationInsulation(motorDetails.relation.id) },
           PropertyItem("Circuits in the same conduit",motorDetails.relation.circuitCount(),true) {
-              NavigationCommand("")
+              MotorDestinations.UpdateMotorRelationCircuitCount(motorDetails.relation.id)
           },
       )
     }

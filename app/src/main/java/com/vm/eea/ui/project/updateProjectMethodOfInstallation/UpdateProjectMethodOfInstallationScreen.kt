@@ -16,8 +16,7 @@ import com.vm.eea.ui.components.Page1
 fun UpdateProjectMethodOfInstallationScreen(viewModel: UpdateProjectMethodOfInstallationViewModel) {
     val state by viewModel.container.stateFlow.collectAsState()
     Page1(pageTitle = "Method of installation") {
-        Column(modifier = Modifier.fillMaxSize().padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
             GridSelector(state.defaults,modifier= Modifier.padding(top=8.dp),){viewModel.onItemSelect(it)}
     }
     }

@@ -50,4 +50,7 @@ interface ILoadDao {
     @Query("UPDATE loads SET demand_factor_value = :value  WHERE id = :id")
     suspend fun updateDemandFactor(id: Long, value: Double)
 
+    @Query("UPDATE loads SET efficiency_value = :value  WHERE id = :id")
+    suspend fun updateEfficiency(id: Long, value: Double)
+
 }

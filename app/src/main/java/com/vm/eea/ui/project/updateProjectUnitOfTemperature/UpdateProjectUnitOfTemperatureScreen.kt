@@ -12,7 +12,7 @@ import com.vm.eea.ui.components.GridSelector
 @Composable
 fun UpdateProjectUnitOfTemperatureScreen(viewModel: UpdateProjectUnitOfTemperatureViewModel) {
     val state by viewModel.container.stateFlow.collectAsState()
-    FullPageDialog(pageTitle = "Unit of length") {
+    FullPageDialog(pageTitle = "Unit of temperature") {
         GridSelector(modifier = Modifier.padding(16.dp),items = state.defaults, onSelect = {viewModel.onItemSelect(it)})
     }
 }

@@ -2,7 +2,7 @@ package com.vm.eea.ui.panel.updatePanelFeedCircuitCount
 
 import androidx.lifecycle.ViewModel
 import com.vm.eea.domain.CircuitCount
-import com.vm.eea.domain.GetDefaultCircuitCounts
+import com.vm.eea.ui.GetDefaultCircuitCounts
 import com.vm.eea.domain.panelToPanelRelation.GetFeedingRelationByRelation
 import com.vm.eea.domain.panelToPanelRelation.UpdatePanelFeed
 import com.vm.eea.ui.NavigationManager

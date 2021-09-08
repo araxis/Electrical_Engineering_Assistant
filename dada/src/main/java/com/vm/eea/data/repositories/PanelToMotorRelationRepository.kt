@@ -7,6 +7,7 @@ import com.vm.eea.domain.LoadId
 import com.vm.eea.domain.PanelId
 import com.vm.eea.domain.panelToMotorRelation.IPanelToMotorRelationRepository
 import com.vm.eea.domain.panelToMotorRelation.PanelToMotorRelation
+import com.vm.eea.domain.panelToPanelRelation.PanelToPanelRelation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -22,50 +23,55 @@ class PanelToMotorRelationRepository(private val db: AppDatabase):IPanelToMotorR
 
     }
 
+    override  fun getFeederRelationById(relationId: RelationId): Flow<PanelToMotorRelation> {
+        return db.panelToMotorRelationDao().getFeederRelationById(relationId.id)
+            .map { it.toDomain() }
+    }
+
     override suspend fun updateSourceFeeder(loadId: LoadId, newFeeder: PanelId) {
         db.panelToMotorRelationDao().updateSource(loadId.id,newFeeder.id)
     }
 
     override suspend fun updateLength(relationId: RelationId, length: Length) {
-        TODO("Not yet implemented")
+        db.panelToMotorRelationDao().updateLength(relationId.id,length.value,length.unit)
     }
 
     override suspend fun updateMethodOfInstallation(
         relationId: RelationId,
         value: MethodOfInstallation,
     ) {
-        TODO("Not yet implemented")
+        db.panelToMotorRelationDao().updateMethodOfInstallation(relationId.id,value)
     }
 
     override suspend fun updateVoltDrop(relationId: RelationId, value: VoltDrop) {
-        TODO("Not yet implemented")
+        db.panelToMotorRelationDao().updateVoltDrop(relationId.id,value.value)
     }
 
     override suspend fun updateAmbientTemperature(relationId: RelationId, value: Temperature) {
-        TODO("Not yet implemented")
+        db.panelToMotorRelationDao().updateAmbientTemperature(relationId.id,value.value,value.unit)
     }
 
     override suspend fun updateGroundTemperature(relationId: RelationId, value: Temperature) {
-        TODO("Not yet implemented")
+        db.panelToMotorRelationDao().updateGroundTemperature(relationId.id,value.value,value.unit)
     }
 
     override suspend fun updateSoilThermalResistivity(
         relationId: RelationId,
         value: ThermalResistivity,
     ) {
-        TODO("Not yet implemented")
+        db.panelToMotorRelationDao().updateSoilThermalResistivity(relationId.id,value.value,value.unit)
     }
 
     override suspend fun updateConductor(relationId: RelationId, value: Conductor) {
-        TODO("Not yet implemented")
+       db.panelToMotorRelationDao().updateConductor(relationId.id,value)
     }
 
     override suspend fun updateInsulation(relationId: RelationId, value: Insulation) {
-        TODO("Not yet implemented")
+        db.panelToMotorRelationDao().updateInsulation(relationId.id,value)
     }
 
     override suspend fun updateCircuitCount(relationId: RelationId, value: CircuitCount) {
-        TODO("Not yet implemented")
+        db.panelToMotorRelationDao().updateCircuitCount(relationId.id,value.value)
     }
 
 
@@ -79,7 +85,7 @@ class PanelToMotorRelationRepository(private val db: AppDatabase):IPanelToMotorR
                 conductor = conductor,
                 ambientTemperature = ambientTemperature,
                 groundTemperature = groundTemperature,
-                id = id,
+                id = id.id,
                 fromPanelId = fromPanelId.id,
                 maxVoltageDrop = maxVoltageDrop,
                 soilThermalResistivityUnit = soilThermalResistivity,

@@ -41,6 +41,10 @@ class MotorRepository(private val db: AppDatabase): IMotorRepository {
         db.loadDao().updateDemandFactor(motorId.id,value.value)
     }
 
+    override suspend fun updateEfficiency(motorId: LoadId, efficiency: Efficiency) {
+        db.loadDao().updateEfficiency(motorId.id,efficiency.value)
+    }
+
     override suspend fun add(item: Motor): LoadId {
         val entity= with(item){
             LoadEntity(

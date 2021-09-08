@@ -5,6 +5,7 @@ import androidx.navigation.compose.NamedNavArgument
 import androidx.navigation.compose.navArgument
 import com.vm.eea.domain.Environment
 import com.vm.eea.domain.PowerSystem
+import com.vm.eea.domain.RelationId
 import com.vm.eea.domain.RelationType
 import com.vm.eea.domain.project.WireSizeType
 
@@ -265,6 +266,8 @@ object PanelDestinations{
                 =NavigationCommand("update/panel/circuitCount/$relationId")
     }
 
+
+
 }
 
 object MotorDestinations{
@@ -313,6 +316,70 @@ object MotorDestinations{
         override val route="motor/update/demandFactor/{motorId}"
         operator fun invoke(motorId: Long)
                 =NavigationCommand("motor/update/demandFactor/$motorId")
+    }
+
+    object UpdateMotorEfficiency:IDestination{
+        override val arguments = listOf(navArgument("motorId"){type= NavType.LongType})
+        override val route="motor/update/efficiency/{motorId}"
+        operator fun invoke(motorId: Long)
+                =NavigationCommand("motor/update/efficiency/$motorId")
+    }
+
+    object UpdateMotorFeedLineLength:IDestination{
+        override val arguments = listOf(navArgument("relationId"){type= NavType.LongType})
+        override val route="motor/update/lineLength/{relationId}"
+        operator fun invoke(relationId: RelationId)
+                =NavigationCommand("motor/update/lineLength/${relationId.id}")
+    }
+    object UpdateMotorRelationMethodOdInstallation:IDestination{
+        override val arguments = listOf(navArgument("relationId"){type= NavType.LongType})
+        override val route="motor/update/methodOfInstallation/{relationId}"
+        operator fun invoke(relationId: RelationId)
+                =NavigationCommand("motor/update/methodOfInstallation/${relationId.id}")
+    }
+    object UpdateMotorRelationMaxVoltDrop:IDestination{
+        override val arguments = listOf(navArgument("relationId"){type= NavType.LongType})
+        override val route="motor/update/maxVoltDrop/{relationId}"
+        operator fun invoke(relationId: RelationId)
+                =NavigationCommand("motor/update/maxVoltDrop/${relationId.id}")
+    }
+    object UpdateMotorRelationAmbientTemperature:IDestination{
+        override val arguments = listOf(navArgument("relationId"){type= NavType.LongType})
+        override val route="motor/update/ambientTemperature/{relationId}"
+        operator fun invoke(relationId: RelationId)
+                =NavigationCommand("motor/update/ambientTemperature/${relationId.id}")
+    }
+    object UpdateMotorRelationGroundTemperature:IDestination{
+        override val arguments = listOf(navArgument("relationId"){type= NavType.LongType})
+        override val route="motor/update/groundTemperature/{relationId}"
+        operator fun invoke(relationId: RelationId)
+                =NavigationCommand("motor/update/groundTemperature/${relationId.id}")
+    }
+
+    object UpdateMotorRelationSoilResistivity:IDestination{
+        override val arguments = listOf(navArgument("relationId"){type= NavType.LongType})
+        override val route="motor/update/soilResistivity/{relationId}"
+        operator fun invoke(relationId: RelationId)
+                =NavigationCommand("motor/update/soilResistivity/${relationId.id}")
+    }
+
+    object UpdateMotorRelationInsulation:IDestination{
+        override val arguments = listOf(navArgument("relationId"){type= NavType.LongType})
+        override val route="motor/update/insulation/{relationId}"
+        operator fun invoke(relationId: RelationId)
+                =NavigationCommand("motor/update/insulation/${relationId.id}")
+    }
+    object UpdateMotorRelationConductor:IDestination{
+        override val arguments = listOf(navArgument("relationId"){type= NavType.LongType})
+        override val route="motor/update/conductor/{relationId}"
+        operator fun invoke(relationId: RelationId)
+                =NavigationCommand("motor/update/conductor/${relationId.id}")
+    }
+    object UpdateMotorRelationCircuitCount:IDestination{
+        override val arguments = listOf(navArgument("relationId"){type= NavType.LongType})
+        override val route="motor/update/circuitCount/{relationId}"
+        operator fun invoke(relationId: RelationId)
+                =NavigationCommand("motor/update/circuitCount/${relationId.id}")
     }
 }
 

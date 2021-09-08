@@ -24,9 +24,9 @@ class UpdateProjectWireSizeViewModel(
     private val getProject: GetProject,
     private val updateProjectWireSize: UpdateProjectWireSize,
     private val navigationManager: NavigationManager
-):ContainerHost<UpdateProjectWireSizeState,Nothing>,ViewModel() {
-    override val container: Container<UpdateProjectWireSizeState, Nothing>
-         = container(UpdateProjectWireSizeState.init(sizingType)){
+):ContainerHost<UiState,Nothing>,ViewModel() {
+    override val container: Container<UiState, Nothing>
+         = container(UiState.init(sizingType)){
         intent {
             getProject(projectId).flatMapMerge {
                 getDefaultWireSizes(it.unitOfWireSize)

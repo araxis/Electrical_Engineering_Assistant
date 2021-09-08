@@ -15,4 +15,4 @@ data class PanelToMotorRelation(val fromPanelId: PanelId,
                                 val conductor: Conductor,
                                 val insulation: Insulation,
                                 val circuitCount: CircuitCount,
-                                val id:Long=0)
+                                val id:RelationId=RelationId(0))

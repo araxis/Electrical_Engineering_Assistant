@@ -28,16 +28,16 @@ fun<T> GridSelector(items:List<SelectableItem<T>>, modifier: Modifier = Modifier
 
 
     LazyVerticalGrid(modifier=modifier,
-        cells = GridCells.Fixed(cols),
+        cells = GridCells.Adaptive(160.dp),
     ) {
         itemsIndexed(items){ index, it->
-            val base= Modifier.clickable { onSelect(it.value) }
+            val base= Modifier
             val padding=if(!index.isOdd()){
                 base.padding(end = 4.dp,bottom = 8.dp)
             }else{
                 base.padding(start = 4.dp,bottom = 8.dp)
             }
-            SelectableItemView(modifier = padding,item = it,render = render)
+            SelectableItemView(modifier = padding.clickable { onSelect(it.value) },item = it,render = render)
         }
 
     }
@@ -109,7 +109,7 @@ fun<T> SelectableItemView(
     render: (@Composable (T) -> Unit)? = null,
     ) {
     Surface(modifier = modifier
-        ,elevation = if(item.isSelected) 10.dp else 4.dp) {
+        ,elevation =2.dp) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Spacer(modifier = Modifier.width(24.dp))
             if(render==null){

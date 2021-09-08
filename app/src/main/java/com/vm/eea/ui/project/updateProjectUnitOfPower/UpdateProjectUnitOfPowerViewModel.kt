@@ -20,9 +20,9 @@ class UpdateProjectUnitOfPowerViewModel(
     private val getProject: GetProject,
     private val updateProjectUnitOfPower: UpdateProjectUnitOfPower,
     private val navigationManager: NavigationManager
-):ContainerHost<UpdateProjectUnitOfPowerState,Nothing>,ViewModel() {
-    override val container: Container<UpdateProjectUnitOfPowerState, Nothing>
-         = container(UpdateProjectUnitOfPowerState(emptyList())){
+):ContainerHost<UiState,Nothing>,ViewModel() {
+    override val container: Container<UiState, Nothing>
+         = container(UiState(emptyList())){
         onIO {
             getProject(projectId).map {
                 UnitOfPower.values().map { o-> SelectableItem(o,o==it.unitOfPower) }

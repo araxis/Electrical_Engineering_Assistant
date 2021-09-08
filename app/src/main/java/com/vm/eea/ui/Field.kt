@@ -1,13 +1,15 @@
 package com.vm.eea.ui
 
-import com.vm.eea.domain.UnitOfLength
-import com.vm.eea.domain.UnitOfPower
-import com.vm.eea.domain.UnitOfVoltage
+import com.vm.eea.domain.*
 import com.vm.eea.utilities.IText
 typealias PowerField=Field<UnitOfPower>
 typealias VoltageField=Field<UnitOfVoltage>
+typealias VoltDropField=StringField
+typealias CircuitCountField=StringField
 typealias PowerfactorField=Field<String>
 typealias LengthField=Field<UnitOfLength>
+typealias TemperatureField=Field<UnitOfTemperature>
+typealias ThermalResistivityField=Field<UnitOfThermalResistivity>
 typealias EfficiencyField=Field<String>
 typealias StringField=Field<String>
 
@@ -16,6 +18,7 @@ typealias PowerListener =(String, UnitOfPower)->Unit
 typealias VoltageListener =(String, UnitOfVoltage)->Unit
 typealias EfficiencyListener = StringListener
 typealias PowerfactorListener =StringListener
+typealias VoltDropListener =StringListener
 typealias LengthListener =(String, UnitOfLength)->Unit
 
 

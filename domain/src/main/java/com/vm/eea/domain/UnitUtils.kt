@@ -1,5 +1,6 @@
 package com.vm.eea.domain
 
+import com.vm.eea.domain.project.ProjectId
 import java.text.DecimalFormat
 
 
@@ -31,6 +32,8 @@ val Number.toPowerfactor get()= PowerFactor(this)
 val Number.toEfficiency get()= Efficiency(this)
 fun Long.toMotorId()=LoadId(this)
 fun Long.toPanelId()=PanelId(this)
+fun Long.toProjectId()= ProjectId(this)
+fun Long.toRelationId()= RelationId(this)
 //infix fun Number.be(unit:CurrentType) = Current(toDouble(),unit)
 //infix fun String.be(unit:CurrentType) = toDouble() be unit
 //

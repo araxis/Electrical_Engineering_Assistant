@@ -1,5 +1,6 @@
-package com.vm.eea.domain
+package com.vm.eea.ui
 
+import com.vm.eea.domain.CircuitCount
 import kotlinx.coroutines.flow.flow
 
 class GetDefaultCircuitCounts {
@@ -18,7 +19,6 @@ class GetDefaultCircuitCounts {
            CircuitCount(12),
            CircuitCount(16),
            CircuitCount(20),
-
        ))
     }
 

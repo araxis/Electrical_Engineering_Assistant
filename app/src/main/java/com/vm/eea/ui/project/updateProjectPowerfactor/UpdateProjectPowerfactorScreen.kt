@@ -1,6 +1,7 @@
 package com.vm.eea.ui.project.updateProjectPowerfactor
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -32,20 +33,20 @@ fun UpdateProjectPowerfactorScreen(viewModel: UpdateProjectPowerfactorViewModel)
     FullPageDialog(pageTitle =state.pageTitle,
         canSubmit = state.canSubmit,
         onSubmit = { viewModel.onSubmit(true)}) {
-        Column(modifier = Modifier
+        Column(modifier = Modifier.fillMaxSize()
             .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally) {
-            Surface {
+           ) {
 
-                PowerFactorInput("Feed Length",value = state.value,
-                    modifier = Modifier.padding(top=8.dp,start = 16.dp,bottom = 16.dp,end = 16.dp),
+
+                PowerFactorInput("Power factor",value = state.value,
+
                     error = state.error,
                     keyboardActions = keyboardActions,
                     keyboardOptions = keyboardOptions) { value ->
                     viewModel.onChange(value)
                 }
 
-            }
+
             GridSelector(modifier = Modifier.padding(top=16.dp),items = state.defaults,
                 onSelect = {viewModel.onDefaultItemSelect(it)})
 

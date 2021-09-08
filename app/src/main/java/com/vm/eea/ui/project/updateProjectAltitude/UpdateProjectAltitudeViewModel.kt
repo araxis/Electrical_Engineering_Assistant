@@ -26,9 +26,9 @@ class UpdateProjectAltitudeViewModel(
     private val navigationManager: NavigationManager,
     private val updateProjectAltitude: UpdateProjectAltitude,
     private val getDefaultAltitudes: GetDefaultAltitudes
-):ContainerHost<UpdateProjectAltitudeState,Nothing> ,ViewModel() {
-    override val container: Container<UpdateProjectAltitudeState, Nothing> =
-        container(UpdateProjectAltitudeState.init()){
+):ContainerHost<UiState,Nothing> ,ViewModel() {
+    override val container: Container<UiState, Nothing> =
+        container(UiState.init()){
             intent {
                 val projectFlow=getProject(projectId)
                 val defaultsFlow=getDefaultAltitudes()

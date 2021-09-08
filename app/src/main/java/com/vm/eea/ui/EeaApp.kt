@@ -18,20 +18,41 @@ import com.vm.eea.domain.Environment
 import com.vm.eea.domain.PowerSystem
 import com.vm.eea.domain.RelationType
 import com.vm.eea.domain.project.WireSizeType
+import com.vm.eea.domain.toRelationId
 import com.vm.eea.ui.motor.addMotor.AddMotorScreen
 import com.vm.eea.ui.motor.addMotor.AddMotorViewModel
 import com.vm.eea.ui.motor.motorDetails.MotorDetailsScreen
 import com.vm.eea.ui.motor.motorDetails.MotorDetailsViewModel
 import com.vm.eea.ui.motor.updateMotor.updateDemanFactor.UpdateMotorDemandFactorScreen
 import com.vm.eea.ui.motor.updateMotor.updateDemanFactor.UpdateMotorDemandFactorViewMode
+import com.vm.eea.ui.motor.updateMotor.updateEfficiency.UpdateEfficiencyScreen
+import com.vm.eea.ui.motor.updateMotor.updateEfficiency.UpdateEfficiencyViewModel
 import com.vm.eea.ui.motor.updateMotor.updateMotorCode.UpdateMotorCodeScreen
 import com.vm.eea.ui.motor.updateMotor.updateMotorCode.UpdateMotorCodeViewModel
+import com.vm.eea.ui.motor.updateMotor.updateMotorFeedLineLength.UpdateMotorFeedLineLengthScreen
+import com.vm.eea.ui.motor.updateMotor.updateMotorFeedLineLength.UpdateMotorFeedLineLengthViewModel
 import com.vm.eea.ui.motor.updateMotor.updateMotorFeeder.UpdateMotorFeederScreen
 import com.vm.eea.ui.motor.updateMotor.updateMotorFeeder.UpdateMotorFeederViewModel
 import com.vm.eea.ui.motor.updateMotor.updateMotorPower.UpdateMotorPowerScreen
 import com.vm.eea.ui.motor.updateMotor.updateMotorPower.UpdateMotorPowerViewModel
 import com.vm.eea.ui.motor.updateMotor.updateMotorPowerfactor.UpdateMotorPowerFactorViewMode
 import com.vm.eea.ui.motor.updateMotor.updateMotorPowerfactor.UpdateMotorPowerfactorScreen
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationAmbientTemperature.UpdateMotorRelationAmbientTemperatureScreen
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationAmbientTemperature.UpdateMotorRelationAmbientTemperatureViewModel
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationCircuitCount.UpdateMotorRelationCircuitCountScreen
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationCircuitCount.UpdateMotorRelationCircuitCountViewModel
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationConductor.UpdateMotorRelationConductorScreen
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationConductor.UpdateMotorRelationConductorViewModel
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationGroundTemperature.UpdateMotorRelationGroundTemperatureScreen
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationGroundTemperature.UpdateMotorRelationGroundTemperatureViewModel
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationInsulation.UpdateMotorRelationInsulationScreen
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationInsulation.UpdateMotorRelationInsulationViewModel
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationMaxVoltDrop.UpdateMotorRelationMaxVoltDropScreen
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationMaxVoltDrop.UpdateMotorRelationMaxVoltDropViewModel
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationMethodOfInstallation.UpdateMotorFeedMethodOfInstallationScreen
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationMethodOfInstallation.UpdateMotorFeedMethodOfInstallationViewModel
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationSoilResistivity.UpdateMotorRelationSoilResistivityScreen
+import com.vm.eea.ui.motor.updateMotor.updateMotorRelationSoilResistivity.UpdateMotorRelationThermalResistivityViewModel
 import com.vm.eea.ui.panel.addPanle.AddPanelScreen
 import com.vm.eea.ui.panel.addPanle.AddPanelViewModel
 import com.vm.eea.ui.panel.panelDetails.PanelDetailsScreen
@@ -358,10 +379,60 @@ fun EeaApp(navigationManager: NavigationManager){
                              val viewModel: UpdateMotorDemandFactorViewMode = getViewModel(parameters = { parametersOf(projectId)})
                              UpdateMotorDemandFactorScreen(viewModel)
                          }
+
+                         composable(MotorDestinations.UpdateMotorEfficiency){
+                             val projectId=it.arguments?.getLong("motorId")?:-1
+                             val viewModel: UpdateEfficiencyViewModel = getViewModel(parameters = { parametersOf(projectId)})
+                             UpdateEfficiencyScreen(viewModel)
+                         }
+
+                         composable(MotorDestinations.UpdateMotorFeedLineLength){
+                             val projectId=it.arguments?.getLong("relationId")?:-1
+                             val viewModel: UpdateMotorFeedLineLengthViewModel = getViewModel(parameters = { parametersOf(projectId.toRelationId())})
+                             UpdateMotorFeedLineLengthScreen(viewModel)
+                         }
+                         composable(MotorDestinations.UpdateMotorRelationMethodOdInstallation){
+                             val projectId=it.arguments?.getLong("relationId")?:-1
+                             val viewModel: UpdateMotorFeedMethodOfInstallationViewModel = getViewModel(parameters = { parametersOf(projectId.toRelationId())})
+                             UpdateMotorFeedMethodOfInstallationScreen(viewModel)
+                         }
+                         composable(MotorDestinations.UpdateMotorRelationMaxVoltDrop){
+                             val projectId=it.arguments?.getLong("relationId")?:-1
+                             val viewModel: UpdateMotorRelationMaxVoltDropViewModel = getViewModel(parameters = { parametersOf(projectId.toRelationId())})
+                             UpdateMotorRelationMaxVoltDropScreen(viewModel)
+                         }
+
+                         composable(MotorDestinations.UpdateMotorRelationAmbientTemperature){
+                             val projectId=it.arguments?.getLong("relationId")?:-1
+                             val viewModel: UpdateMotorRelationAmbientTemperatureViewModel = getViewModel(parameters = { parametersOf(projectId.toRelationId())})
+                             UpdateMotorRelationAmbientTemperatureScreen(viewModel)
+                         }
+                         composable(MotorDestinations.UpdateMotorRelationGroundTemperature){
+                             val projectId=it.arguments?.getLong("relationId")?:-1
+                             val viewModel: UpdateMotorRelationGroundTemperatureViewModel = getViewModel(parameters = { parametersOf(projectId.toRelationId())})
+                             UpdateMotorRelationGroundTemperatureScreen(viewModel)
+                         }
+                         composable(MotorDestinations.UpdateMotorRelationSoilResistivity){
+                             val projectId=it.arguments?.getLong("relationId")?:-1
+                             val viewModel: UpdateMotorRelationThermalResistivityViewModel = getViewModel(parameters = { parametersOf(projectId.toRelationId())})
+                             UpdateMotorRelationSoilResistivityScreen(viewModel)
+                         }
+                         composable(MotorDestinations.UpdateMotorRelationInsulation){
+                             val projectId=it.arguments?.getLong("relationId")?:-1
+                             val viewModel: UpdateMotorRelationInsulationViewModel = getViewModel(parameters = { parametersOf(projectId.toRelationId())})
+                             UpdateMotorRelationInsulationScreen(viewModel)
+                         }
+                         composable(MotorDestinations.UpdateMotorRelationConductor){
+                             val projectId=it.arguments?.getLong("relationId")?:-1
+                             val viewModel: UpdateMotorRelationConductorViewModel = getViewModel(parameters = { parametersOf(projectId.toRelationId())})
+                             UpdateMotorRelationConductorScreen(viewModel)
+                         }
+                         composable(MotorDestinations.UpdateMotorRelationCircuitCount){
+                             val projectId=it.arguments?.getLong("relationId")?:-1
+                             val viewModel: UpdateMotorRelationCircuitCountViewModel = getViewModel(parameters = { parametersOf(projectId.toRelationId())})
+                             UpdateMotorRelationCircuitCountScreen(viewModel)
+                         }
                      }
-
-
-
 
                 }
 

@@ -20,9 +20,9 @@ class UpdateProjectUnitOfLengthViewModel(
     private val getProject: GetProject,
     private val updateProjectUnitOfLength: UpdateProjectUnitOfLength,
     private val navigationManager: NavigationManager
-):ContainerHost<UpdateProjectUnitOfLengthState,Nothing>,ViewModel() {
-    override val container: Container<UpdateProjectUnitOfLengthState, Nothing>
-         = container(UpdateProjectUnitOfLengthState(emptyList())){
+):ContainerHost<UiState,Nothing>,ViewModel() {
+    override val container: Container<UiState, Nothing>
+         = container(UiState(emptyList())){
         onIO {
             getProject(projectId).map {
                 UnitOfLength.values().map { o-> SelectableItem(o,o==it.unitOfLength) }

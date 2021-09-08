@@ -20,9 +20,9 @@ class UpdateProjectUnitOfTemperatureViewModel(
     private val getProject: GetProject,
     private val updateProjectUnitOfTemperature: UpdateProjectUnitOfTemperature,
     private val navigationManager: NavigationManager
-):ContainerHost<UpdateProjectUnitOfTemperatureState,Nothing>,ViewModel() {
-    override val container: Container<UpdateProjectUnitOfTemperatureState, Nothing>
-         = container(UpdateProjectUnitOfTemperatureState(emptyList())){
+):ContainerHost<UiState,Nothing>,ViewModel() {
+    override val container: Container<UiState, Nothing>
+         = container(UiState(emptyList())){
         onIO {
             getProject(projectId).map {
                 UnitOfTemperature.values().map { o-> SelectableItem(o,o==it.unitOfTemperature) }

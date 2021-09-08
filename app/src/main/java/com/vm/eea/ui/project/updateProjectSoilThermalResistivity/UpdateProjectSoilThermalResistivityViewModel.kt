@@ -27,9 +27,9 @@ class UpdateProjectSoilThermalResistivityViewModel(
     private val navigationManager: NavigationManager,
     private val updateProjectSoilResistivity: UpdateProjectSoilResistivity,
     private val getDefaultSoilResistivity: GetDefaultSoilResistivity
-):ContainerHost<UpdateProjectSoilThermalResistivityState,Nothing> ,ViewModel() {
-    override val container: Container<UpdateProjectSoilThermalResistivityState, Nothing> =
-        container(UpdateProjectSoilThermalResistivityState.init()){
+):ContainerHost<UiState,Nothing> ,ViewModel() {
+    override val container: Container<UiState, Nothing> =
+        container(UiState.init()){
             intent {
                 val projectFlow=getProject(projectId)
                 val defaultsFlow=getDefaultSoilResistivity()

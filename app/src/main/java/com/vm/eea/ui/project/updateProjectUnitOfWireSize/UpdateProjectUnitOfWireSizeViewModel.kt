@@ -20,9 +20,9 @@ class UpdateProjectUnitOfWireSizeViewModel(
     private val getProject: GetProject,
     private val updateProjectUnitOfWireSize: UpdateProjectUnitOfWireSize,
     private val navigationManager: NavigationManager
-):ContainerHost<UpdateProjectUnitOfWireSizeState,Nothing>,ViewModel() {
-    override val container: Container<UpdateProjectUnitOfWireSizeState, Nothing>
-         = container(UpdateProjectUnitOfWireSizeState(emptyList())){
+):ContainerHost<UiStat,Nothing>,ViewModel() {
+    override val container: Container<UiStat, Nothing>
+         = container(UiStat(emptyList())){
         onIO {
             getProject(projectId).map {
                 UnitOfWireSize.values().map { o-> SelectableItem(o,o==it.unitOfWireSize) }

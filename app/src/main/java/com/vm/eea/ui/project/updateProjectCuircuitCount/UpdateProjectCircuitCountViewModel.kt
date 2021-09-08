@@ -2,7 +2,7 @@ package com.vm.eea.ui.project.updateProjectCuircuitCount
 
 import androidx.lifecycle.ViewModel
 import com.vm.eea.domain.CircuitCount
-import com.vm.eea.domain.GetDefaultCircuitCounts
+import com.vm.eea.ui.GetDefaultCircuitCounts
 import com.vm.eea.domain.project.GetProject
 import com.vm.eea.domain.project.UpdateProjectCircuitCount
 import com.vm.eea.ui.NavigationManager
@@ -20,9 +20,9 @@ class UpdateProjectCircuitCountViewModel(private val projectId:Long,
                                          private val getProject: GetProject,
                                          private val updateProjectCircuitCount: UpdateProjectCircuitCount,
                                          private val getDefaultCircuitCounts: GetDefaultCircuitCounts,
-                                         private val navigationManager: NavigationManager):ContainerHost<UpdateProjectCircuitCountState,Nothing>,ViewModel() {
-    override val container: Container<UpdateProjectCircuitCountState, Nothing>
-         = container(UpdateProjectCircuitCountState(emptyList())){
+                                         private val navigationManager: NavigationManager):ContainerHost<UiState,Nothing>,ViewModel() {
+    override val container: Container<UiState, Nothing>
+         = container(UiState(emptyList())){
             intent{
                 val projectFlow=getProject(projectId)
                 val defaultsFlow=getDefaultCircuitCounts()

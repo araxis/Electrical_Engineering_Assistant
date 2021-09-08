@@ -17,4 +17,5 @@ interface IMotorRepository {
     suspend fun replaceStartPaths(projectId: Long, oldStartPath: SupplyPath, newStartPath: SupplyPath)
     suspend fun updatePowerfactor(motorId: LoadId, powerfactor: PowerFactor)
     suspend fun updateDemandFactor(motorId: LoadId, value: PowerFactor)
+    suspend fun updateEfficiency(motorId: LoadId, efficiency: Efficiency)
 }
