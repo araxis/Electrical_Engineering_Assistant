@@ -1,13 +1,16 @@
 package com.vm.eea.ui.project.updateProjectMaxvoltDrop
 
 import androidx.lifecycle.ViewModel
-import com.vm.eea.domain.RelationType
-import com.vm.eea.domain.VoltDrop
-import com.vm.eea.domain.format
-import com.vm.eea.domain.project.GetProject
-import com.vm.eea.domain.project.UpdateProjectMaxVoltDrop
-import com.vm.eea.utilities.*
-import kotlinx.coroutines.flow.collect
+import com.vm.eea.application.VoltDrop
+import com.vm.eea.application.format
+import com.vm.eea.application.project.IGetProjectMaxVoltDrop
+import com.vm.eea.application.project.ProjectId
+import com.vm.eea.application.project.RelationType
+import com.vm.eea.application.project.update.UpdateProjectMaxVoltDrop
+import com.vm.eea.utilities.SimpleText
+import com.vm.eea.utilities.Validator
+import com.vm.eea.utilities.inRange
+import com.vm.eea.utilities.onIO
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -15,23 +18,20 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 
 class UpdateProjectMaxVoltDropViewModel(
-    private val projectId: Long,
+    private val projectId: ProjectId,
     private val relationType: RelationType,
-    private val getProject: GetProject,
-    private val updateProjectMaxVoltDrop: UpdateProjectMaxVoltDrop
+    private val getProject: IGetProjectMaxVoltDrop,
+    private val updater: UpdateProjectMaxVoltDrop
 ):ContainerHost<UiState,Nothing>,ViewModel() {
     override val container: Container<UiState, Nothing>
          = container(UiState.init(relationType)){
-                     intent {
-                         getProject(projectId).collect {
-                             val currentValue=when(relationType){
-                                 RelationType.PanelToPanel -> it.panelToPanelMaxVoltDrop
-                                 RelationType.PanelToMotor -> it.panelToMotorMaxVoltDrop
-                             }
-                         reduce { state.copy(value = currentValue.value.format(),canExecute = true) }
-                     }
+                    onIO {
+                        val voltDrop=getProject(projectId,relationType)
+                        intent {
 
-             }
+                            reduce { state.copy(value = voltDrop.value.format(),canExecute = true) }
+                        }
+                    }
     }
 
     fun onChange(value:String)=intent{
@@ -42,6 +42,6 @@ class UpdateProjectMaxVoltDropViewModel(
     }
 
    fun onSubmit()=intent{
-        updateProjectMaxVoltDrop(projectId, VoltDrop(state.value.toDouble()),relationType)
+       updater(projectId, VoltDrop(state.value.toDouble()),relationType)
     }
 }

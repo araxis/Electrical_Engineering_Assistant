@@ -3,26 +3,24 @@ package com.vm.eea.data.model
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.vm.eea.domain.*
-import com.vm.eea.domain.project.Project
-import com.vm.eea.domain.project.ProjectId
+import com.vm.eea.application.*
 
 
 @Entity(tableName = "projects")
 data class ProjectEntity(
     val code:String,
     val description: String,
-    val unitOfVoltage: UnitOfVoltage,
-    val unitOfOfPower: UnitOfPower,
-    val unitOfLength: UnitOfLength,
+    val unitOfVoltage: Voltage.Unit,
+    val unitOfOfPower: Power.Unit,
+    val unitOfLength: Length.Unit,
     val unitOfTemperature: UnitOfTemperature,
     val unitOfWireSize: UnitOfWireSize,
-    @Embedded(prefix = "one_phase_voltage_")
-    val singlePhaseVoltage: Voltage,
-    @Embedded(prefix = "two_phase_voltage_")
-    val twoPhaseVoltage: Voltage,
-    @Embedded(prefix = "three_phase_voltage_")
-    val threePhaseVoltage: Voltage,
+   // @Embedded(prefix = "one_phase_voltage_")
+    val singlePhaseVoltageInVolt: Double,
+   // @Embedded(prefix = "two_phase_voltage_")
+    val twoPhaseVoltageInVolt: Double,
+   // @Embedded(prefix = "three_phase_voltage_")
+    val threePhaseVoltageInVolt: Double,
     @Embedded(prefix = "altitude_")
     val altitude: Length,
     val methodOfInstallation: MethodOfInstallation,
@@ -35,11 +33,12 @@ data class ProjectEntity(
     val conductor: Conductor,
     val insulation: Insulation,
     @Embedded(prefix = "single_phase_powerfactor_")
-    val singlePhasePowerFactor: PowerFactor,
+    val singlePhaseCosPhi: CosPhi,
     @Embedded(prefix = "two_phase_powerfactor_")
-    val twoPhasePowerFactor: PowerFactor,
+    val twoPhaseCosPhi: CosPhi,
     @Embedded(prefix = "three_phase_powerfactor_")
-    val threePhasePowerFactor: PowerFactor,
+    val threePhaseCosPhi: CosPhi,
+
     @Embedded(prefix = "panel_panel_volt_drop_")
     val panelToPanelMaxVoltDrop: VoltDrop,
     @Embedded(prefix = "panel_motor_volt_drop_")
@@ -51,38 +50,8 @@ data class ProjectEntity(
     @Embedded(prefix = "min_wire_size_")
     val minWireSize: WireSize,
     val standard: Standard,
-
     val isDeleted:Boolean=false,
     @PrimaryKey(autoGenerate = true)  val id: Long=0
 
 
-){
-    fun toDomain()= Project(singlePhaseVoltage = singlePhaseVoltage,
-    twoPhaseVoltage = twoPhaseVoltage,
-     code = code,
-    description = description,
-    id = ProjectId(id),
-    methodOfInstallation = methodOfInstallation,
-    ambientTemperature = ambientTemperature,
-    groundTemperature = groundTemperature,
-    conductor = conductor,
-    insulation = insulation,
-    maxWireSize = maxWireSize,
-    unitOfWireSize = unitOfWireSize,
-     unitOfLength = unitOfLength,
-    unitOfTemperature = unitOfTemperature,
-    unitOfPower = unitOfOfPower,
-    panelToMotorMaxVoltDrop = panelToMotorMaxVoltDrop,
-    panelToPanelMaxVoltDrop = panelToPanelMaxVoltDrop,
-    soilResistivity = soilResistivity,
-    altitude = altitude,
-    threePhasePowerFactor = threePhasePowerFactor,
-    threePhaseVoltage = threePhaseVoltage,
-    standard = standard,
-    singlePhasePowerFactor = singlePhasePowerFactor,
-    circuitInTheSameConduit = circuitInTheSameConduit,
-    isDeleted = isDeleted,
-    minWireSize = minWireSize,
-    twoPhasePowerFactor = twoPhasePowerFactor,
-    unitOfOfVoltage = unitOfVoltage)
-}
+)

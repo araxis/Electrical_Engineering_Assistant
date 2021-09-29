@@ -1,9 +1,10 @@
 package com.vm.eea.ui.panel.updatePanelFeedTemperature
 
-import com.vm.eea.domain.Environment
-import com.vm.eea.domain.Temperature
-import com.vm.eea.domain.UnitOfTemperature
-import com.vm.eea.ui.SelectableItem
+
+import com.vm.eea.application.Environment
+import com.vm.eea.application.SelectableItem
+import com.vm.eea.application.Temperature
+import com.vm.eea.application.UnitOfTemperature
 import com.vm.eea.utilities.IText
 
 data class UiState(val pageTitle:String,

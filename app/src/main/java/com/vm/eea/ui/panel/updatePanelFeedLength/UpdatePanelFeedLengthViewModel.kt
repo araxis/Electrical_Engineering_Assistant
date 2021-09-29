@@ -1,14 +1,17 @@
 package com.vm.eea.ui.panel.updatePanelFeedLength
 
 import androidx.lifecycle.ViewModel
-import com.vm.eea.domain.UnitOfLength
-import com.vm.eea.domain.be
-import com.vm.eea.domain.format
-import com.vm.eea.domain.panelToPanelRelation.GetFeedingRelationByRelation
-import com.vm.eea.domain.panelToPanelRelation.UpdatePanelFeed
+import com.vm.eea.application.Length
+import com.vm.eea.application.RelationId
+import com.vm.eea.application.be
+import com.vm.eea.application.format
+import com.vm.eea.application.panelToPanelRelation.IGetPanelFeedLength
+import com.vm.eea.application.panelToPanelRelation.UpdatePanelFeedLength
 import com.vm.eea.ui.NavigationManager
-import com.vm.eea.utilities.*
-import kotlinx.coroutines.flow.collect
+import com.vm.eea.utilities.SimpleText
+import com.vm.eea.utilities.Validator
+import com.vm.eea.utilities.onIO
+import com.vm.eea.utilities.positiveNumber
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -16,21 +19,21 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 
 class UpdatePanelFeedLengthViewModel(
-    private val relationId: Long,
-    private val updatePanelFeedLength: UpdatePanelFeed,
-    private val getFeedingRelationByRelation: GetFeedingRelationByRelation,
+    private val relationId: RelationId,
+    private val updatePanelFeedLength: UpdatePanelFeedLength,
+    private val getInfo: IGetPanelFeedLength,
     private val navigationManager: NavigationManager
 ):ContainerHost<UiState,Nothing> ,ViewModel() {
     override val container: Container<UiState, Nothing>
          = container(UiState.init()){
-             intent {
-                 getFeedingRelationByRelation(relationId).collect {
-                     reduce { state.copy(value = it.length.value.format(),unit = it.length.unit,canExecute = true) }
-                 }
-             }
+                onIO {
+                    val current=getInfo(relationId)
+                    intent {reduce { state.copy(value = current.value.format(),unit = current.unit,canExecute = true) }}
+                }
+
     }
 
-    fun onLengthChange(value:String,unit: UnitOfLength)=intent{
+    fun onLengthChange(value:String,unit: Length.Unit)=intent{
        val validationResult=Validator.validate.positiveNumber(value,"")
         reduce {
             state.copy(value=value,

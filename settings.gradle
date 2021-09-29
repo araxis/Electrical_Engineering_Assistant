@@ -8,5 +8,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Electrical Engineering Assistant"
 include ':app'
-include ':domain'
 include ':dada'
+include ':application'

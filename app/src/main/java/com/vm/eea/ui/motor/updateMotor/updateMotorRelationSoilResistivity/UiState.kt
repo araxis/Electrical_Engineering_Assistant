@@ -1,8 +1,6 @@
 package com.vm.eea.ui.motor.updateMotor.updateMotorRelationSoilResistivity
 
-import com.vm.eea.domain.UnitOfThermalResistivity
-import com.vm.eea.ui.Field
-import com.vm.eea.ui.ThermalResistivityField
+import com.vm.eea.application.SelectableItem
+import com.vm.eea.application.ThermalResistivity
 
-data class UiState(val resistivity:ThermalResistivityField= Field.empty(UnitOfThermalResistivity.MW), val canSubmit:Boolean=false) {
-}
+data class UiState(val items:List<SelectableItem<ThermalResistivity>> = emptyList())

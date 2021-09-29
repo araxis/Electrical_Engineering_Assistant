@@ -1,19 +1,17 @@
 package com.vm.eea.ui.project.updateProjectSoilThermalResistivity
 
 import androidx.lifecycle.ViewModel
-import com.vm.eea.domain.ThermalResistivity
-import com.vm.eea.domain.UnitOfThermalResistivity
-import com.vm.eea.domain.defaultSiolResistivity.GetDefaultSoilResistivity
-import com.vm.eea.domain.project.GetProject
-import com.vm.eea.domain.project.UpdateProjectSoilResistivity
+import com.vm.eea.application.ThermalResistivity
+import com.vm.eea.application.UnitOfThermalResistivity
+import com.vm.eea.application.format
+import com.vm.eea.application.project.IGetProjectSoilThermalResistivity
+import com.vm.eea.application.project.ProjectId
+import com.vm.eea.application.project.update.UpdateProjectSoilThermalResistivity
 import com.vm.eea.ui.NavigationManager
-import com.vm.eea.ui.SelectableItem
 import com.vm.eea.utilities.IText
 import com.vm.eea.utilities.Validator.Companion.validate
-import com.vm.eea.domain.format
+import com.vm.eea.utilities.onIO
 import com.vm.eea.utilities.positiveNumber
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -22,29 +20,20 @@ import org.orbitmvi.orbit.viewmodel.container
 
 
 class UpdateProjectSoilThermalResistivityViewModel(
-    private val projectId: Long,
-    private val getProject: GetProject,
+    private val projectId: ProjectId,
     private val navigationManager: NavigationManager,
-    private val updateProjectSoilResistivity: UpdateProjectSoilResistivity,
-    private val getDefaultSoilResistivity: GetDefaultSoilResistivity
+    private val getInfo:IGetProjectSoilThermalResistivity,
+    private val updateProject: UpdateProjectSoilThermalResistivity,
 ):ContainerHost<UiState,Nothing> ,ViewModel() {
     override val container: Container<UiState, Nothing> =
         container(UiState.init()){
-            intent {
-                val projectFlow=getProject(projectId)
-                val defaultsFlow=getDefaultSoilResistivity()
-               projectFlow.combine(defaultsFlow){project,defaults->
-                 project.soilResistivity to  defaults.map {
-                       SelectableItem(it.value,project.soilResistivity==it.value)
-                   }
-                }.collect {
-                  reduce { state.copy(defaults = it.second,
-                      value = it.first.value.format(),
-                       unit=it.first.unit,
-                        canExecute = true) }
-               }
-
+            onIO {
+                val result=getInfo(projectId)
+                intent {
+                    reduce { state.copy(value = result.value.format(),unit = result.unit) }
+                }
             }
+
 
 
          }
@@ -60,14 +49,10 @@ class UpdateProjectSoilThermalResistivityViewModel(
 
 
 
-    fun onDefaultSelect(value: ThermalResistivity)=intent{
 
-        updateProjectSoilResistivity(projectId, value,false)
-        navigationManager.back()
-    }
 
     fun submit(addToDefaults:Boolean)=intent{
-        updateProjectSoilResistivity(projectId, ThermalResistivity(state.value.toDouble(),state.unit),addToDefaults)
+        updateProject(projectId, ThermalResistivity(state.value.toDouble(),state.unit))
         reduce { state.copy(value = "") }
         navigationManager.back()
     }

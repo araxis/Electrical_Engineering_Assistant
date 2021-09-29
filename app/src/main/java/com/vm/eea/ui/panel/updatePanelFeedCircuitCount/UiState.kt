@@ -1,7 +1,7 @@
 package com.vm.eea.ui.panel.updatePanelFeedCircuitCount
 
-import com.vm.eea.domain.CircuitCount
-import com.vm.eea.ui.SelectableItem
+import com.vm.eea.application.CircuitCount
+import com.vm.eea.application.SelectableItem
 
 data class UiState(val items:List<SelectableItem<CircuitCount>>) {
     companion object{

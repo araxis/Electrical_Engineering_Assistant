@@ -64,6 +64,12 @@ fun IValidationClause.inRange(value:String?, from:Double, to:Double, errorMessag
     return null
 }
 
+fun IValidationClause.inRange(number:Double, from:Double, to:Double, errorMessage:String): ValidationError?{
+
+    if(number !in from..to) return ValidationError(errorMessage)
+    return null
+}
+
 val ValidationError?.isValid:Boolean
         get() = this==null
 

@@ -1,8 +1,7 @@
 package com.vm.eea.ui.project.projectList
 
 import androidx.lifecycle.ViewModel
-import com.vm.eea.domain.project.GetSimpleProjects
-import com.vm.eea.domain.project.SimpleProject
+import com.vm.eea.application.project.IGetProjectSimpleList
 import com.vm.eea.ui.Destinations
 import com.vm.eea.ui.NavigationManager
 import kotlinx.coroutines.flow.collect
@@ -12,14 +11,15 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 
-class ProjectListViewModel(getSimpleProjects: GetSimpleProjects,
-                           private val navigationManager: NavigationManager):ContainerHost<ProjectListState,Nothing>,ViewModel() {
-    override val container: Container<ProjectListState, Nothing> =container(ProjectListState.init()){
+class ProjectListViewModel(
+    getSimpleProjects:IGetProjectSimpleList,
+    private val navigationManager: NavigationManager,
+):ContainerHost<UiState,Nothing>,ViewModel() {
+    override val container: Container<UiState, Nothing> =container(UiState.init()){
                intent {
-
                 getSimpleProjects().collect {
-                reduce { state.copy(projects = it,loading = false) }
-            }
+                    reduce { state.copy(projects = it,loading = false) }
+                }
         }
     }
 
@@ -29,7 +29,7 @@ class ProjectListViewModel(getSimpleProjects: GetSimpleProjects,
 
     }
 
-    fun onItemSelect(item:SimpleProject){
+    fun onItemSelect(item: IGetProjectSimpleList.SimpleProject){
         navigationManager.navigate(Destinations.ProjectCenter(item.id))
     }
 }

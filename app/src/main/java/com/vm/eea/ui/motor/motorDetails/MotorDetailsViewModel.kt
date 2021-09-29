@@ -1,12 +1,14 @@
 package com.vm.eea.ui.motor.motorDetails
 
 import androidx.lifecycle.ViewModel
-import com.vm.eea.domain.MethodOfInstallation
+import com.vm.eea.application.MethodOfInstallation
+import com.vm.eea.application.motor.IGetMotorDetails
+import com.vm.eea.application.motor.MotorDetails
+import com.vm.eea.application.motor.MotorId
+import com.vm.eea.application.Environment
 import com.vm.eea.ui.MotorDestinations
-import com.vm.eea.ui.NavigationCommand
 import com.vm.eea.ui.NavigationManager
 import com.vm.eea.ui.PropertyItem
-import com.vm.eea.domain.toMotorId
 import kotlinx.coroutines.flow.collect
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -15,15 +17,15 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 
 class MotorDetailsViewModel(
-    private val motorId: Long,
-    private val getMotorDetails: GetMotorDetails,
+    private val motorId: MotorId,
+    private val getMotorDetails: IGetMotorDetails,
     private val navigationManager: NavigationManager,
 ):ContainerHost<UiState,Nothing>,ViewModel() {
     override val container: Container<UiState, Nothing>
          = container(UiState(emptyList())){
                 intent {
-                    getMotorDetails(motorId.toMotorId()).collect {
-                        reduce { state.copy(items = map(it)) }
+                    getMotorDetails(motorId).collect {
+                        reduce { state.copy(items = map(it),calculatedInfo = mapCalculatedFields(it)) }
                     }
                 }
     }
@@ -33,36 +35,45 @@ class MotorDetailsViewModel(
     }
 
     private fun map(motorDetails: MotorDetails):List<PropertyItem>{
-        val groundTemperatureVisibility= motorDetails.relation.methodOfInstallation == MethodOfInstallation.A1
-
+        val groundTemperatureVisibility= motorDetails.methodOfInstallation == MethodOfInstallation.A1
       return  listOf(
-          PropertyItem("Code",motorDetails.motor.code,true) { MotorDestinations.UpdateMotorCode(motorId) },
-          PropertyItem("Power",motorDetails.motor.power(),true) { MotorDestinations.UpdateMotorPower(motorId) },
-          PropertyItem("Powerfactor",motorDetails.motor.powerfactor(),true) { MotorDestinations.UpdateMotorPowerfactor(motorId)},
-          PropertyItem("Demand Factor",motorDetails.motor.demandFactor(),true) { MotorDestinations.UpdateMotorDemandFactor(motorId) },
-          PropertyItem("Efficiency",motorDetails.motor.efficiency(),true) { MotorDestinations.UpdateMotorEfficiency(motorId)},
-          PropertyItem("Feeder",motorDetails.feeder.code,true) { MotorDestinations.UpdateMotorFeeder(motorId) },
-          PropertyItem("Line length",motorDetails.relation.length(),true) { MotorDestinations.UpdateMotorFeedLineLength(motorDetails.relation.id)},
-          PropertyItem("Method of installation",motorDetails.relation.methodOfInstallation(),true) {
-              MotorDestinations.UpdateMotorRelationMethodOdInstallation(motorDetails.relation.id)
-                                                                                                   },
-          PropertyItem("Max voltage drop",motorDetails.relation.maxVoltageDrop(),true) {
-              MotorDestinations.UpdateMotorRelationMaxVoltDrop(motorDetails.relation.id)},
-          PropertyItem("Ambient temperature",motorDetails.relation.ambientTemperature(),true) {
-              MotorDestinations.UpdateMotorRelationAmbientTemperature(motorDetails.relation.id)},
-          PropertyItem("Ground temperature",motorDetails.relation.groundTemperature(),groundTemperatureVisibility) {
-              MotorDestinations.UpdateMotorRelationGroundTemperature(motorDetails.relation.id)},
-          PropertyItem("Soil thermal resistivity",motorDetails.relation.soilThermalResistivity(),groundTemperatureVisibility) {
-              MotorDestinations.UpdateMotorRelationSoilResistivity(motorDetails.relation.id)
+          PropertyItem("Code",motorDetails.code,true) { MotorDestinations.UpdateMotorCode(motorId) },
+          PropertyItem("Power",motorDetails.power.toFormatString(),true) { MotorDestinations.UpdateMotorPower(motorId) },
+          PropertyItem("Start mode",motorDetails.startMode.toString(),true) { MotorDestinations.UpdateMotorStartMode(motorId) },
+          PropertyItem("Powerfactor",motorDetails.cosPhi.toFormatString(),true) { MotorDestinations.UpdateMotorPowerfactor(motorId)},
+          PropertyItem("Demand Factor",motorDetails.demandFactor.toFormatString(),true) { MotorDestinations.UpdateMotorDemandFactor(motorId) },
+          PropertyItem("Efficiency",motorDetails.efficiency.toFormatString(),true) { MotorDestinations.UpdateMotorEfficiency(motorId)},
+          PropertyItem("Feeder",motorDetails.feederCode,true) { MotorDestinations.UpdateMotorFeeder(motorId) },
+          PropertyItem("Line length",motorDetails.length.toFormatString(),true) { MotorDestinations.UpdateMotorFeedLineLength(motorDetails.relationId)},
+          PropertyItem("Method of installation",motorDetails.methodOfInstallation(),true) {
+              MotorDestinations.UpdateMotorRelationMethodOdInstallation(motorDetails.relationId)
+                                                                                          },
+          PropertyItem("Max voltage drop",motorDetails.maxVoltageDrop(),true) {
+              MotorDestinations.UpdateMotorRelationMaxVoltDrop(motorDetails.relationId)},
+          PropertyItem("Ambient temperature",motorDetails.ambientTemperature(),true) {
+              MotorDestinations.UpdateMotorRelationTemperature(motorDetails.relationId, Environment.Ambient)},
+          PropertyItem("Ground temperature",motorDetails.groundTemperature(),groundTemperatureVisibility) {
+              MotorDestinations.UpdateMotorRelationTemperature(motorDetails.relationId, Environment.Ground)},
+          PropertyItem("Soil thermal resistivity",motorDetails.soilThermalResistivity(),groundTemperatureVisibility) {
+              MotorDestinations.UpdateMotorRelationSoilResistivity(motorDetails.relationId)
                                                                                                                               },
-          PropertyItem("Conductor",motorDetails.relation.conductor(),true) {
-              MotorDestinations.UpdateMotorRelationConductor(motorDetails.relation.id)
+          PropertyItem("Conductor",motorDetails.conductor(),true) {
+              MotorDestinations.UpdateMotorRelationConductor(motorDetails.relationId)
                                                                            },
-          PropertyItem("Insulation",motorDetails.relation.insulation(),true) {
-              MotorDestinations.UpdateMotorRelationInsulation(motorDetails.relation.id) },
-          PropertyItem("Circuits in the same conduit",motorDetails.relation.circuitCount(),true) {
-              MotorDestinations.UpdateMotorRelationCircuitCount(motorDetails.relation.id)
+          PropertyItem("Insulation",motorDetails.insulation(),true) {
+              MotorDestinations.UpdateMotorRelationInsulation.invoke(motorDetails.relationId)
           },
+          PropertyItem("Circuits in the same conduit",motorDetails.circuitCount.toString(),true) {
+              MotorDestinations.UpdateMotorRelationCircuitCount(motorDetails.relationId)
+          }
       )
+    }
+
+    private fun mapCalculatedFields(motorDetails: MotorDetails):List<Pair<String,String>>{
+        return listOf(
+            "Current" to motorDetails.current.toFormatString(),
+            "Reactive power" to motorDetails.reactivePower.toFormatString(),
+            "Apparent power" to motorDetails.apparentPower.toFormatString()
+        )
     }
 }

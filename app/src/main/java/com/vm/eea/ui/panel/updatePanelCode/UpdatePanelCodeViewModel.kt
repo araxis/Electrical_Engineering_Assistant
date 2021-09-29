@@ -1,14 +1,14 @@
 package com.vm.eea.ui.panel.updatePanelCode
 
 import androidx.lifecycle.ViewModel
-import com.vm.eea.domain.panel.GetPanel
-import com.vm.eea.domain.panel.UpdatePanelCode
+import com.vm.eea.application.PanelId
+import com.vm.eea.application.panel.IGetPanelCode
+import com.vm.eea.application.panel.update.UpdatePanelCode
 import com.vm.eea.ui.NavigationManager
 import com.vm.eea.utilities.SimpleText
 import com.vm.eea.utilities.Validator
 import com.vm.eea.utilities.notNullOrBlank
 import com.vm.eea.utilities.onIO
-import kotlinx.coroutines.flow.collect
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -16,18 +16,18 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 
 class UpdatePanelCodeViewModel(
-    private val panelId: Long,
-    private val getPanel: GetPanel,
+    private val panelId: PanelId,
+    private val getPanel: IGetPanelCode,
     private val updatePanelCode: UpdatePanelCode,
     private val navigationManager: NavigationManager
 ):ContainerHost<UiState,Nothing>,ViewModel() {
     override val container: Container<UiState, Nothing> = container(com.vm.eea.ui.project.updateProjectCode.UiState.init()){
             onIO {
-                getPanel(panelId).collect {
+               val codeInfo= getPanel(panelId)
                     intent {
-                        reduce { state.copy(code = it.code,description = it.description,canSubmit = true) }
+                        reduce { state.copy(code = codeInfo.code,description = codeInfo.description,canSubmit = true) }
                     }
-                }
+
             }
 
     }
@@ -42,9 +42,7 @@ class UpdatePanelCodeViewModel(
     }
 
     fun onDescriptionChange(value:String)=intent{
-        reduce {
-            state.copy(description = value)
-        }
+        reduce {state.copy(description = value)}
     }
 
     fun onSubmit()=intent{

@@ -1,16 +1,14 @@
 package com.vm.eea.ui.project.updateProjectwireSize
 
 import androidx.lifecycle.ViewModel
-import com.vm.eea.domain.WireSize
-import com.vm.eea.domain.defaultWireSize.GetDefaultWireSizes
-import com.vm.eea.domain.project.GetProject
-import com.vm.eea.domain.project.UpdateProjectWireSize
-import com.vm.eea.domain.project.WireSizeType
+import com.vm.eea.application.SelectableItem
+import com.vm.eea.application.WireSize
+import com.vm.eea.application.WireSizeType
+import com.vm.eea.application.project.IGetProjectWireSize
+import com.vm.eea.application.project.ProjectId
+import com.vm.eea.application.project.update.UpdateProjectWireSize
 import com.vm.eea.ui.NavigationManager
-import com.vm.eea.ui.SelectableItem
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flatMapMerge
-import kotlinx.coroutines.flow.map
+import com.vm.eea.utilities.onIO
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -18,44 +16,22 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 
 class UpdateProjectWireSizeViewModel(
-    private val projectId: Long,
+    private val projectId: ProjectId,
     private val sizingType: WireSizeType,
-    private val getDefaultWireSizes: GetDefaultWireSizes,
-    private val getProject: GetProject,
-    private val updateProjectWireSize: UpdateProjectWireSize,
+    private val getInfo: IGetProjectWireSize,
+    private val updateProject: UpdateProjectWireSize,
     private val navigationManager: NavigationManager
 ):ContainerHost<UiState,Nothing>,ViewModel() {
     override val container: Container<UiState, Nothing>
          = container(UiState.init(sizingType)){
-        intent {
-            getProject(projectId).flatMapMerge {
-                getDefaultWireSizes(it.unitOfWireSize)
-                    .map { defaults->
-                        when(sizingType){
-                            WireSizeType.Max -> {
-                                defaults
-                                    .sortedByDescending {o->o.wireSize.value  }
-                                    .map { o-> SelectableItem(o.wireSize,o.wireSize==it.maxWireSize)}
-                            }
-                            WireSizeType.Min ->{
-                                defaults
-                                    .sortedBy {o->o.wireSize.value  }
-                                    .map { o-> SelectableItem(o.wireSize,o.wireSize==it.minWireSize)}
-                            }
-                        }
-
-
-
-                    }
-
-            }.collect {
-                reduce { state.copy(defaults = it.sortedByDescending {o-> o.isSelected }) }
+            onIO {
+                val items=getInfo(projectId,sizingType)
+                intent { reduce { state.copy(defaults = items) } }
             }
-        }
 
         }
-    fun onDefaultItemSelect(item: WireSize)=intent{
-        updateProjectWireSize(projectId,item,sizingType)
+    fun onDefaultItemSelect(item: SelectableItem<WireSize>)=intent{
+        updateProject(projectId,item.value,sizingType)
         navigationManager.back()
     }
 }

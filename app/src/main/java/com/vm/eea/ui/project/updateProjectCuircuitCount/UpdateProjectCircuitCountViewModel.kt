@@ -1,43 +1,41 @@
 package com.vm.eea.ui.project.updateProjectCuircuitCount
 
 import androidx.lifecycle.ViewModel
-import com.vm.eea.domain.CircuitCount
-import com.vm.eea.ui.GetDefaultCircuitCounts
-import com.vm.eea.domain.project.GetProject
-import com.vm.eea.domain.project.UpdateProjectCircuitCount
+import com.vm.eea.application.CircuitCount
+import com.vm.eea.application.SelectableItem
+import com.vm.eea.application.project.IGetProjectCircuitCount
+import com.vm.eea.application.project.ProjectId
+import com.vm.eea.application.project.update.UpdateProjectCircuitCount
 import com.vm.eea.ui.NavigationManager
-import com.vm.eea.ui.SelectableItem
 import com.vm.eea.utilities.onIO
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 
-class UpdateProjectCircuitCountViewModel(private val projectId:Long,
-                                         private val getProject: GetProject,
-                                         private val updateProjectCircuitCount: UpdateProjectCircuitCount,
-                                         private val getDefaultCircuitCounts: GetDefaultCircuitCounts,
+class UpdateProjectCircuitCountViewModel(private val projectId: ProjectId,
+                                         private val getProject: IGetProjectCircuitCount,
+                                         private val updater: UpdateProjectCircuitCount,
                                          private val navigationManager: NavigationManager):ContainerHost<UiState,Nothing>,ViewModel() {
     override val container: Container<UiState, Nothing>
          = container(UiState(emptyList())){
-            intent{
-                val projectFlow=getProject(projectId)
-                val defaultsFlow=getDefaultCircuitCounts()
-                projectFlow.combine(defaultsFlow){project,defaults->
-                    defaults.map { SelectableItem(it,it==project.circuitInTheSameConduit) }
-                }.collect {
-                    reduce { state.copy(defaults = it) }
+                onIO {
+                    val items=getProject(projectId)
+                    intent {
+                        reduce { state.copy(defaults = items) }
+                    }
                 }
+            intent{
+
             }
     }
 
 
 
-    fun onDefaultItemSelect(item: CircuitCount)=onIO{
-        updateProjectCircuitCount(projectId,item)
+    fun onDefaultItemSelect(item: SelectableItem<CircuitCount>)=onIO{
+        if(item.isSelected) return@onIO
+        updater(projectId,item.value)
         navigationManager.back()
     }
 }

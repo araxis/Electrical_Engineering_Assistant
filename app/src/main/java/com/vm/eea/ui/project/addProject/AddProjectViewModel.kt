@@ -1,8 +1,7 @@
 package com.vm.eea.ui.project.addProject
 
 import androidx.lifecycle.ViewModel
-import com.vm.eea.domain.project.AddSimpleProject
-import com.vm.eea.domain.project.SimpleNewProject
+import com.vm.eea.application.project.addProject.AddProject
 import com.vm.eea.ui.NavigationManager
 import com.vm.eea.utilities.SimpleText
 import com.vm.eea.utilities.Validator
@@ -13,7 +12,7 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 
-class AddProjectViewModel(private val addSimpleProject: AddSimpleProject,
+class AddProjectViewModel(private val addSimpleProject: AddProject,
                           private val navigationManager: NavigationManager):ContainerHost<UiState,Nothing> ,ViewModel() {
     override val container: Container<UiState, Nothing>
          = container(UiState.init())
@@ -35,7 +34,7 @@ class AddProjectViewModel(private val addSimpleProject: AddSimpleProject,
     }
 
     fun onSubmit()=intent{
-        addSimpleProject(SimpleNewProject(state.code, state.description))
+        addSimpleProject(state.code, state.description)
         navigationManager.back()
     }
 }

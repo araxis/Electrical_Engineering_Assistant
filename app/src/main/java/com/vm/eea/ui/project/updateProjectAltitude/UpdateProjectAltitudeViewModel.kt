@@ -1,18 +1,16 @@
 package com.vm.eea.ui.project.updateProjectAltitude
 
 import androidx.lifecycle.ViewModel
-import com.vm.eea.domain.Length
-import com.vm.eea.domain.UnitOfLength
-import com.vm.eea.domain.format
-import com.vm.eea.domain.project.GetProject
-import com.vm.eea.domain.project.UpdateProjectAltitude
+import com.vm.eea.application.Length
+import com.vm.eea.application.format
+import com.vm.eea.application.project.IGetProjectAltitude
+import com.vm.eea.application.project.ProjectId
+import com.vm.eea.application.project.update.UpdateProjectAltitude
 import com.vm.eea.ui.NavigationManager
-import com.vm.eea.ui.SelectableItem
 import com.vm.eea.utilities.IText
 import com.vm.eea.utilities.Validator.Companion.validate
+import com.vm.eea.utilities.onIO
 import com.vm.eea.utilities.positiveNumber
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -21,33 +19,28 @@ import org.orbitmvi.orbit.viewmodel.container
 
 
 class UpdateProjectAltitudeViewModel(
-    private val projectId: Long,
-    private val getProject: GetProject,
+    private val projectId: ProjectId,
+    private val getProjectAltitude: IGetProjectAltitude,
     private val navigationManager: NavigationManager,
     private val updateProjectAltitude: UpdateProjectAltitude,
-    private val getDefaultAltitudes: GetDefaultAltitudes
 ):ContainerHost<UiState,Nothing> ,ViewModel() {
     override val container: Container<UiState, Nothing> =
         container(UiState.init()){
-            intent {
-                val projectFlow=getProject(projectId)
-                val defaultsFlow=getDefaultAltitudes()
-               projectFlow.combine(defaultsFlow){project,defaults->
-                 project.altitude to  defaults.map {
-                     SelectableItem(it.value,project.altitude==it.value)
-                   }
-                }.collect {
-                   reduce { state.copy(defaults = it.second,
-                       value = it.first.value.format(),
-                       unit = it.first.unit,canExecute = true) }
-               }
+            onIO {
+                val altitude=getProjectAltitude(projectId)
+                intent {
+                reduce {
+                    state.copy(value = altitude.value.format(),unit = altitude.unit)
+                }
 
+                }
             }
+
 
 
          }
 
-    fun onChange(value:String,unit: UnitOfLength)=intent {
+    fun onChange(value:String,unit: Length.Unit)=intent {
 
         val validationError= validate.positiveNumber(value,"")
         reduce { state.copy(value=value,unit=unit,
@@ -58,15 +51,11 @@ class UpdateProjectAltitudeViewModel(
 
 
 
-    fun onDefaultSelect(value: Length)=intent{
 
-        updateProjectAltitude(projectId, value,false)
-        navigationManager.back()
-    }
 
     fun submit(addToDefaults:Boolean)=intent{
-        updateProjectAltitude(projectId, Length(state.value.toDouble(),state.unit),addToDefaults)
-       // reduce { state.copy(powerfactor = "") }
+        updateProjectAltitude(projectId, Length(state.value.toDouble(),state.unit))
+       // reduce { state.copy(demandFactor = "") }
         navigationManager.back()
     }
 }

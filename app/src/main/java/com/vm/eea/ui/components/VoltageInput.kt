@@ -17,11 +17,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.vm.eea.domain.UnitOfVoltage
+import com.vm.eea.application.Voltage
 import com.vm.eea.utilities.IText
 
 
-data class VoltageFiledValue(val label:String, val value: String, val unitOfVoltage: UnitOfVoltage, val placeholder:String?, val error: IText?)
+data class VoltageFiledValue(val label:String, val value: String, val unitOfVoltage: Voltage.Unit, val placeholder:String?, val error: IText?)
 
 @Composable
 fun VoltageInput(value: VoltageFiledValue,
@@ -68,7 +68,7 @@ fun VoltageInput(value: VoltageFiledValue,
 @Composable
 fun Default(){
     var input by remember{ mutableStateOf(VoltageFiledValue("1-Phase Voltage","220",
-        UnitOfVoltage.KV,null,null))}
+        Voltage.Unit.KV,null,null))}
      VoltageInput(value = input){
         input=it
      }

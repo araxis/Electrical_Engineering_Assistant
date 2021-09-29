@@ -1,8 +1,8 @@
 package com.vm.eea.ui.project.updateProjectSoilThermalResistivity
 
-import com.vm.eea.domain.ThermalResistivity
-import com.vm.eea.domain.UnitOfThermalResistivity
-import com.vm.eea.ui.SelectableItem
+import com.vm.eea.application.SelectableItem
+import com.vm.eea.application.ThermalResistivity
+import com.vm.eea.application.UnitOfThermalResistivity
 import com.vm.eea.utilities.IText
 
 data class UiState(val value:String,

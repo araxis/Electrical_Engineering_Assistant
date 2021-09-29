@@ -1,10 +1,8 @@
 package com.vm.eea.data.model
 
 import androidx.room.*
-import com.vm.eea.domain.*
-import com.vm.eea.domain.LoadId
-import com.vm.eea.domain.PanelId
-import com.vm.eea.domain.panelToMotorRelation.PanelToMotorRelation
+import com.vm.eea.application.*
+
 
 @Entity(tableName = "panel_motor_relations",
     foreignKeys = [
@@ -34,16 +32,5 @@ class PanelToMotorRelationEntity(@ColumnInfo(index = true) val fromPanelId:Long,
                                  val conductor: Conductor,
                                  val insulation: Insulation,
                                  @PrimaryKey(autoGenerate = true) val id:Long=0) {
-    fun toDomain() = PanelToMotorRelation(insulation = insulation,
-    conductor = conductor,
-     groundTemperature = groundTemperature,
-    soilThermalResistivity = soilThermalResistivityUnit,
-    toLoadId = LoadId(toLoadId),
-    maxVoltageDrop = maxVoltageDrop,
-    fromPanelId = PanelId(fromPanelId),
-    id = RelationId(id),
-    ambientTemperature = ambientTemperature,
-    methodOfInstallation = methodOfInstallation,
-    circuitCount=circuitCount,
-    length = length)
+
 }

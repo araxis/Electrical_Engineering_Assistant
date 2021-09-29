@@ -1,15 +1,16 @@
 package com.vm.eea.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.NavigateNext
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -70,43 +71,13 @@ fun LabelledCheckbox(isChecked:Boolean,
     }
 }
 
-@Composable
-fun TitleScreen(title:String, content:@Composable ()->Unit){
-    Surface(color = MaterialTheme.colors.surface,
-) {
-
-        Column(Modifier
-            .padding(8.dp)) {
-            Text(text = title,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth())
-
-
-            content()
-        }
-
-    }
-}
 
 
 
 
 
-@Composable
-fun TitleComponent(title: String) {
-    // Text is a predefined composable that does exactly what you'd expect it to - display text on
-    // the screen. It allows you to customize its appearance using style, fontWeight, fontSize, etc.
-    Text(
-        title, style = TextStyle(
-            fontFamily = FontFamily.Monospace, fontWeight = FontWeight.W900,
-            fontSize = 14.sp, color = Color.Black
-        ), modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-    )
-}
+
+
 
 @Composable
 fun IconItem(first:@Composable ()->Unit, second:@Composable ()->Unit, modifier: Modifier=Modifier){
@@ -139,12 +110,16 @@ fun NameValueRowItem(nameContent:@Composable ()->Unit, valueContent:@Composable 
 
 @Composable
 fun FormItemSelector(name:String,value:String,
-                     modifier: Modifier =Modifier,
+                     modifier: Modifier =Modifier,onClick:()->Unit
 ){
-    Surface(modifier = Modifier.padding(top=8.dp),color = Color.Transparent){
-        Card(modifier =modifier,elevation = 0.dp,backgroundColor = Color.Transparent, border = BorderStroke(1.dp,  MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled))
-        ) {
-            Row(modifier =Modifier.padding(start = 8.dp,end=8.dp,top = 16.dp,bottom = 16.dp)
+    Card(modifier = Modifier.padding(top=8.dp).clickable { onClick() },
+        border = BorderStroke(1.dp,  MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled))){
+
+        Box(modifier = modifier) {
+
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 16.dp)
                 ,horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically) {
 
@@ -174,30 +149,122 @@ fun FormItemSelector(name:String,value:String,
 
             }
         }
-   }
+    }
+
+}
+
+
+
+@Composable
+fun SymbolValue(symbol:String, value:String, modifier: Modifier=Modifier,
+                color:Color=MaterialTheme.colors.primary){
+
+    Box(modifier = modifier){
+        Row(modifier =Modifier.fillMaxWidth()
+            ,horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically) {
+
+            Surface(modifier= Modifier.defaultMinSize(50.dp),
+                shape = RoundedCornerShape(2.dp),
+                border= BorderStroke(1.dp, Color.Transparent),
+               // contentPadding = PaddingValues(2.dp),  //avoid the little icon
+                color = color
+            ) {
+                //Icon(Icons.Default.Search, contentDescription = "")
+                Text(text = symbol,textAlign = TextAlign.Center,fontWeight = FontWeight.Bold,modifier = Modifier.padding(4.dp))
+            }
+
+            Text(text = value,modifier = Modifier.padding(start = 8.dp))
+
+
+        }
+    }
+
+
+
 
 
 }
 
 @Composable
-fun FormItemSelector2(name:String,value:String,
-                     modifier: Modifier =Modifier,
-){
-    Surface(modifier = modifier){
-        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-            OutlinedTextField(value=name,
-                maxLines = 1,
-                singleLine = true,
-                readOnly=true,
-                trailingIcon ={
-                    IconItem(first = {Text(text =value, modifier = Modifier.padding(end = 8.dp))},
-                        second = {Icon(imageVector = Icons.Filled.NavigateNext,"", Modifier.padding(end = 8.dp))})
-                },
-                modifier = Modifier.fillMaxWidth(),
-                onValueChange = {}
-            )
-        }
+fun TileView(symbol:String, value:String,
+             modifier: Modifier=Modifier,
+             headerBackColor:Color=MaterialTheme.colors.primary,
+             contentBackColor:Color=MaterialTheme.colors.secondary){
+    Card(modifier = modifier,elevation = 0.dp) {
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp)) {
+            Surface(color = headerBackColor) {
+                Text(symbol,textAlign = TextAlign.Center, style = TextStyle(
+                    fontFamily = FontFamily.Monospace, fontWeight = FontWeight.W900,
+                    fontSize = 16.sp
+                ), modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
+                )
+            }
+Surface(color = contentBackColor) {
+    Text(
+        value,textAlign = TextAlign.Center, style = TextStyle(
+            fontFamily = FontFamily.Monospace, fontWeight = FontWeight.W400,
+            fontSize = 14.sp
+        ), modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+    )
+}
+}
+
     }
+}
+
+@ExperimentalAnimationApi
+@Composable
+fun ExpandableContent(header:@Composable ()->Unit, modifier: Modifier=Modifier, footer:(@Composable ()->Unit)?=null, openedHeader:(@Composable ()->Unit)?=null, body:@Composable () -> Unit){
+    var expanded by remember{ mutableStateOf(false)}
+
+    Column(modifier = modifier) {
+             Row(Modifier.fillMaxWidth(),Arrangement.SpaceBetween,verticalAlignment = Alignment.CenterVertically) {
+                Box(modifier = Modifier.weight(1f)){
+                    if(expanded){
+                        if(openedHeader!=null){
+                            openedHeader()
+                        }else{
+                            header()
+                        }
+                    }else{
+                        header()
+                    }
+                }
+
+                IconButton(onClick = { expanded=!expanded },Modifier.wrapContentSize()) {
+                    if(expanded){
+                        Icon(imageVector = Icons.Default.ArrowDropUp, contentDescription = "")
+                    }else{
+                        Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "")
+                    }
+
+                }
+            }
+
+           AnimatedVisibility(expanded,modifier=Modifier.fillMaxWidth()){
+
+                    body()
+
+            }
+
+            if(footer!=null){
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    footer()
+                }
+            }
+
+        }
+
+
+
+
 
 
 }

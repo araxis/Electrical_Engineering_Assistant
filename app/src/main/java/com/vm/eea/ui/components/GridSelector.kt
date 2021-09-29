@@ -1,11 +1,12 @@
 package com.vm.eea.ui.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
@@ -16,15 +17,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.vm.eea.ui.SelectableItem
+import com.vm.eea.application.SelectableItem
 import com.vm.eea.utilities.isOdd
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun<T> GridSelector(items:List<SelectableItem<T>>, modifier: Modifier = Modifier,cols:Int=2,
+fun<T> GridSelector(items:List<SelectableItem<T>>, modifier: Modifier = Modifier,
                     render: (@Composable (T) -> Unit)? = null,
-                    onSelect:(T)->Unit){
+                    onSelect:(SelectableItem<T>)->Unit){
 
 
     LazyVerticalGrid(modifier=modifier,
@@ -37,27 +38,7 @@ fun<T> GridSelector(items:List<SelectableItem<T>>, modifier: Modifier = Modifier
             }else{
                 base.padding(start = 4.dp,bottom = 8.dp)
             }
-            SelectableItemView(modifier = padding.clickable { onSelect(it.value) },item = it,render = render)
-        }
-
-    }
-
-}
-
-@ExperimentalFoundationApi
-@Composable
-fun<T> GridSelector2(items:List<SelectableItem<T>>, modifier: Modifier = Modifier,cols:Int=2,
-                    render: (@Composable (T) -> Unit)? = null,
-                    onSelect:(T)->Unit){
-
-
-    LazyVerticalGrid(modifier=modifier,
-        cells = GridCells.Fixed(cols),
-    ) {
-        itemsIndexed(items){ _, it->
-            RowItem(item = it,render = render,
-                modifier = Modifier.width(150.dp).aspectRatio(2f)
-                    .clickable { onSelect(it.value) }.padding(start = 8.dp))
+            SelectableItemView(modifier = padding.clickable { onSelect(it) },item = it,render = render)
         }
 
     }
@@ -65,42 +46,31 @@ fun<T> GridSelector2(items:List<SelectableItem<T>>, modifier: Modifier = Modifie
 }
 
 
+
+
+
+
 @Composable
-fun<T> RowSelector(items:List<SelectableItem<T>>, modifier: Modifier = Modifier,
-                   render: (@Composable (T) -> Unit)? = null,
+fun<T> ColSelector(items:List<SelectableItem<T>>, modifier: Modifier = Modifier,
+                   render: (@Composable (T) -> Unit),
                    onSelect:(T)->Unit){
 
-    LazyRow(modifier = modifier){
+    LazyColumn(modifier = modifier){
         items(items){
-            RowItem(item = it,render = render,
-                modifier = Modifier.width(150.dp).aspectRatio(2f)
-                    .clickable { onSelect(it.value) }.padding(start = 8.dp))
-        }
-
-    }
-
-}
-
-@Composable
-fun<T> RowItem( item: SelectableItem<T>, modifier: Modifier = Modifier,render: (@Composable (T) -> Unit)? = null){
-    Card(modifier=modifier,
-        border = BorderStroke(1.dp,  MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium)),
-    ) {
-        Box(modifier = Modifier.padding(16.dp),contentAlignment = Alignment.Center){
-            if(render!=null){
-                render(item.value)
-            }else{
-                Text(text = item.value.toString(),textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth(),
-                    style = TextStyle(
-                        fontWeight = FontWeight.W700,
-                        fontSize = 19.sp
-                    ))
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onSelect(it.value) }
+                .padding(16.dp)){
+                render(it.value)
             }
+
         }
 
     }
+
 }
+
+
 
 @Composable
 fun<T> SelectableItemView(

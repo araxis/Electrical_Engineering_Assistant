@@ -12,13 +12,13 @@ import com.vm.eea.ui.components.FullPageDialog
 import com.vm.eea.ui.components.GridSelector
 
 @Composable
-fun UpdateMotorRelationInsulationScreen(viewModelFeed: UpdateMotorRelationInsulationViewModel) {
-    val state by viewModelFeed.container.stateFlow.collectAsState()
+fun UpdateMotorRelationInsulationScreen(viewModel: UpdateMotorRelationInsulationViewModel) {
+    val state by viewModel.container.stateFlow.collectAsState()
     FullPageDialog(pageTitle = "Insulation") {
         Column(Modifier
             .fillMaxSize()
             .padding(16.dp)) {
-            GridSelector(items = state.items, onSelect = {viewModelFeed.onValueChange(it)})
+            GridSelector(items = state.items, onSelect = {viewModel.onValueChange(it)})
         }
     }
 }

@@ -1,21 +1,17 @@
 package com.vm.eea.ui.motor.addMotor
 
+
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import com.vm.eea.domain.PowerSystem
-import com.vm.eea.ui.*
+import com.google.accompanist.insets.imePadding
 import com.vm.eea.ui.components.*
-import com.vm.eea.ui.models.SimplePanel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -25,14 +21,15 @@ import kotlinx.coroutines.launch
 @Composable
 fun AddMotorScreen(viewModel: AddMotorViewModel) {
     val state by viewModel.container.stateFlow.collectAsState()
-
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val scrollState = rememberScrollState()
     val scope= rememberCoroutineScope()
+    val focusManager = LocalFocusManager.current
     LaunchedEffect(viewModel) {
         launch {
             viewModel.container.sideEffectFlow.collect {
                 scope.launch {
+                    focusManager.clearFocus()
                     bottomState.show()
                 }
 
@@ -44,7 +41,7 @@ fun AddMotorScreen(viewModel: AddMotorViewModel) {
         sheetContent = {
             when(state.selector){
                 UiState.Selector.Feeder ->  BottomSheet("Feeder",modifier = Modifier.fillMaxWidth()) {
-                        RowSelector(modifier = Modifier.padding(top = 8.dp,bottom=16.dp,
+                        ColSelector(modifier = Modifier.padding(top = 8.dp,bottom=16.dp,
                             start = 8.dp,
                             end = 8.dp),
                             render = { Text(text = it.code) },
@@ -57,7 +54,7 @@ fun AddMotorScreen(viewModel: AddMotorViewModel) {
                             })
                     }
                 UiState.Selector.System -> BottomSheet("Current Type",modifier = Modifier.fillMaxWidth()){
-                        GridSelector2(cols = 3,modifier = Modifier.padding(top = 8.dp, bottom = 16.dp,
+                        ColSelector(modifier = Modifier.padding(top = 8.dp, bottom = 16.dp,
                             start = 8.dp,
                             end = 8.dp),
                             render = { Text(text = it()) },
@@ -70,8 +67,20 @@ fun AddMotorScreen(viewModel: AddMotorViewModel) {
                             })
 
                 }
-                UiState.Selector.None -> {
-                    Text(text = "")
+                UiState.Selector.None -> {Text(text = "")}
+                UiState.Selector.StartMode -> BottomSheet("Start Mode",modifier = Modifier.fillMaxWidth()){
+                    ColSelector(modifier = Modifier.padding(top = 8.dp, bottom = 16.dp,
+                        start = 8.dp,
+                        end = 8.dp),
+                        render = { Text(text = it.name) },
+                        items = state.startModes,
+                        onSelect = {
+                            viewModel.onStartModeSelect(it)
+                            scope.launch {
+                                bottomState.hide()
+                            }
+                        })
+
                 }
             }
 
@@ -79,63 +88,29 @@ fun AddMotorScreen(viewModel: AddMotorViewModel) {
     ) {
         FullPageDialog(pageTitle = "Add Motor",onSubmit = {viewModel.submit()},canSubmit = state.canSubmit) {
                 Column(modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(scrollState)) {
-                     AddMotorForm(modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                         code = state.code,
-                         power = state.power,
-                         powerfactor = state.powerfactor,
-                         efficiency = state.efficiency,
-                         length = state.feedLength,
-                         feeder=state.feeder,
-                         system=state.system,
-                         demandFactor = state.demandFactor,
-                         onCodeChange = { viewModel.onCodeChange(it) },
-                         onPowerChange = { s, u -> viewModel.onPowerChange(s, u) },
-                         onPowerfactorChange = { viewModel.onPowerfactorChange(it) },
-                         onEfficiencyChange = { viewModel.onEfficiencyChange(it) },
-                         onDemandFactorChange = { viewModel.onDemandFactorChange(it) },
-                         onFeederSelectRequest = {viewModel.onFeederSelectRequest()},
-                         onSystemSelectRequest={viewModel.onSystemSelectRequest()},
-                         onLengthChange = {s,u->viewModel.onLengthChange(s,u)}
-                     )
+                    .padding(8.dp)
+                    .verticalScroll(scrollState)
+                    .fillMaxSize().imePadding()
+                    ) {
+
+                    StringInput(label = "Code",field = state.code, onChange ={ viewModel.onCodeChange(it) })
+                    FormItemSelector(name = "Current type",value = state.system()){ viewModel.onSystemSelectRequest() }
+                    PowerInput(label = "Power",field = state.power, onChange =  { s, u -> viewModel.onPowerChange(s, u) })
+                    FormItemSelector(name = "Start Mode",value = state.startMode.name){ viewModel.onSTartModeSelectRequest() }
+                    FormItemSelector(name = "Feeder",value = state.feeder?.code?:"chose"){ viewModel.onFeederSelectRequest() }
+                    LengthInput(label = "Line Length",state.feedLength, onChange = { s,u->viewModel.onLengthChange(s,u) } )
+                    PowerfactorSliderInput("Cos\uD835\uDF19 (${state.powerfactor.toFormatString()})",value = state.powerfactor, onChange = {viewModel.onPowerfactorChange(it)})
+                    EfficiencySliderInput(title = "Efficiency (${state.efficiency.toFormatString()})",value = state.efficiency,onChange = {viewModel.onEfficiencyChange(it)})
+
+
                 }
 
             }
+
 
         }
 
 }
 
-@Composable
-fun AddMotorForm(
-    code:StringField,
-    power: PowerField,
-    powerfactor: PowerfactorField,
-    efficiency: EfficiencyField,
-    length: LengthField,
-    feeder: SimplePanel?,
-    system: PowerSystem,
-    demandFactor: PowerfactorField,
-    onCodeChange: StringListener,
-    onPowerChange: PowerListener,
-    onLengthChange:LengthListener,
-    onPowerfactorChange: PowerfactorListener,
-    onEfficiencyChange: EfficiencyListener,
-    onDemandFactorChange: PowerfactorListener,
-    onFeederSelectRequest:()->Unit,
-    onSystemSelectRequest:()->Unit,
-    modifier:Modifier=Modifier
-){
-    Column (modifier = modifier) {
-        StringInput(label = "Code", value = code.value, error = code.error, onChange = onCodeChange)
-        FormItemSelector(modifier= Modifier.fillMaxWidth().clickable { onSystemSelectRequest() },name = "Current type",value = system())
-        PowerInput(modifier = Modifier,label = "Power", value = power.value,unit = power.second, error = power.error, onChange = onPowerChange)
-        PowerFactorInput(modifier = Modifier,label = "powerfactor",value = powerfactor.value,error = powerfactor.error,onChange = onPowerfactorChange)
-        EfficiencyInput(modifier = Modifier,label = "Efficiency", value = efficiency.value, error =efficiency.error , onChange =onEfficiencyChange )
-        PowerFactorInput(modifier = Modifier,label = "Demand factor", value =demandFactor.value , error =demandFactor.error , onChange =onDemandFactorChange )
-        LengthInput(label = "Line Length", value = length.value, unit =length.second , error = length.error, onChange =onLengthChange )
-        FormItemSelector(modifier= Modifier.fillMaxWidth().clickable { onFeederSelectRequest() },name = "Feeder",value = feeder?.code?:"chose")
-    }
 
-}
+

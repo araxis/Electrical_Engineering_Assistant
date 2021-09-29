@@ -8,8 +8,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.vm.eea.ui.components.EfficiencyInput
 import com.vm.eea.ui.components.FullPageDialog
+import com.vm.eea.ui.components.StringInput
 
 @Composable
 fun UpdateEfficiencyScreen(viewModel: UpdateEfficiencyViewModel) {
@@ -18,10 +18,9 @@ fun UpdateEfficiencyScreen(viewModel: UpdateEfficiencyViewModel) {
         Column(Modifier
             .fillMaxSize()
             .padding(16.dp)) {
-            EfficiencyInput(
+            StringInput(
                 label = "Efficiency",
-                value = state.efficiency.value,
-                error =state.efficiency.error ,
+                field = state.efficiency,
                 onChange ={viewModel.onChange(it)} )
         }
     }

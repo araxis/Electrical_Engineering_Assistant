@@ -1,14 +1,13 @@
 package com.vm.eea.ui.project.updateProjectMethodOfInstallation
 
 import androidx.lifecycle.ViewModel
-import com.vm.eea.domain.MethodOfInstallation
-import com.vm.eea.domain.project.GetProject
-import com.vm.eea.domain.project.UpdateProjectMethodOfInstallation
+import com.vm.eea.application.MethodOfInstallation
+import com.vm.eea.application.SelectableItem
+import com.vm.eea.application.project.IGetProjectMethodOfInstallation
+import com.vm.eea.application.project.ProjectId
+import com.vm.eea.application.project.update.UpdateProjectMethodOfInstallation
 import com.vm.eea.ui.NavigationManager
-import com.vm.eea.ui.SelectableItem
 import com.vm.eea.utilities.onIO
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -16,25 +15,23 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 
 class UpdateProjectMethodOfInstallationViewModel(
-    private val projectId: Long,
-    private val getProject: GetProject,
-    private val updateProjectMethodOfInstallation: UpdateProjectMethodOfInstallation,
+    private val projectId: ProjectId,
+    private val getInfo: IGetProjectMethodOfInstallation,
+    private val updater: UpdateProjectMethodOfInstallation,
     private val navigationManager: NavigationManager
 ):ContainerHost<UiState,Nothing>,ViewModel() {
     override val container: Container<UiState, Nothing>
          = container(UiState(emptyList())){
         onIO {
-            getProject(projectId).map {
-                MethodOfInstallation.values().map { o-> SelectableItem(o,o==it.methodOfInstallation) }
-            }.collect {
-                intent {
-                    reduce { state.copy(defaults = it) } }
-                }
+            val result=getInfo(projectId)
+            intent {
+                reduce { state.copy(defaults = result) }
             }
         }
+         }
 
-     fun onItemSelect(item: MethodOfInstallation)=onIO {
-         updateProjectMethodOfInstallation(projectId,item)
+     fun onItemSelect(item: SelectableItem<MethodOfInstallation>)=onIO {
+         updater(projectId,item.value)
          navigationManager.back()
      }
 

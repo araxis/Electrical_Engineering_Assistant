@@ -1,7 +1,7 @@
 package com.vm.eea.ui.project.updateProjectMethodOfInstallation
 
-import com.vm.eea.domain.MethodOfInstallation
-import com.vm.eea.ui.SelectableItem
+import com.vm.eea.application.MethodOfInstallation
+import com.vm.eea.application.SelectableItem
 
 data class UiState(val defaults:List<SelectableItem<MethodOfInstallation>>) {
 }

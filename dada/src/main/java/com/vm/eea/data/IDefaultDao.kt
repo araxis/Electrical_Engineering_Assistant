@@ -11,8 +11,6 @@ interface IDefaultDao {
     @Query("SELECT * FROM defaults ORDER BY ROWID ASC LIMIT 1")
     fun getProjectDefaults(): DefaultsEntity
 
-
-
     @Insert
     fun insert(item:DefaultsEntity)
 }

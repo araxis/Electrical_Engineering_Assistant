@@ -5,16 +5,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.vm.eea.ui.components.FullPageDialog
-import com.vm.eea.ui.components.GridSelector
 import com.vm.eea.ui.components.LengthInput
 
 
@@ -41,7 +38,7 @@ fun UpdateProjectAltitudeScreen(viewModel: UpdateProjectAltitudeViewModel){
                 ) {
 
 
-                    LengthInput("Feed Length",value = state.value,
+                    LengthInput("Altitude",value = state.value,
                         unit = state.unit,
                         error = state.error,
                         keyboardActions = keyboardActions,
@@ -50,8 +47,6 @@ fun UpdateProjectAltitudeScreen(viewModel: UpdateProjectAltitudeViewModel){
                     }
 
 
-                GridSelector(modifier = Modifier.padding(top=16.dp),items = state.defaults,
-                    onSelect = {viewModel.onDefaultSelect(it)})
 
             }
         }

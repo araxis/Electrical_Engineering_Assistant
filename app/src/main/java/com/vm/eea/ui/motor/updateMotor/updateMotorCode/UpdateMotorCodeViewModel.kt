@@ -1,12 +1,12 @@
 package com.vm.eea.ui.motor.updateMotor.updateMotorCode
 
 import androidx.lifecycle.ViewModel
-import com.vm.eea.domain.load.UpdateMotorCode
+import com.vm.eea.application.motor.IGetMotorCode
+import com.vm.eea.application.motor.MotorId
+import com.vm.eea.application.motor.updateMotor.UpdateMotorCode
 import com.vm.eea.ui.NavigationManager
-import com.vm.eea.ui.motor.updateMotor.GetMotor
 import com.vm.eea.utilities.Validator
 import com.vm.eea.utilities.notNullOrBlank
-import com.vm.eea.domain.toMotorId
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -14,14 +14,14 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 
 class UpdateMotorCodeViewModel(
-    private val motorId:Long,
-    private val getMotor: GetMotor,
-    private val updateMotorCode: UpdateMotorCode,
+    private val motorId: MotorId,
+    private val getMotor: IGetMotorCode,
+    private val updateMotor: UpdateMotorCode,
     private val navigationManager: NavigationManager):ContainerHost<UiState,Nothing>,ViewModel() {
     override val container: Container<UiState, Nothing>
          = container(UiState()){
             intent {
-                val motor=getMotor(motorId.toMotorId())
+                val motor=getMotor(motorId)
                 reduce {
                     val code=state.code.copy(value = motor.code)
                     val description=state.description.copy(value = motor.description)
@@ -42,7 +42,7 @@ class UpdateMotorCodeViewModel(
     }
 
     fun submit()=intent{
-        updateMotorCode(motorId.toMotorId(),state.code.value,state.description.value)
+        updateMotor(motorId,state.code.value,state.description.value)
         navigationManager.back()
     }
 }

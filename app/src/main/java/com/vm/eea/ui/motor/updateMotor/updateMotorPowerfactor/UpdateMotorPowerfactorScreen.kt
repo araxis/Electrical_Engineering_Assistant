@@ -9,19 +9,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.vm.eea.ui.components.FullPageDialog
-import com.vm.eea.ui.components.PowerFactorInput
+import com.vm.eea.ui.components.StringInput
 
 @Composable
-fun UpdateMotorPowerfactorScreen(viewMode: UpdateMotorPowerFactorViewMode) {
-    val state by viewMode.container.stateFlow.collectAsState()
-    FullPageDialog(pageTitle = "Motor powerfactor",canSubmit = state.canSubmit,onSubmit = {viewMode.submit()}) {
+fun UpdateMotorPowerfactorScreen(viewModel: UpdateMotorPowerFactorViewModel) {
+    val state by viewModel.container.stateFlow.collectAsState()
+    FullPageDialog(pageTitle = "Motor demandFactor",canSubmit = state.canSubmit,onSubmit = {viewModel.submit()}) {
         Column(Modifier
             .fillMaxSize()
             .padding(16.dp)) {
-            PowerFactorInput(label = "Powerfactor",
-                value = state.powerfactor.value,
-                error = state.powerfactor.error,
-                onChange = { viewMode.onChange(it) })
+            StringInput(label = "Powerfactor",
+                field = state.demandFactor,
+                onChange = { viewModel.onChange(it) })
         }
     }
 }

@@ -1,13 +1,11 @@
 package com.vm.eea.ui.project.addProject
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.vm.eea.ui.components.FullPageDialog
 import com.vm.eea.ui.components.StringInput

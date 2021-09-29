@@ -1,13 +1,13 @@
 package com.vm.eea.ui.motor.updateMotor.updateMotorRelationMethodOfInstallation
 
 import androidx.lifecycle.ViewModel
-import com.vm.eea.domain.MethodOfInstallation
-import com.vm.eea.domain.RelationId
-import com.vm.eea.domain.panelToMotorRelation.UpdateMotorRelationMethodOfInstallation
+import com.vm.eea.application.MethodOfInstallation
+import com.vm.eea.application.RelationId
+import com.vm.eea.application.SelectableItem
+import com.vm.eea.application.panelToMotorRelation.IGetMotorRelationMethodOfInstallation
+import com.vm.eea.application.panelToMotorRelation.UpdateMotorFeedMethodOfInstallation
 import com.vm.eea.ui.NavigationManager
-import com.vm.eea.utilities.toSelectableList
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
+import com.vm.eea.utilities.onIO
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -16,22 +16,20 @@ import org.orbitmvi.orbit.viewmodel.container
 
 class UpdateMotorFeedMethodOfInstallationViewModel(
     private val relationId: RelationId,
-    private val getMotorRelationMethodOfInstallation: GetMotorRelationMethodOfInstallation,
-    private val updateMotorRelationMethodOfInstallation: UpdateMotorRelationMethodOfInstallation,
+    private val getMotorRelationMethodOfInstallation: IGetMotorRelationMethodOfInstallation,
+    private val updatePanelToMotorFeed: UpdateMotorFeedMethodOfInstallation,
     private val navigationManager: NavigationManager,
 ):ContainerHost<UiState,Nothing>,ViewModel() {
     override val container: Container<UiState, Nothing>
        = container(UiState()){
-            intent {
-               getMotorRelationMethodOfInstallation(relationId)
-                   .map { toSelectableList(it) }.collect {
-                       reduce { state.copy(items = it) }
-                   }
+            onIO {
+                val items=getMotorRelationMethodOfInstallation(relationId)
+                intent {reduce { state.copy(items = items) }}
             }
         }
 
-    fun onValueChange(value:MethodOfInstallation)=intent {
-        updateMotorRelationMethodOfInstallation(relationId,value)
+    fun onValueChange(value: SelectableItem<MethodOfInstallation>)=intent {
+        updatePanelToMotorFeed(relationId,value.value)
         navigationManager.back()
     }
 

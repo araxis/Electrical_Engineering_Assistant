@@ -3,9 +3,7 @@ package com.vm.eea.ui.project.updateProjectSoilThermalResistivity
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -46,7 +44,7 @@ fun UpdateProjectSoilThermalResistivityScreen(viewModel: UpdateProjectSoilTherma
 
             }
 
-            GridSelector(modifier = Modifier.padding(top = 16.dp),items = state.defaults, onSelect = { viewModel.onDefaultSelect(it) })
+
 
 
     }

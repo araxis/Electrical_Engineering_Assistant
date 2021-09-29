@@ -1,6 +1,6 @@
 package com.vm.eea.ui.project.updateProjectMaxvoltDrop
 
-import com.vm.eea.domain.RelationType
+import com.vm.eea.application.project.RelationType
 import com.vm.eea.utilities.IText
 
 data class UiState(val pageTitle:String, val value:String, val error:IText?, val canExecute:Boolean) {

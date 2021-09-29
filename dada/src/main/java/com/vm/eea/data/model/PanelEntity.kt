@@ -2,8 +2,7 @@ package com.vm.eea.data.model
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import com.vm.eea.domain.SupplyPath
-import com.vm.eea.domain.panel.Panel
+import com.vm.eea.application.CosPhi
 
 @Entity(tableName = "panels",
     foreignKeys = [
@@ -17,11 +16,13 @@ import com.vm.eea.domain.panel.Panel
     indices = [Index(value = ["code","projectId"], unique = true), Index(value = ["powerSupplyPath"])]
 )
 data class PanelEntity(@ColumnInfo(name = "projectId",index = true) val projectId: Long,
-                   val code: String,
-                   val description:String,
-                   val isMdp:Boolean,
-                   val powerSupplyPath:String="/",
-                  @PrimaryKey(autoGenerate = true)  val id: Long=0)  {
+                       val code: String,
+                       val description:String,
+                       val isMdp:Boolean,
+                       @Embedded(prefix = "demand_factor_")
+                       val demandFactor: CosPhi,
+                       val powerSupplyPath:String="/",
+                       @PrimaryKey(autoGenerate = true)  val id: Long=0)  {
 
-    fun toDomain()= Panel(projectId,code,description,isMdp, SupplyPath(powerSupplyPath),id)
+
 }

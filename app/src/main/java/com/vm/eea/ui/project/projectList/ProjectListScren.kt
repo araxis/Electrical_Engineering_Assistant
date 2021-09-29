@@ -1,7 +1,10 @@
 package com.vm.eea.ui.project.projectList
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
@@ -11,14 +14,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.vm.eea.domain.project.SimpleProject
+import com.vm.eea.application.project.IGetProjectSimpleList
 import com.vm.eea.ui.components.EmptyContent
 import com.vm.eea.ui.components.LoadingContent
 import com.vm.eea.ui.components.Page1
-import com.vm.eea.ui.project.projectCenter.ProjectCenterTab
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -50,9 +56,9 @@ fun ProjectListScreen(viewModel: ProjectListViewModel= getViewModel()){
 }
 
 @Composable
-fun SimpleProjectList(projects:List<SimpleProject>,
+fun SimpleProjectList(projects:List<IGetProjectSimpleList.SimpleProject>,
                       modifier: Modifier=Modifier,
-                      onSelect:(SimpleProject)->Unit){
+                      onSelect:(IGetProjectSimpleList.SimpleProject)->Unit){
     LazyColumn(modifier = modifier){
 
         itemsIndexed(projects){index,item->
@@ -79,15 +85,27 @@ fun SimpleProjectList(projects:List<SimpleProject>,
 }
 
 @Composable
-fun SimpleProjectItem(simpleProject: SimpleProject,modifier: Modifier=Modifier){
+fun SimpleProjectItem(simpleProject: IGetProjectSimpleList.SimpleProject, modifier: Modifier=Modifier){
     Surface(modifier = modifier,elevation = 0.dp) {
-        Column(Modifier.fillMaxWidth()) {
-            Text(modifier=Modifier.padding(start = 16.dp,end =16.dp,top=8.dp),
-                text = simpleProject.code,
-            style = MaterialTheme.typography.caption.copy(fontSize = 22.sp),
+        Column(Modifier
+            .fillMaxWidth()
+            .padding(8.dp)) {
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(style =  SpanStyle(fontSize = 22.sp)){
+                        append(simpleProject.code)
+                    }
+                    withStyle(style = SpanStyle(fontSize = 16.sp,
+                        fontStyle = FontStyle.Italic,
+                        color = Color.DarkGray)
+                    ){
+                        append(" (${simpleProject.current.toFormatString(empty = "0")})")
+                    }
+
+                }
             )
-            Text(modifier=Modifier.padding(start = 16.dp,end =16.dp,bottom = 8.dp),
-                text = simpleProject.description,
+
+            Text( text = simpleProject.description,
                 style = MaterialTheme.typography.subtitle1.copy(fontStyle = FontStyle.Italic),
             )
         }

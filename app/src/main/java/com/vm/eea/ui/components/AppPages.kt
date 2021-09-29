@@ -19,10 +19,11 @@ fun FullPageDialog(pageTitle:String,
                    onClose:()->Unit={},onSubmit:(()->Unit)?=null,
                    pageContent:@Composable ()->Unit){
 
-
-    Scaffold(Modifier.fillMaxSize(), topBar = {    TopAppBar(
+   // ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
+    Scaffold(Modifier.fillMaxSize(), topBar = {
+        TopAppBar(
         elevation = 0.dp,
-        title = {},
+        title = { Text(modifier = Modifier.fillMaxWidth(),text = pageTitle,textAlign = TextAlign.Center)},
         //backgroundColor =  MaterialTheme.colors.primarySurface,
         backgroundColor =  Color.Transparent,
         navigationIcon = {
@@ -38,17 +39,11 @@ fun FullPageDialog(pageTitle:String,
 
         })
     }) {
-        Surface(modifier = Modifier.fillMaxSize()
-           // ,color = MaterialTheme.colors.primarySurface
-        ) {
-            Column(Modifier.fillMaxSize()) {
-                Text(text = pageTitle,modifier= Modifier.padding(top=0.dp,start=16.dp,bottom = 16.dp),
-                    style = MaterialTheme.typography.h4)
-                pageContent()
-            }
 
-        }
+            pageContent()
+
     }
+
 }
 
 
@@ -58,38 +53,36 @@ fun Page1(pageTitle:String,
           floatingActionButton:@Composable ()->Unit={},
           floatingActionButtonPosition:FabPosition=FabPosition.Center,
           pageContent:@Composable ()->Unit){
-    Scaffold(
-        Modifier.fillMaxSize(),
-        floatingActionButton = floatingActionButton,
-        floatingActionButtonPosition = floatingActionButtonPosition,
-        topBar = {
-            TopAppBar(
-                elevation = 0.dp,
-                title = { Text(text = pageTitle) },
-                actions = actions,
-                // backgroundColor =  MaterialTheme.colors.primarySurface,
-                backgroundColor =  Color.Transparent,
-                navigationIcon = {
-                    IconButton(onClick = {/* Do Something*/ }) {
-                        Icon(Icons.Filled.ArrowBack, null)
-                    }
-                })
-        },
-    ) {
-        Surface(modifier = Modifier.fillMaxSize(),
-          // color = MaterialTheme.colors.primarySurface
+
+        Scaffold(
+            Modifier.fillMaxSize(),
+            floatingActionButton = floatingActionButton,
+            floatingActionButtonPosition = floatingActionButtonPosition,
+            topBar = {
+                TopAppBar(
+                    elevation = 0.dp,
+                    title = { Text(text = pageTitle) },
+                    actions = actions,
+                    // backgroundColor =  MaterialTheme.colors.primarySurface,
+                    backgroundColor = Color.Transparent,
+                    navigationIcon = {
+                        IconButton(onClick = {/* Do Something*/ }) {
+                            Icon(Icons.Filled.ArrowBack, null)
+                        }
+                    })
+            },
         ) {
-          Column() {
-//                Text(text = pageTitle,modifier=Modifier.padding(top=0.dp,start=16.dp,bottom = 16.dp),
-//                    style = MaterialTheme.typography.h4)
-             //   TitleComponent(title = pageTitle)
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                // color = MaterialTheme.colors.primarySurface
+            ) {
+
                 pageContent()
 
+
             }
-
-
         }
-    }
+
 }
 
 @Composable
@@ -97,10 +90,10 @@ fun BottomSheet(title:String,modifier: Modifier=Modifier,content:@Composable ()-
     Column(modifier) {
         Text(text = title,
             style=MaterialTheme.typography.h6,textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth().padding(top = 8.dp,
-                start = 32.dp,
-                end = 16.dp,
-                bottom = 16.dp))
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp,
+                    bottom = 16.dp))
 
        content()
     }

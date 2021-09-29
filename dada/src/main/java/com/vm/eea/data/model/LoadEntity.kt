@@ -1,9 +1,7 @@
 package com.vm.eea.data.model
 
 import androidx.room.*
-import com.vm.eea.domain.*
-
-import com.vm.eea.domain.LoadId
+import com.vm.eea.application.*
 
 
 @Entity(tableName = "loads",
@@ -19,22 +17,24 @@ data class LoadEntity(val code:String,
                       val description:String,
                       @Embedded(prefix = "power_")
                       val power: Power,
-                      @Embedded(prefix = "powerfactor_")
-                      val powerfactor: PowerFactor,
-                      @Embedded(prefix = "demand_factor_")
-                      val demandFactor: PowerFactor,
+                      val cosPhi: Double,
+                      val sinPhi: Double,
+                      val tanPhi: Double,
+                      val demandFactorCosPhi: Double,
+                      val demandFactorTanPhi:Double,
                       @Embedded(prefix = "efficiency_")
                       val efficiency: Efficiency,
                       val system: PowerSystem,
+                      val startMode: StartMode,
                       val serviceMode: ServiceMode,
                       val loadType: LoadType,
                       val powerSupplyPath:String,
                       val normal:Boolean,
                       val emergency:Boolean,
                       val projectId:Long,
+                      val powerInWatt:Double,
+                      val applyLocalCosPhiCorrection:Boolean=false,
                       @PrimaryKey(autoGenerate = true) val id:Long=0){
 
-    fun toMotorDomain()= Motor(code, description, power, powerfactor,
-        demandFactor, efficiency, system, serviceMode, projectId, SupplyPath(powerSupplyPath),
-        FeedingMode(normal, emergency), LoadId(id))
+
 }
