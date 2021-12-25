@@ -16,7 +16,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun FullPageDialog(pageTitle:String,
                    canSubmit:Boolean=false,
-                   onClose:()->Unit={},onSubmit:(()->Unit)?=null,
+                   onClose:()->Unit={},
+                   onSubmit:(()->Unit)?=null,
                    pageContent:@Composable ()->Unit){
 
    // ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
@@ -25,7 +26,6 @@ fun FullPageDialog(pageTitle:String,
         elevation = 0.dp,
         title = { Text(modifier = Modifier.fillMaxWidth(),text = pageTitle,textAlign = TextAlign.Center)},
         //backgroundColor =  MaterialTheme.colors.primarySurface,
-        backgroundColor =  Color.Transparent,
         navigationIcon = {
             IconButton(onClick = onClose) {
                 Icon(Icons.Filled.Close, null)
@@ -35,12 +35,17 @@ fun FullPageDialog(pageTitle:String,
                 IconButton(onClick = onSubmit,enabled = canSubmit) {
                     Icon(Icons.Filled.Check, null)
                 }
+            }else{
+                IconButton(onClick = {},enabled = false) {
+
+                }
             }
 
         })
     }) {
-
+        Surface(modifier = Modifier.fillMaxSize()) {
             pageContent()
+        }
 
     }
 
@@ -49,8 +54,9 @@ fun FullPageDialog(pageTitle:String,
 
 @Composable
 fun Page1(pageTitle:String,
-          actions:@Composable RowScope.() -> Unit = {},
+          actions:@Composable () -> Unit = {},
           floatingActionButton:@Composable ()->Unit={},
+          backAction:()->Unit={},
           floatingActionButtonPosition:FabPosition=FabPosition.Center,
           pageContent:@Composable ()->Unit){
 
@@ -62,20 +68,17 @@ fun Page1(pageTitle:String,
                 TopAppBar(
                     elevation = 0.dp,
                     title = { Text(text = pageTitle) },
-                    actions = actions,
+                    actions = {actions()},
                     // backgroundColor =  MaterialTheme.colors.primarySurface,
-                    backgroundColor = Color.Transparent,
+                   // backgroundColor = Color.Transparent,
                     navigationIcon = {
-                        IconButton(onClick = {/* Do Something*/ }) {
+                        IconButton(onClick = {backAction() }) {
                             Icon(Icons.Filled.ArrowBack, null)
                         }
                     })
             },
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                // color = MaterialTheme.colors.primarySurface
-            ) {
+            Surface(modifier = Modifier.fillMaxSize()) {
 
                 pageContent()
 

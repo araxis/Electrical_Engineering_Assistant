@@ -1,6 +1,8 @@
 package com.vm.eea.application
 
-data class Current(val value:Double,val unit: Unit){
+import kotlin.math.pow
+
+data class Current(override val value:Double, override val unit: Unit):IQuantity<Current.Unit>{
 
     constructor(value:Number,unit: Unit):this(value.toDouble(),unit)
 
@@ -15,17 +17,36 @@ data class Current(val value:Double,val unit: Unit){
         return Current(newValue,newUnit)
     }
 
+    fun pow2()=this.copy(value= value.pow(2.0),unit=unit)
+
     fun toBase(): Current {
         val baseValue= Unit.A.toBase(value)
         return Current(baseValue, Unit.A)
     }
 
+    operator fun compareTo(other: Current): Int {
+        val otherInThisUnit=other to unit
+        if(value==otherInThisUnit.value) return 0
+        if(value>otherInThisUnit.value) return 1
+        return -1
+    }
+
+    operator fun times(conf: Double): Current {
+        return Current(value*conf,unit)
+    }
+
+    operator fun div(divBy: Double): Current {
+        return Current(value/divBy,unit)
+    }
+
     enum class Unit: IUnit {
         A {
+            override val symbol ="A"
             override fun toBase(value: Double)=value
 
             override fun fromBase(value: Double)=value
         },KA {
+            override val symbol ="kA"
             override fun toBase(value: Double)=value * 1000
 
             override fun fromBase(value: Double)=value/1000

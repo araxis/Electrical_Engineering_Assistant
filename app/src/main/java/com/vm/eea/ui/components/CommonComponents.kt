@@ -1,5 +1,6 @@
 package com.vm.eea.ui.components
 
+import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.BorderStroke
@@ -13,6 +14,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -22,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vm.eea.R
+import com.vm.eea.ui.MenuItem
 
 @Composable
 fun EmptyContent(modifier: Modifier=Modifier,emptyAction:()->Unit){
@@ -35,6 +38,33 @@ fun EmptyContent(modifier: Modifier=Modifier,emptyAction:()->Unit){
         }
 
     }
+
+}
+
+@Composable
+fun EmptyContent2(modifier: Modifier=Modifier){
+    Column( modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        Image(painterResource(R.drawable.emp3),"content description")
+    }
+
+}
+
+@Composable
+fun ActionItem(@DrawableRes iconRes:Int,text:String, modifier: Modifier=Modifier, action:()->Unit){
+  Box(modifier = modifier){
+      Row( modifier =Modifier.fillMaxWidth().padding(8.dp).clickable { action() },verticalAlignment = Alignment.CenterVertically,
+          horizontalArrangement = Arrangement.Start) {
+          Icon(modifier=Modifier.padding(8.dp),
+              painter = painterResource(iconRes),
+              contentDescription = null // decorative element
+          )
+          Text(modifier=Modifier.padding(8.dp),text =text )
+
+      }
+  }
+
 
 }
 
@@ -112,7 +142,9 @@ fun NameValueRowItem(nameContent:@Composable ()->Unit, valueContent:@Composable 
 fun FormItemSelector(name:String,value:String,
                      modifier: Modifier =Modifier,onClick:()->Unit
 ){
-    Card(modifier = Modifier.padding(top=8.dp).clickable { onClick() },
+    Card(modifier = Modifier
+        .padding(top = 8.dp)
+        .clickable { onClick() },
         border = BorderStroke(1.dp,  MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled))){
 
         Box(modifier = modifier) {
@@ -141,6 +173,53 @@ fun FormItemSelector(name:String,value:String,
                     second = {
 
                         Icon(imageVector = Icons.Filled.NavigateNext,
+                            "")
+
+
+                    })
+
+
+            }
+        }
+    }
+
+}
+
+@Composable
+fun FormItemDropSelector(name:String,value:String,
+                     modifier: Modifier =Modifier,onClick:()->Unit
+){
+    Card(modifier = Modifier
+        .padding(top = 8.dp)
+        .clickable { onClick() },
+        border = BorderStroke(1.dp,  MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled))){
+
+        Box(modifier = modifier) {
+
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 16.dp)
+                ,horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically) {
+
+                IconItem(first = {
+
+
+                },second = {
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(text =name,
+                            color=LocalContentColor.current.copy(LocalContentAlpha.current),
+                            style = MaterialTheme.typography.subtitle1,
+                            modifier = Modifier.padding(start = 8.dp))}
+                })
+
+                IconItem(first = {
+                    Text(text =value, modifier = Modifier
+                        .padding(end = 8.dp))
+                },
+                    second = {
+
+                        Icon(imageVector = Icons.Filled.ArrowDropDown,
                             "")
 
 
@@ -217,6 +296,61 @@ Surface(color = contentBackColor) {
 }
 
     }
+}
+
+@Composable
+fun TileView(value:MenuItem,
+             modifier: Modifier=Modifier,
+             backColor:Color=MaterialTheme.colors.primary,
+             onClick: (MenuItem) -> Unit
+            ){
+
+            Surface(modifier = modifier,color = backColor) {
+                Column(verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .clickable { onClick(value) }) {
+                    Text(
+                        value.title, textAlign = TextAlign.Center, style = TextStyle(
+                            fontFamily = FontFamily.Monospace, fontWeight = FontWeight.W400,
+                            fontSize = 14.sp
+                        ), modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth()
+                    )
+                }
+
+            }
+
+
+
+}
+
+@Composable
+fun TileView(value:String,
+             modifier: Modifier=Modifier,
+             backColor:Color=MaterialTheme.colors.primary,
+             onClick: () -> Unit
+){
+
+        Surface(modifier = modifier,color = backColor) {
+            Column(verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .clickable { onClick() }) {
+                Text(
+                    value, textAlign = TextAlign.Center, style = TextStyle(
+                        fontFamily = FontFamily.Monospace, fontWeight = FontWeight.W400,
+                        fontSize = 14.sp
+                    ), modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                )
+            }
+
+        }
+
+
 }
 
 @ExperimentalAnimationApi

@@ -5,18 +5,18 @@ import kotlin.math.sqrt
 
 class CurrentCalculator {
 
-    operator fun invoke(power: Power,
-                        voltage: Voltage,
-                        system: PowerSystem,
-                        cosPhi: CosPhi,
-                        efficiency: Efficiency
+    operator fun invoke(
+        voltage: Voltage,
+        power: Power,
+        system: PowerSystem,
+        cosPhi: CosPhi,
+        efficiency: Efficiency
     ):Current {
 
         val conf = when (system) {
             PowerSystem.SinglePhase -> 1.0
             PowerSystem.TwoPhase -> 1.0
             PowerSystem.ThreePhase -> sqrt(3.0)
-
 
         }
 
@@ -28,7 +28,7 @@ class CurrentCalculator {
     }
 
     operator fun invoke(load: IPowerConsumer): Current {
-       return invoke(load.power,load.voltage,load.system,load.cosPhi,load.efficiency)
+       return invoke(load.voltage, load.power, load.system, load.cosPhi, load.efficiency)
     }
 
     operator fun invoke(loads:List<IPowerConsumer>):Current{

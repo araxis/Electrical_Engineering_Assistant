@@ -6,26 +6,26 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
-private val DarkColorPalette = darkColors(
-    primary = primaryDarkColor,
-    primaryVariant = primaryColor,
-    secondary = secondaryDarkColor,
-
+private val LightColorPalette = lightColors(
+    primary = primaryGreen,
+    secondary = textColorLight,
+    surface = lightGrey,
+    primaryVariant = gridLineColorLight,
+    onPrimary = accentAmber,
+    onSurface = accentAmber
 )
 
-private val LightColorPalette = lightColors(
-    primary = primaryLightColor,
-    primaryVariant = primaryColor,
-    secondary = secondaryColor,
-
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+private val DarkColorPalette = darkColors(
+    //main background color
+    primary = primaryCharcoal,
+    //used for text color
+    secondary = textColorDark,
+    //background of sudoku board
+    surface = lightGreyAlpha,
+    //grid lines of sudoku board
+    primaryVariant = gridLineColorLight,
+    onPrimary = accentAmber,
+    onSurface = accentAmber
 )
 
 @Composable

@@ -4,7 +4,6 @@ import com.vm.eea.application.*
 import com.vm.eea.application.panelToPanelRelation.IPanelToPanelRelationRepository
 import com.vm.eea.application.panelToPanelRelation.PanelToPanelRelation
 import com.vm.eea.data.AppDatabase
-import com.vm.eea.data.model.PanelToPanelRelationEntity
 
 class PanelToPanelRelationRepository(private val db: AppDatabase): IPanelToPanelRelationRepository {
 
@@ -55,7 +54,7 @@ class PanelToPanelRelationRepository(private val db: AppDatabase): IPanelToPanel
     }
 
 
-    private fun toEntity(relation: PanelToPanelRelation):PanelToPanelRelationEntity {
+    private fun toEntity(relation: PanelToPanelRelation): PanelToPanelRelationEntity {
        return with(relation){ PanelToPanelRelationEntity(
 
       length = length,

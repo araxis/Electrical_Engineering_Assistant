@@ -1,9 +1,9 @@
 package com.vm.eea.application.panel.addPanel
 
-import com.vm.eea.application.PanelId
+import com.vm.eea.application.project.ProjectId
 
 interface IGetDefaultPanelToPanelRelationConfigs {
 
-    suspend operator fun invoke(panelId: PanelId):PanelToPanelRelationConfig
+    suspend operator fun invoke(projectId: ProjectId):PanelToPanelRelationConfig
 
 }

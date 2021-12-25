@@ -10,6 +10,7 @@ data class Panel(val projectId: ProjectId,
                  val description:String,
                  val isMdp:Boolean,
                  val demandFactor: CosPhi,
+                 val coincidenceFactor: CoincidenceFactor,
                  val powerSupplyPath: SupplyPath
 
 )

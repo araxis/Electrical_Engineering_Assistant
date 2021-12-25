@@ -4,14 +4,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.vm.eea.application.*
-import com.vm.eea.data.model.PanelToPanelRelationEntity
 
 @Dao
 interface IPanelToPanelRelationDao {
 
 
     @Insert
-    fun insert(item:PanelToPanelRelationEntity)
+    fun insert(item: PanelToPanelRelationEntity)
 
 
 

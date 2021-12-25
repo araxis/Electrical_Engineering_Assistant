@@ -1,17 +1,15 @@
 package com.vm.eea.application.motor
 
-import com.vm.eea.application.*
-import com.vm.eea.application.project.ProjectId
+import com.vm.eea.application.PanelId
+import com.vm.eea.application.Voltage
 
 interface IMotorRepository {
 
     suspend fun add(motor:Motor):MotorId
-    suspend fun updateCode(loadId: MotorId, code: MotorCode, description: String)
-    suspend fun updatePower(loadId: MotorId, power: Power)
-    suspend fun updatePath(loadId: MotorId, path: SupplyPath)
-    suspend fun updatePowerfactor(motorId: MotorId, powerfactor: CosPhi)
-    suspend fun updateDemandFactor(motorId: MotorId, value: CosPhi)
-    suspend fun updateEfficiency(motorId: MotorId, efficiency: Efficiency)
-    suspend fun updateStartMode(motorId:MotorId,value: StartMode)
-    suspend fun replaceSupplyPaths(projectId: ProjectId, oldStartPath: SupplyPath, newStartPath: SupplyPath)
+    suspend fun remove(motorId: MotorId)
+    suspend fun getMotor(motorId: MotorId):Motor
+    suspend fun getMotorInfo(motorId: MotorId):MotorInfo
+    suspend fun getPanelMotors(panelId: PanelId):List<MotorInfo>
+    suspend fun update(motor: Motor)
+    suspend fun getVoltage(motorId: MotorId): Voltage
 }

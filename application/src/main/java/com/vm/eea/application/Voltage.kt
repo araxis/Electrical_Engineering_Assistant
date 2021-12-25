@@ -1,6 +1,8 @@
 package com.vm.eea.application
 
-data class Voltage(val value:Double,val unit: Unit){
+import kotlin.math.pow
+
+data class Voltage(override val value:Double, override val unit: Unit):IQuantity<Voltage.Unit>{
 
   constructor(value:Number, unitOfVoltage: Unit):this(value.toDouble(),unitOfVoltage)
 
@@ -9,7 +11,7 @@ data class Voltage(val value:Double,val unit: Unit){
     return "${value.format()} ${unit.name}"
   }
 
-  fun toString(pattern:String="###.###",empty:String=""):String{
+  fun toFormatString(pattern:String="###.###",empty:String=""):String{
     return "${value.format(pattern,empty)} ${unit.name}"
   }
 
@@ -17,19 +19,7 @@ data class Voltage(val value:Double,val unit: Unit){
   operator fun times(cosPhi: CosPhi)= Voltage(cosPhi.value*value,unit)
   operator fun times(efficiency: Efficiency)= Voltage(efficiency.value*value/100,unit)
 
-  operator fun times(current: Current): Power {
-    val baseVoltage= toBase()
-    val baseCurrent=current.toBase()
-    return Power.toBase(baseVoltage.value * baseCurrent.value)
-  }
-
-
-  fun toBase(): Voltage {
-    val baseValue= Unit.V.toBase(value)
-    return Voltage(baseValue, Unit.V)
-  }
-
-
+  fun pow2()=this.copy(value= value.pow(2.0),unit=unit)
 
   infix fun to(newUnit: Unit): Voltage {
     val baseValue=unit.toBase(value)
@@ -37,12 +27,25 @@ data class Voltage(val value:Double,val unit: Unit){
     return Voltage(newValue,newUnit)
   }
 
-  enum class Unit: IUnit {
+  operator fun times(current: Current): Power {
+    val baseVoltage= to(Unit.V)
+    val baseCurrent=current.toBase()
+    return Power.toBase(baseVoltage.value * baseCurrent.value)
+  }
+
+
+
+
+
+
+    enum class Unit: IUnit {
     V {
+      override val symbol ="v"
       override fun toBase(value: Double)=value
 
       override fun fromBase(value: Double)=value
     },KV {
+        override val symbol ="kv"
       override fun toBase(value: Double)=value *1000
 
       override fun fromBase(value: Double) =value/1000

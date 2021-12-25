@@ -1,6 +1,8 @@
 package com.vm.eea.application
 
-data class ApparentPower(val value:Double,val unit: Unit) {
+import kotlin.math.pow
+
+data class ApparentPower(override val value:Double, override val unit: Unit):IQuantity<ApparentPower.Unit> {
 
     constructor(value:Number,unit: Unit):this(value.toDouble(),unit)
 
@@ -14,7 +16,7 @@ data class ApparentPower(val value:Double,val unit: Unit) {
         return ApparentPower(newValue,newUnit)
     }
 
-
+    fun pow2()=this.copy(value= value.pow(2.0),unit=unit)
 
 
     fun toFormatString(pattern:String="###.###", empty:String=""):String{
@@ -38,11 +40,14 @@ data class ApparentPower(val value:Double,val unit: Unit) {
     enum class Unit : IUnit {
 
         VA {
+            override val symbol ="VA"
+
             override fun toBase(value: Double) = value
 
             override fun fromBase(value: Double) = value
         },
         KVA{
+            override val symbol ="VA"
             override fun toBase(value: Double) = value * 1000
 
             override fun fromBase(value: Double) = value / 1000

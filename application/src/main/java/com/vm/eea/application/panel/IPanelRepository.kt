@@ -8,7 +8,11 @@ import com.vm.eea.application.project.ProjectId
 interface IPanelRepository {
 
     suspend fun add(panel: Panel): PanelId
-    suspend fun updateCode(panelId: PanelId, code: PanelCode, description: String)
-    suspend fun updateDemandFactor(panelId: PanelId,value:CosPhi)
+    suspend fun getInfo(panelId: PanelId):PanelInfo
+    suspend fun get(panelId: PanelId):Panel
+    suspend fun update(panel: Panel)
     suspend fun replaceSupplyPaths(projectId: ProjectId, oldStartPath: SupplyPath, newStartPath: SupplyPath)
+    suspend fun isDuplicated(projectId: ProjectId, code: PanelCode): Boolean
+    suspend fun updateDemandFactor(panelId: PanelId, value: CosPhi)
+    suspend fun updateCoincidenceFactor(panelId: PanelId, value: CoincidenceFactor)
 }

@@ -10,14 +10,8 @@ import com.vm.eea.application.*
 @Entity(tableName = "defaults")
 data class DefaultsEntity(
     val powerSystem: PowerSystem,
-    val unitOfVoltage: Voltage.Unit,
-    val unitOfPower: Power.Unit,
-    val unitOfLength: Length.Unit,
-    val unitOfTemperature: UnitOfTemperature,
-    val unitOfWireSize: UnitOfWireSize,
-    val singlePhaseVoltage: Double,
-    val twoPhaseVoltage: Double,
-    val threePhaseVoltage: Double,
+    val lineNullVoltage: Double,
+    val lineLineVoltage: Double,
     @Embedded(prefix = "altitude_")
     val altitude: Length,
     val methodOfInstallation: MethodOfInstallation,
@@ -29,12 +23,6 @@ data class DefaultsEntity(
     val soilResistivity: ThermalResistivity,
     val conductor: Conductor,
     val insulation: Insulation,
-    @Embedded(prefix = "single_phase_powerfactor_")
-    val singlePhaseCosPhi: CosPhi,
-    @Embedded(prefix = "two_phase_powerfactor_")
-    val twoPhaseCosPhi: CosPhi,
-    @Embedded(prefix = "three_phase_powerfactor_")
-    val threePhaseCosPhi: CosPhi,
     @Embedded(prefix = "panel_panel_volt_drop_")
     val panelToPanelMaxVoltDrop: VoltDrop,
     @Embedded(prefix = "panel_motor_volt_drop_")

@@ -9,7 +9,4 @@ interface IPowerConsumer {
    val system: PowerSystem
    val cosPhi: CosPhi
    val efficiency: Efficiency
-
-
-
 }

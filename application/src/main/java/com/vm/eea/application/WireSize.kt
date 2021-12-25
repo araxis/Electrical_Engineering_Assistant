@@ -1,6 +1,6 @@
 package com.vm.eea.application
 
-data class WireSize(val value:Double, val unit: UnitOfWireSize){
+data class WireSize(override val value:Double, override val unit: UnitOfWireSize):IQuantity<UnitOfWireSize>{
 
   constructor(value:Number,unit: UnitOfWireSize):this(value.toDouble(),unit)
 
@@ -15,7 +15,34 @@ data class WireSize(val value:Double, val unit: UnitOfWireSize){
     }
 }
 
-enum class UnitOfWireSize {
- MM2,AWG,KCMIL;
+enum class UnitOfWireSize:IUnit {
+ MM2 {
+     override val symbol ="mm2"
+     override fun toBase(value: Double): Double {
+         TODO("Not yet implemented")
+     }
+
+     override fun fromBase(value: Double): Double {
+         TODO("Not yet implemented")
+     }
+ },AWG {
+        override val symbol ="awg"
+        override fun toBase(value: Double): Double {
+            TODO("Not yet implemented")
+        }
+
+        override fun fromBase(value: Double): Double {
+            TODO("Not yet implemented")
+        }
+    },KCMIL {
+        override val symbol ="kcmil"
+        override fun toBase(value: Double): Double {
+            TODO("Not yet implemented")
+        }
+
+        override fun fromBase(value: Double): Double {
+            TODO("Not yet implemented")
+        }
+    };
     operator fun invoke()=name
 }

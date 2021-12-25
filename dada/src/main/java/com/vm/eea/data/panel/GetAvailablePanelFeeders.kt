@@ -8,8 +8,8 @@ import com.vm.eea.data.AppDatabase
 class GetAvailablePanelFeeders(private val db: AppDatabase): IGetAvailablePanelFeeders {
     override suspend fun invoke(panelId: PanelId): List<SimplePanel> {
 
-            val info=db.panelRadDao().getPanelInfo(panelId.id)
-             return db.panelRadDao().getPanelsNotSupplyWith(info.projectId,info.supplyPath)
+            val info=db.panelDao().getPanelPathInfo(panelId.id)
+             return db.panelDao().getPanelsNotSupplyWith(info.projectId,info.supplyPath)
                  .map { SimplePanel(PanelId(it.id),it.code,it.description) }
 
     }

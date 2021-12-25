@@ -53,23 +53,3 @@ fun LengthInput(label: String, value:String, unit: Length.Unit, error: IText?,
     }
 }
 
-@Composable
-fun LengthInput(label: String,field:LengthField,
-                modifier: Modifier = Modifier,
-                keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                keyboardActions : KeyboardActions = KeyboardActions.Default,
-                focusRequester: FocusRequester = FocusRequester.Default,
-                onChange:(String, Length.Unit)->Unit){
-
-    LengthInput(
-        label = label,
-        value = field.value,
-        unit = field.second,
-        error = field.error,
-        modifier = modifier,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-        focusRequester = focusRequester,
-        onChange = onChange
-    )
-}

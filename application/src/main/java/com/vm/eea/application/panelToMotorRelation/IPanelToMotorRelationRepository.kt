@@ -6,6 +6,7 @@ import com.vm.eea.application.motor.MotorId
 interface IPanelToMotorRelationRepository {
 
     suspend fun add(relation: PanelToMotorRelation)
+    suspend fun getByConsumer(consumerId: MotorId):PanelToMotorRelation
     suspend fun updateSourceByConsumerId(consumerId: MotorId, newFeeder: PanelId)
     suspend fun updateLength(relationId:RelationId,length: Length)
     suspend fun updateCircuitCount(relationId: RelationId, value: CircuitCount)
@@ -16,4 +17,5 @@ interface IPanelToMotorRelationRepository {
     suspend fun updateSoilThermalResistivity(relationId: RelationId, value: ThermalResistivity)
     suspend fun updateAmbientTemperature(relationId: RelationId, value: Temperature)
     suspend fun updateGroundTemperature(relationId: RelationId, value: Temperature)
+    suspend fun deleteRelationByLoadId(loadId: MotorId)
 }

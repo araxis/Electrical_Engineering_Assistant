@@ -10,7 +10,7 @@ import com.vm.eea.data.AppDatabase
 class GetPanelSupplyPath(private val db:AppDatabase): IGetPanelSupplyPath {
     override suspend fun invoke(panelId: PanelId): ProjectSupplyPath {
 
-        return db.panelRadDao().getPanelInfo(panelId.id).let {
+        return db.panelDao().getPanelPathInfo(panelId.id).let {
             ProjectSupplyPath(
                 ProjectId(it.projectId),
                 SupplyPath(it.supplyPath)

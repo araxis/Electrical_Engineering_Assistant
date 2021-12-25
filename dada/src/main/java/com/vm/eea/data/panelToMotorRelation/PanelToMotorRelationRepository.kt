@@ -5,11 +5,30 @@ import com.vm.eea.application.motor.MotorId
 import com.vm.eea.application.panelToMotorRelation.IPanelToMotorRelationRepository
 import com.vm.eea.application.panelToMotorRelation.PanelToMotorRelation
 import com.vm.eea.data.AppDatabase
-import com.vm.eea.data.model.PanelToMotorRelationEntity
 
 class PanelToMotorRelationRepository(private val db: AppDatabase): IPanelToMotorRelationRepository {
     override suspend fun add(relation: PanelToMotorRelation) {
         db.panelToMotorRelationDao().insert(toEntity(relation))
+    }
+
+    override suspend fun getByConsumer(consumerId: MotorId):PanelToMotorRelation {
+       val entity= db.panelToMotorRelationDao().getByConsumer(consumerId.id)
+        return with(entity){
+            PanelToMotorRelation(
+                fromPanel = PanelId(fromPanelId),
+                toMotorId = MotorId(toLoadId),
+                length=length,
+                maxVoltageDrop=maxVoltageDrop,
+                methodOfInstallation=methodOfInstallation,
+                ambientTemperature=ambientTemperature,
+                groundTemperature=groundTemperature,
+                soilThermalResistivity=soilThermalResistivityUnit,
+                conductor=conductor,
+                insulation=insulation,
+                circuitCount=circuitCount
+
+            )
+        }
     }
 
     override suspend fun updateSourceByConsumerId(consumerId: MotorId, newFeeder: PanelId) {
@@ -17,6 +36,9 @@ class PanelToMotorRelationRepository(private val db: AppDatabase): IPanelToMotor
     }
 
 
+    override suspend fun deleteRelationByLoadId(loadId: MotorId){
+        db.panelToMotorRelationDao().deleteRelationByLoadId(loadId.id)
+    }
 
     override suspend fun updateLength(relationId: RelationId, length: Length) {
         db.panelToMotorRelationDao().updateLength(relationId.id,length.value,length.unit)

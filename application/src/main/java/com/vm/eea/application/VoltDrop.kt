@@ -10,6 +10,6 @@ class VoltDrop(val value:Double) {
 
 
     init {
-       Guard.against.outOfRange(value,1.0,100.0,"powerfactor")
+     //  Guard.against.outOfRange(value,1.0,100.0,"powerfactor")
     }
 }

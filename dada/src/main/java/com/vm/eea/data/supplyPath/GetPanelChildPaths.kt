@@ -7,7 +7,7 @@ import com.vm.eea.data.AppDatabase
 
 class GetPanelChildPaths(private val db: AppDatabase): IGetPanelChildPaths {
     override suspend fun invoke(panelId: PanelId): List<SupplyPath> {
-       return db.projectReadDao().getPanelChildPaths(panelId.id)
+       return db.projectDao().getPanelChildPaths(panelId.id)
            .map { SupplyPath(it) }
     }
 }

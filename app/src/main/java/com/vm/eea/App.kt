@@ -2,6 +2,8 @@ package com.vm.eea
 
 import android.app.Application
 import com.vm.eea.di.*
+import com.vm.eea.di.motorModule
+import com.vm.eea.di.projectModule
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -19,7 +21,8 @@ class App : Application() {
         startKoin{
             androidLogger()
             androidContext(this@App)
-            modules(readModule,dbModule, motorModule, viewModels, appModules)
+            modules(dbModule, motorModule, panelModule, projectModule,
+                calculatorsModule , appModules)
         }
     }
 }

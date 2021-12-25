@@ -1,8 +1,8 @@
 package com.vm.eea.application.motor.addMotor
 
-import com.vm.eea.application.PanelId
+import com.vm.eea.application.project.ProjectId
 
 
 interface IGetPanelToMotorDefaultRelationConfig {
-    suspend operator fun invoke(panelId: PanelId): PanelToMotorRelationConfig
+    suspend operator fun invoke(projectId: ProjectId): PanelToMotorRelationConfig
 }

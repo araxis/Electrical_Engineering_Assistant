@@ -22,10 +22,10 @@ import org.koin.dsl.module
 val dbModule=module{
     single{ AppDatabase.getInstance(androidApplication())}
     factory<ITransactionProvider> { RoomTransactionProvider(get()) }
-    factory<IProjectRepository> { ProjectRepository(get()) }
+    factory<IProjectRepository> { ProjectRepository(get(),get()) }
     factory<ISupplyPathService> { SupplyPathService(get(),get()) }
     factory<IPanelRepository> { PanelRepository(get()) }
-    factory<IMotorRepository> { MotorRepository(get()) }
+    factory<IMotorRepository> { MotorRepository(get(),get()) }
     factory<IPanelToPanelRelationRepository> { PanelToPanelRelationRepository(get()) }
     factory<IPanelToMotorRelationRepository> { PanelToMotorRelationRepository(get()) }
 }

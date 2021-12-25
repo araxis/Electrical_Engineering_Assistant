@@ -7,6 +7,11 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.vm.eea.application.*
 import com.vm.eea.data.model.*
+import com.vm.eea.data.motor.LoadEntity
+import com.vm.eea.data.panel.PanelEntity
+import com.vm.eea.data.panelToMotorRelation.PanelToMotorRelationEntity
+import com.vm.eea.data.panelToPanelRelation.PanelToPanelRelationEntity
+import com.vm.eea.data.project.ProjectEntity
 
 
 @Database(entities = [
@@ -15,7 +20,6 @@ import com.vm.eea.data.model.*
     LoadEntity::class,
     PanelToPanelRelationEntity::class,
     PanelToMotorRelationEntity::class,
-    DefaultsEntity::class,
     WireSizeMapEntity::class],
     views = [FullMotorView::class,
     FullPanelView::class,
@@ -23,7 +27,7 @@ import com.vm.eea.data.model.*
     FullProjectView::class,
     FullMotorRelationView::class,
     FullPanelRelationView::class], version = 1)
-abstract class AppDatabase : RoomDatabase(), IWriteDatabase,IReadDatabase {
+abstract class AppDatabase : RoomDatabase(), IWriteDatabase {
     companion object {
 
         // For Singleton instantiation
@@ -39,46 +43,6 @@ abstract class AppDatabase : RoomDatabase(), IWriteDatabase,IReadDatabase {
         // https://medium.com/google-developers/7-pro-tips-for-room-fbadea4bfbd1#4785
         private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(context, AppDatabase::class.java, "app-db")
-                .addCallback(object : Callback() {
-                    override fun onCreate(db: SupportSQLiteDatabase) {
-                        super.onCreate(db)
-
-
-                        // moving to a new thread
-                        ioThread {
-
-                            getInstance(context).defaultsDao().insert(
-                                    DefaultsEntity(
-                                    unitOfVoltage = Voltage.Unit.V,
-                                    unitOfTemperature = UnitOfTemperature.C,
-                                        unitOfPower = Power.Unit.KW,
-                                        unitOfLength = Length.Unit.M,
-                                        threePhaseVoltage = 380.0,
-                                        threePhaseCosPhi = CosPhi(.8),
-                                        standard = Standard.IEC,
-                                        soilResistivity = ThermalResistivity(2.5,
-                                            UnitOfThermalResistivity.MW),
-                                        singlePhaseCosPhi = CosPhi( .9),
-                                        powerSystem = PowerSystem.SinglePhase,
-                                        panelToPanelMaxVoltDrop = VoltDrop(4.0),
-                                        panelToMotorMaxVoltDrop = VoltDrop(4.0),
-                                        singlePhaseVoltage = 220.0,
-                                        twoPhaseVoltage =220.0,
-                                        minWireSize = WireSize(1.5, UnitOfWireSize.MM2),
-                                        methodOfInstallation = MethodOfInstallation.A1,
-                                        maxWireSize = WireSize(240.0, UnitOfWireSize.MM2),
-                                        insulation = Insulation.PVC,
-                                        groundTemperature = Temperature(30.0, UnitOfTemperature.C),
-                                        conductor = Conductor.Copper,
-                                        circuitInTheSameConduit = CircuitCount(1),
-                                        unitOfWireSize = UnitOfWireSize.MM2,
-                                        ambientTemperature = Temperature(30.0, UnitOfTemperature.C),
-                                        altitude = Length(1200.0, Length.Unit.M),
-                                        twoPhaseCosPhi = CosPhi(.8)
-                                ))
-                        }
-                    }
-                })
                 .build()
         }
     }

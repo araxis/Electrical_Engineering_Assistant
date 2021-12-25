@@ -6,14 +6,8 @@ import com.vm.eea.application.*
 
 @DatabaseView("select projects.id,projects.code,\n" +
         "       projects.description,\n" +
-        "       projects.unitOfVoltage,\n" +
-        "       projects.unitOfOfPower,\n" +
-        "       projects.unitOfLength,\n" +
-        "       projects.unitOfTemperature,\n" +
-        "       projects.unitOfWireSize,\n" +
-        "       projects.singlePhaseVoltageInVolt,\n" +
-        "       projects.twoPhaseVoltageInVolt,\n" +
-        "       projects.threePhaseVoltageInVolt,\n" +
+        "       projects.lineToNullVoltage,\n" +
+        "       projects.lineToLineVoltage,\n" +
         "       projects.methodOfInstallation,\n" +
         "       projects.conductor,\n" +
         "       projects.insulation,\n" +
@@ -26,9 +20,6 @@ import com.vm.eea.application.*
         "       projects.soil_temp_unit,\n" +
         "       projects.soil_thermal_resist_value,\n" +
         "       projects.soil_thermal_resist_unit,\n" +
-        "       projects.single_phase_powerfactor_value,\n" +
-        "       projects.two_phase_powerfactor_value,\n" +
-        "       projects.three_phase_powerfactor_value,\n" +
         "       projects.panel_panel_volt_drop_value,\n" +
         "       projects.panel_motor_volt_drop_value,\n" +
         "       projects.circuit_count_value,\n" +
@@ -46,14 +37,8 @@ import com.vm.eea.application.*
         "           where projects.isDeleted=0",viewName = "full_project_view")
 data class FullProjectView(val code:String,
                            val description: String,
-                           val unitOfVoltage: Voltage.Unit,
-                           val unitOfOfPower: Power.Unit,
-                           val unitOfLength: Length.Unit,
-                           val unitOfTemperature: UnitOfTemperature,
-                           val unitOfWireSize: UnitOfWireSize,
-                           val singlePhaseVoltageInVolt: Double,
-                           val twoPhaseVoltageInVolt: Double,
-                           val threePhaseVoltageInVolt: Double,
+                           val lineToNullVoltage: Double,
+                           val lineToLineVoltage: Double,
                            @Embedded(prefix = "altitude_")
                              val altitude: Length,
                            val methodOfInstallation: MethodOfInstallation,
@@ -65,12 +50,6 @@ data class FullProjectView(val code:String,
                              val soilResistivity: ThermalResistivity,
                            val conductor: Conductor,
                            val insulation: Insulation,
-                           @Embedded(prefix = "single_phase_powerfactor_")
-                             val singlePhaseCosPhi: CosPhi,
-                           @Embedded(prefix = "two_phase_powerfactor_")
-                             val twoPhaseCosPhi: CosPhi,
-                           @Embedded(prefix = "three_phase_powerfactor_")
-                             val threePhaseCosPhi: CosPhi,
                            @Embedded(prefix = "panel_panel_volt_drop_")
                              val panelToPanelMaxVoltDrop: VoltDrop,
                            @Embedded(prefix = "panel_motor_volt_drop_")

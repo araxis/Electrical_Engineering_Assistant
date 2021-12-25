@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.vm.eea.application.*
-import com.vm.eea.data.model.PanelToMotorRelationEntity
 
 @Dao
 interface IPanelToMotorRelationDao {
@@ -44,6 +43,12 @@ interface IPanelToMotorRelationDao {
 
     @Query("UPDATE panel_motor_relations SET circuit_count_value = :value WHERE id = :relationId")
     fun updateCircuitCount(relationId: Long, value: Int)
+
+    @Query("DELETE FROM panel_motor_relations WHERE toLoadId = :loadId")
+    suspend fun deleteRelationByLoadId(loadId: Long)
+
+    @Query("select * FROM panel_motor_relations WHERE toLoadId = :loadId")
+    suspend fun getByConsumer(loadId: Long): PanelToMotorRelationEntity
 
 }
 

@@ -5,6 +5,7 @@ import com.vm.eea.application.CosPhi
 import com.vm.eea.application.ITransactionProvider
 import com.vm.eea.application.Length
 import com.vm.eea.application.PanelId
+import com.vm.eea.application.panel.CoincidenceFactor
 import com.vm.eea.application.panel.IPanelRepository
 import com.vm.eea.application.panel.Panel
 import com.vm.eea.application.panel.PanelCode
@@ -25,8 +26,9 @@ class AddPanel(
         transactionProvider.runAsTransaction {
             val panelCode=PanelCode(code)
             val supplyPath=supplyPathService.getNextSupplyPath(feederId)
-            val defaults=getDefaultPanelToPanelRelationConfigs(feederId)
-            val panel=Panel(defaults.projectId,panelCode,description,false,demandFactor,supplyPath.supplyPath)
+            val defaults=getDefaultPanelToPanelRelationConfigs(supplyPath.projectId)
+            val panel=Panel(defaults.projectId,panelCode,description,false,demandFactor,
+                CoincidenceFactor(1),supplyPath.supplyPath)
             val newPanelId=panelRepository.add(panel)
             val relation=createDefaultRelation(feederId,newPanelId,defaults,feedLength)
             relationRepository.add(relation)

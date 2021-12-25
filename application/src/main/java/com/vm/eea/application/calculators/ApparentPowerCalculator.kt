@@ -12,7 +12,6 @@ class ApparentPowerCalculator {
                 PowerSystem.TwoPhase -> 1.0
                 PowerSystem.ThreePhase -> sqrt(3.0)
             }
-
         val baseVoltage=(voltage to Voltage.Unit.V).value
         val baseCurrent=(current to Current.Unit.A).value
 
@@ -23,6 +22,11 @@ class ApparentPowerCalculator {
     operator fun invoke(power: Power, cosPhi: CosPhi):ApparentPower {
         val basePower=(power to Power.Unit.W).value
         return ApparentPower(basePower/cosPhi.value,ApparentPower.Unit.VA)
+    }
+
+    operator fun invoke(reactivePower: ReactivePower, cosPhi: CosPhi):ApparentPower {
+        val baseReactivePower=(reactivePower to ReactivePower.Unit.VAr).value
+        return ApparentPower(baseReactivePower/cosPhi.sinPhi(),ApparentPower.Unit.VA)
     }
 
     operator fun invoke(power:Power,reactivePower: ReactivePower):ApparentPower{

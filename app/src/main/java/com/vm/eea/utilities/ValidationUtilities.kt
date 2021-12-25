@@ -58,6 +58,12 @@ fun IValidationClause.positiveNumber(value:String?, message:String): ValidationE
     return null
 }
 
+fun IValidationClause.smallerOrEqual(value:String?,other:Double, message:String): ValidationError?{
+    val number=value?.toDoubleOrNull() ?: return ValidationError(message)
+    if(number>other)  return ValidationError(message)
+    return null
+}
+
 fun IValidationClause.inRange(value:String?, from:Double, to:Double, errorMessage:String): ValidationError?{
     val number= value?.toDoubleOrNull() ?: return ValidationError(errorMessage)
     if(number !in from..to) return ValidationError(errorMessage)
