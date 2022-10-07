@@ -47,7 +47,17 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-
+    flavorDimensions 'brand'
+    productFlavors {
+        free {
+            dimension 'brand'
+            applicationId "com.vm.eea.free"
+        }
+        paid {
+            dimension 'brand'
+            applicationId "com.vm.eea.paid"
+        }
+    }
 
 
 }
